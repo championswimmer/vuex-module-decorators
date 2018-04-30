@@ -1,4 +1,4 @@
-import Vuex from 'vuex'
+import Vuex, {Module as Mod} from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
 import {Action, Module, Mutation, MutationAction, VuexModule} from '../dist'
