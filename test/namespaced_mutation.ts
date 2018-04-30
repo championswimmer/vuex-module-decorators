@@ -6,6 +6,7 @@ import {expect} from 'chai'
 
 @Module
 class MyModule extends VuexModule {
+  namespaced = true
   count = 0
 
   @Mutation
@@ -24,7 +25,7 @@ const store = new Vuex.Store({
 describe('committing mutation works', () => {
   it('should update count', function () {
 
-    store.commit('incrCount', 5)
+    store.commit('mm/incrCount', 5)
     expect(parseInt(store.state.mm.count)).to.equal(5)
 
   })

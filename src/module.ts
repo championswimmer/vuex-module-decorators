@@ -44,6 +44,9 @@ export function Module<S> (module: Function & Mod<S,any>) {
   }
   Object.keys(state).forEach((key: string) => {
     if (state.hasOwnProperty(key) && typeof state[key] !== 'function') {
+      if (key === 'namespaced') {
+        module.namespaced = state[key]
+      }
       (module.state as any)[key] = state[key]
     }
   })
