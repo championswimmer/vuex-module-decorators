@@ -11,7 +11,8 @@
     "pretest": "npm run build",
     "test": "cd test && mocha -r ts-node/register *.ts",
     "cover": "nyc npm test",
-    "report": "nyc report npm test --reporter lcov --reporter html"
+    "prereport": "npm run cover",
+    "report": "nyc report --reporter lcov --reporter html"
   },
   "repository": {
     "type": "git",

@@ -4,6 +4,12 @@ node_js:
   - "8"
 #  - "10"
 install:
+  - npm install -g codecov nyc mocha ts-node typescript
   - npm install -D
+cache:
+  directories:
+    - node_modules
 script:
   - npm run report
+after_success:
+  - codecov
