@@ -4,9 +4,8 @@ Vue.use(Vuex)
 import {Action, Module, Mutation, MutationAction, VuexModule} from '../dist'
 import {expect} from 'chai'
 
-@Module
+@Module({namespaced: true, name: 'mm'})
 class MyModule extends VuexModule {
-  namespaced = true
   count = 0
 
   @Mutation
