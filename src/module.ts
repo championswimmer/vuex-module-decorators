@@ -33,38 +33,34 @@ export class VuexModule<S=ThisType<S>, R=any> implements Mod<S,R> {
 }
 
 export interface ModuleOptions {
-  name: string
+  name?: string
   namespaced?: boolean
 }
 
-export function Module<S> (module: Function & Mod<S,any>): void
-export function Module<S> (options: ModuleOptions): ClassDecorator
+function moduleDecoratorFactory<S> (modOrOpt: ModuleOptions | Function & Mod<S,any>) {
 
-export function Module<S> (modOrOpt: any | Function & Mod<S,any>) {
-  if (typeof modOrOpt === 'function') {
-    const module: Function & Mod<S,any> = modOrOpt
+  return function <TFunction extends Function>(target: TFunction): TFunction | void  {
+    const module: Function & Mod<S,any> = target
     const state = new (module.prototype.constructor)({})
     if (!module.state) {
       module.state = <S>{}
     }
+    module.namespaced = modOrOpt && modOrOpt.namespaced
     Object.keys(state).forEach((key: string) => {
       if (state.hasOwnProperty(key) && typeof state[key] !== 'function') {
         (module.state as any)[key] = state[key]
       }
     })
+  }
+
+}
+export function Module<S> (module: Function & Mod<S,any>): void
+export function Module<S> (options: ModuleOptions): ClassDecorator
+
+export function Module<S> (modOrOpt: ModuleOptions | Function & Mod<S,any>) {
+  if (typeof modOrOpt === 'function') {
+    moduleDecoratorFactory({})(modOrOpt)
   } else {
-    return function <TFunction extends Function>(target: TFunction): TFunction | void  {
-      const module: Function & Mod<S,any> = target
-      const state = new (module.prototype.constructor)({})
-      if (!module.state) {
-        module.state = <S>{}
-      }
-      module.namespaced = modOrOpt
-      Object.keys(state).forEach((key: string) => {
-        if (state.hasOwnProperty(key) && typeof state[key] !== 'function') {
-          (module.state as any)[key] = state[key]
-        }
-      })
-    }
+    return moduleDecoratorFactory(modOrOpt)
   }
 }
