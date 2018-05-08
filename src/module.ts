@@ -39,8 +39,8 @@ export interface ModuleOptions {
 
 function moduleDecoratorFactory<S> (modOrOpt: ModuleOptions | Function & Mod<S,any>) {
 
-  return function <TFunction extends Function>(target: TFunction): TFunction | void  {
-    const module: Function & Mod<S,any> = target
+  return function <TFunction extends Function>(constructor: TFunction): TFunction | void  {
+    const module: Function & Mod<S,any> = constructor
     const state = new (module.prototype.constructor)({})
     if (!module.state) {
       module.state = <S>{}
