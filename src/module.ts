@@ -32,7 +32,13 @@ export class VuexModule<S=ThisType<S>, R=any> implements Mod<S,R> {
   }
 }
 
+/**
+ * Options to pass to the @Module decorator
+ */
 export interface ModuleOptions {
+  /**
+   * name of module, if being namespaced
+   */
   name?: string
   namespaced?: boolean
 }

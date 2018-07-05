@@ -7,7 +7,7 @@ export function Mutation<T> (target: T, key: string | symbol, descriptor: TypedP
   }
   const mutationFunction: Function = descriptor.value
   const mutation: Mut<typeof target> = function (state: typeof target, payload: Payload) {
-    mutationFunction.call(state, [payload])
+    mutationFunction.call(state, payload)
   }
   module.mutations[key] = mutation
 }

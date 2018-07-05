@@ -17,7 +17,7 @@ export function MutationAction<T> (params: MutationActionParams) {
 
     const action: Act<typeof target, any> = async function(context: ActionContext<typeof target, any>, payload: Payload) {
       try {
-        const actionPayload = await mutactFunction.call(context, [payload])
+        const actionPayload = await mutactFunction.call(context, payload)
         context.commit(key as string, actionPayload)
       } catch (e) {
         console.error('Could not perform action ' + key.toString())

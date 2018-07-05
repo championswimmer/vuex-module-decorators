@@ -12,7 +12,7 @@ function actionDecoratorFactory<T> (params?: ActionDecoratorParams): MethodDecor
     const actionFunction: Function = descriptor.value
     const action: Act<typeof target, any> = async function(context: ActionContext<typeof target, any>, payload: Payload) {
       try {
-        const actionPayload = await actionFunction.call(context, [payload])
+        const actionPayload = await actionFunction.call(context, payload)
         if (params) {
           if (params.commit) {
             context.commit(params.commit, actionPayload)
