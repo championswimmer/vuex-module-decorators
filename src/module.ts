@@ -40,6 +40,9 @@ export interface ModuleOptions {
    * name of module, if being namespaced
    */
   name?: string
+  /**
+   * whether or not the module is namespaced
+   */
   namespaced?: boolean
 }
 
@@ -51,10 +54,21 @@ function moduleDecoratorFactory<S> (modOrOpt: ModuleOptions | Function & Mod<S,a
     if (!module.state) {
       module.state = <S>{}
     }
+    if (!module.getters) {
+      module.getters = {} as GetterTree<S,any>
+    }
     module.namespaced = modOrOpt && modOrOpt.namespaced
     Object.keys(state).forEach((key: string) => {
-      if (state.hasOwnProperty(key) && typeof state[key] !== 'function') {
-        (module.state as any)[key] = state[key]
+      if (state.hasOwnProperty(key)) {
+        if (typeof state[key] !== 'function') {
+          (module.state as any)[key] = state[key]
+        }
+      }
+    })
+    Object.getOwnPropertyNames(module.prototype).forEach((funcName: string) => {
+      const descriptor = Object.getOwnPropertyDescriptor(module.prototype, funcName)
+      if (descriptor.get) {
+        module.getters[funcName] = (moduleState: S) => descriptor.get.call(module.state)
       }
     })
   }
@@ -65,8 +79,14 @@ export function Module<S> (options: ModuleOptions): ClassDecorator
 
 export function Module<S> (modOrOpt: ModuleOptions | Function & Mod<S,any>) {
   if (typeof modOrOpt === 'function') {
+    /*
+     * @Module({...}) decorator called with options
+     */
     moduleDecoratorFactory({})(modOrOpt)
   } else {
+    /*
+     * @Module decorator called without options (directly on the class definition)
+     */
     return moduleDecoratorFactory(modOrOpt)
   }
 }

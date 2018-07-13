@@ -95,6 +95,43 @@ export default class HGAPIModule extends VuexModule {
 }
 ```
 
+#### Automatic getter detection
+```typescript
+@Module
+class MyModule extends VuexModule {
+  wheels = 2
+
+  @Mutation
+  incrWheels(extra) {
+    this.wheels += extra
+  }
+
+  get axles() {
+    return (this.wheels / 2)
+  }
+
+}
+```
+
+this is turned into the equivalent
+
+```javascript
+const module = {
+  state: {wheels: 2},
+  mutations: {
+    incrWheels(state, extra) {
+      state.wheels += extra
+    }
+  },
+  getters: {
+    axles: (state) => state.wheels / 2
+  }
+}
+```
+
+
+### Putting into the store
+
 Use the modules just like you would earlier
 
 ```typescript
