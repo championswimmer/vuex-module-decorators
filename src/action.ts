@@ -31,7 +31,7 @@ function actionDecoratorFactory<T> (params?: ActionDecoratorParams): MethodDecor
 }
 
 
-export function Action<T> (target: T, key: string | symbol, descriptor: TypedPropertyDescriptor<Function>): void
+export function Action<T, R> (target: T, key: string | symbol, descriptor: TypedPropertyDescriptor<(...args: any[]) => R>): void
 export function Action<T> (params: ActionDecoratorParams): MethodDecorator
 
 /**
@@ -43,7 +43,7 @@ export function Action<T> (params: ActionDecoratorParams): MethodDecorator
  * @param descriptor the action function descriptor
  * @constructor
  */
-export function Action<T> (targetOrParams: T | ActionDecoratorParams, key?: string | symbol,  descriptor?: TypedPropertyDescriptor<Function>) {
+export function Action<T, R> (targetOrParams: T | ActionDecoratorParams, key?: string | symbol,  descriptor?: TypedPropertyDescriptor<(...args: any[]) => R>) {
   if (!key && !descriptor) {
     /*
      * This is the case when `targetOrParams` is params.

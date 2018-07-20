@@ -1,6 +1,6 @@
 import {Module as Mod, Mutation as Mut, Payload} from 'vuex'
 
-export function Mutation<T> (target: T, key: string | symbol, descriptor: TypedPropertyDescriptor<Function>) {
+export function Mutation<T, R> (target: T, key: string | symbol, descriptor: TypedPropertyDescriptor<(...args: any[]) => R>) {
   const module = target.constructor as Mod<T,any>
   if (!module.mutations) {
     module.mutations = {}
