@@ -151,3 +151,45 @@ const store = new Vuex.Store({
   }
 });
 ```
+
+### Module re-use, use with NuxtJS
+
+If you need to support [module reuse](https://vuex.vuejs.org/guide/modules.html#module-reuse)
+or to use modules with NuxtJS, you can have a state factory function generated instead
+of a staic state object instance by using `stateFactory` option to `@Module`, like so:
+
+```typescript
+@Module({ stateFactory: true })
+class MyModule extends VuexModule {
+  wheels = 2
+
+  @Mutation
+  incrWheels(extra) {
+    this.wheels += extra
+  }
+
+  get axles() {
+    return (this.wheels / 2)
+  }
+
+}
+```
+
+this is turned into the equivalent
+
+```javascript
+const module = {
+  state() {
+    return {wheels: 2};
+  },
+
+  mutations: {
+    incrWheels(state, extra) {
+      state.wheels += extra
+    }
+  },
+  getters: {
+    axles: (state) => state.wheels / 2
+  }
+}
+```
