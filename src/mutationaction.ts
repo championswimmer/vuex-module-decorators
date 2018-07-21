@@ -3,9 +3,9 @@ import {Action as Act, ActionContext, Module as Mod, Mutation as Mut, Payload, S
 export interface MutationActionParams {
   mutate: string[]
 }
-export function MutationAction<T> (params: MutationActionParams) {
+export function MutationAction<T, R> (params: MutationActionParams) {
 
-  return function (target: T, key: string | symbol, descriptor: TypedPropertyDescriptor<Function>) {
+  return function (target: T, key: string | symbol, descriptor: TypedPropertyDescriptor<(...args: any[]) => R>) {
     const module = target.constructor as Mod<T,any>
     if (!module.mutations) {
       module.mutations = {}
