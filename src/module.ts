@@ -44,31 +44,42 @@ export interface ModuleOptions {
    * whether or not the module is namespaced
    */
   namespaced?: boolean
+  /**
+   * Whether to generate a plain state object, or a state factory for the module
+   */
+  stateFactory?: boolean
 }
 
 function moduleDecoratorFactory<S> (modOrOpt: ModuleOptions | Function & Mod<S,any>) {
 
   return function <TFunction extends Function>(constructor: TFunction): TFunction | void  {
     const module: Function & Mod<S,any> = constructor
-    const state = new (module.prototype.constructor)({})
-    if (!module.state) {
-      module.state = <S>{}
+    const stateFactory = function() {
+      const state = new (module.prototype.constructor)({})
+      const s = <S>{}
+      Object.keys(state).forEach((key: string) => {
+        if (state.hasOwnProperty(key)) {
+          if (typeof state[key] !== 'function') {
+            (s as any)[key] = state[key]
+          }
+        }
+      })
+
+      return s
     }
+
+    if (!module.state) {
+      module.state = (modOrOpt && (<ModuleOptions>modOrOpt).stateFactory) ? stateFactory : stateFactory()
+    }
+
     if (!module.getters) {
       module.getters = {} as GetterTree<S,any>
     }
     module.namespaced = modOrOpt && modOrOpt.namespaced
-    Object.keys(state).forEach((key: string) => {
-      if (state.hasOwnProperty(key)) {
-        if (typeof state[key] !== 'function') {
-          (module.state as any)[key] = state[key]
-        }
-      }
-    })
     Object.getOwnPropertyNames(module.prototype).forEach((funcName: string) => {
       const descriptor = Object.getOwnPropertyDescriptor(module.prototype, funcName)
       if (descriptor.get) {
-        module.getters[funcName] = (moduleState: S) => descriptor.get.call(module.state)
+        module.getters[funcName] = (moduleState: S) => descriptor.get.call(moduleState)
       }
     })
   }
