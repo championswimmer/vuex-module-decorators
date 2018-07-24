@@ -1,54 +1,5 @@
 import {ActionTree, GetterTree, Module as Mod, ModuleTree, MutationTree} from 'vuex'
-
-export class VuexModule<S=ThisType<S>, R=any> implements Mod<S,R> {
-  /*
-   * To use with `extends Class` syntax along with decorators
-   */
-  static namespaced?: boolean;
-  static state?: any | (() => any);
-  static getters?: GetterTree<any, any>;
-  static actions?: ActionTree<any, any>;
-  static mutations?: MutationTree<any>;
-  static modules?: ModuleTree<any>;
-
-  /*
-   * To use with `new VuexModule(<ModuleOptions>{})` syntax
-   */
-
-  modules?: ModuleTree<any>
-  namespaced?: boolean
-  getters?: GetterTree<S, R>
-  state?: S | (() => S)
-  mutations?: MutationTree<S>
-  actions?: ActionTree<S, R>
-
-  constructor(module: Mod<S, any>) {
-    this.actions = module.actions
-    this.mutations = module.mutations
-    this.state = module.state
-    this.getters = module.getters
-    this.namespaced = module.namespaced
-    this.modules = module.modules
-  }
-}
-
-/**
- * Options to pass to the @Module decorator
- */
-export interface ModuleOptions {
-  /**
-   * name of module, if being namespaced
-   */
-  name?: string
-  /**
-   * whether or not the module is namespaced
-   */
-  namespaced?: boolean
-  /**
-   * Whether to generate a plain state object, or a state factory for the module
-   */
-  stateFactory?: boolean
-}
+import {DynamicModuleOptions, ModuleOptions} from './moduleoptions'
 
 function moduleDecoratorFactory<S> (modOrOpt: ModuleOptions | Function & Mod<S,any>) {
 
@@ -82,6 +33,14 @@ function moduleDecoratorFactory<S> (modOrOpt: ModuleOptions | Function & Mod<S,a
         module.getters[funcName] = (moduleState: S) => descriptor.get.call(moduleState)
       }
     })
+    if ((<DynamicModuleOptions>modOrOpt).dynamic) {
+      const modOpt: DynamicModuleOptions = modOrOpt as DynamicModuleOptions
+
+      modOpt.store.registerModule(
+        modOpt.name,              // TODO: Handle nested modules too in future
+        module
+      )
+    }
   }
 
 }
@@ -91,12 +50,12 @@ export function Module<S> (options: ModuleOptions): ClassDecorator
 export function Module<S> (modOrOpt: ModuleOptions | Function & Mod<S,any>) {
   if (typeof modOrOpt === 'function') {
     /*
-     * @Module({...}) decorator called with options
+     * @Module decorator called without options (directly on the class definition)
      */
     moduleDecoratorFactory({})(modOrOpt)
   } else {
     /*
-     * @Module decorator called without options (directly on the class definition)
+     * @Module({...}) decorator called with options
      */
     return moduleDecoratorFactory(modOrOpt)
   }

@@ -57,6 +57,16 @@ export function Action<T, R> (targetOrParams: T | ActionDecoratorParams, key?: s
      */
     return actionDecoratorFactory(targetOrParams as ActionDecoratorParams)
   } else {
+    /*
+     * This is the case when @Action is called on action function
+     * without any params
+     * <pre>
+     *   @Action
+     *   async doSomething() {
+     *    ...
+     *   }
+     * </pre>
+     */
     actionDecoratorFactory()(targetOrParams, key, descriptor)
   }
 }
