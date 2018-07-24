@@ -193,3 +193,32 @@ const module = {
   }
 }
 ```
+
+### Dynamic Modules
+
+Vuex allows us to register modules into store at runtime after store is
+constructed. We can do the following to create dynamic modules
+
+```typescript
+interface StoreType {
+  mm: MyModule
+}
+// Declare empty store first
+const store = new Vuex.Store<StoreType>({
+})
+
+// Create module later in your code (it will register itself automatically)
+// In the decorator we pass the store object into which module is injected
+// NOTE: When you set dynamic true, make sure you give module a name
+@Module({dynamic: true, store: store, name: 'mm'})
+class MyModule extends VuexModule {
+  count = 0
+
+  @Mutation
+  incrCount(delta) {
+    this.count += delta
+  }
+
+}
+
+```
