@@ -1,4 +1,4 @@
-import {VuexModule} from './vuexmodule'
+import {VuexModule, getModule} from './vuexmodule'
 import {Module} from './module'
 import {Action} from './action'
 import {Mutation} from './mutation'
@@ -9,5 +9,6 @@ export {
   Module,
   Action,
   Mutation,
-  MutationAction
+  MutationAction,
+  getModule
 }

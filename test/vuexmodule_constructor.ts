@@ -27,7 +27,7 @@ const store = new Vuex.Store({
   }
 })
 
-describe('fetching via getters works', () => {
+describe('new VuexModule() constuctor works', () => {
   it('should increase axles', function () {
 
     store.commit('incrWheels', 4)

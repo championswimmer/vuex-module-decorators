@@ -1,15 +1,15 @@
-import {ActionTree, GetterTree, Module as Mod, ModuleTree, MutationTree} from 'vuex'
+import {ActionTree, GetterTree, Module as Mod, ModuleTree, MutationTree, Store} from 'vuex'
 
-export class VuexModule<S=ThisType<S>, R=any> implements Mod<S,R> {
+export class VuexModule<S = ThisType<S>, R = any> implements Mod<S, R> {
   /*
    * To use with `extends Class` syntax along with decorators
    */
-  static namespaced?: boolean;
-  static state?: any | (() => any);
-  static getters?: GetterTree<any, any>;
-  static actions?: ActionTree<any, any>;
-  static mutations?: MutationTree<any>;
-  static modules?: ModuleTree<any>;
+  static namespaced?: boolean
+  static state?: any | (() => any)
+  static getters?: GetterTree<any, any>
+  static actions?: ActionTree<any, any>
+  static mutations?: MutationTree<any>
+  static modules?: ModuleTree<any>
 
   /*
    * To use with `new VuexModule(<ModuleOptions>{})` syntax
@@ -30,4 +30,11 @@ export class VuexModule<S=ThisType<S>, R=any> implements Mod<S,R> {
     this.namespaced = module.namespaced
     this.modules = module.modules
   }
+
+}
+
+export function getModule<M extends VuexModule>(
+  moduleClass: M,
+): M {
+  return (<any>moduleClass.constructor)._statics
 }
