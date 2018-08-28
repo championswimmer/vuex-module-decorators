@@ -12,7 +12,9 @@
     "test": "cd test && mocha -r ts-node/register *.ts",
     "cover": "nyc npm test",
     "prereport": "npm run cover",
-    "report": "nyc report --reporter lcov --reporter html"
+    "report": "nyc report --reporter lcov --reporter html",
+    "docs:build": "vuepress build docs",
+    "docs:serve": "vuepress dev docs"
   },
   "repository": {
     "type": "git",
@@ -42,7 +44,8 @@
     "nyc": "^11.7.1",
     "ts-node": "^6.0.2",
     "typescript": "^2.8.3",
-    "vue": "^2.5.16",
+    "vue": "^2.5.17",
+    "vuepress": "^0.14.2",
     "vuex": "^3.0.1"
   }
 }

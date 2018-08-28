@@ -114,5 +114,9 @@ typings/
 # next.js build output
 .next
 
+# Tests and Source
 /test
 /src
+
+# Docs
+/docs
