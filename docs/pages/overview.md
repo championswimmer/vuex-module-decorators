@@ -93,7 +93,7 @@ const commentCount = postsModule.totalComments
 // commit mutation
 postsModule.updatePosts(newPostsArray)
 
-// dispatch mutation
+// dispatch action
 await postsModule.fetchPosts()
 
 ```
