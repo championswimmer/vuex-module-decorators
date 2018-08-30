@@ -6,6 +6,8 @@
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",
   "scripts": {
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
     "build": "tsc",
     "prepublishOnly": "npm run build",
     "pretest": "npm run build",
@@ -42,6 +44,7 @@
     "chai": "^4.1.2",
     "mocha": "^5.1.1",
     "nyc": "^11.7.1",
+    "rimraf": "^2.6.2",
     "ts-node": "^6.0.2",
     "tslint": "^5.11.0",
     "tslint-config-standard": "^7.1.0",
