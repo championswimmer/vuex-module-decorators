@@ -3,9 +3,9 @@ import {Action as Act, ActionContext, Module as Mod, Mutation as Mut, Payload, S
 export interface MutationActionParams {
   mutate: string[]
 }
-export function MutationAction<T, R> (params: MutationActionParams) {
+export function MutationAction<T> (params: MutationActionParams) {
 
-  return function (target: T, key: string | symbol, descriptor: TypedPropertyDescriptor<(...args: any[]) => R>) {
+  return function (target: T, key: string | symbol, descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<any>>) {
     const module = target.constructor as Mod<T,any>
     if (!module.mutations) {
       module.mutations = {}
@@ -13,7 +13,7 @@ export function MutationAction<T, R> (params: MutationActionParams) {
     if (!module.actions) {
       module.actions = {}
     }
-    const mutactFunction: Function = descriptor.value
+    const mutactFunction: () => Promise<any> = descriptor.value
 
     const action: Act<typeof target, any> = async function(context: ActionContext<typeof target, any>, payload: Payload) {
       try {
@@ -36,8 +36,8 @@ export function MutationAction<T, R> (params: MutationActionParams) {
       }
 
     }
-    module.actions[key] = action
-    module.mutations[key] = mutation
+    module.actions[<string>key] = action
+    module.mutations[<string>key] = mutation
 
   }
 }

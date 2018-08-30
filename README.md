@@ -1,6 +1,7 @@
 # vuex-module-decorators
 
 [![Usage Guide](https://img.shields.io/badge/usage-guide-1e90ff.svg?style=for-the-badge&longCache=true)](https://championswimmer.in/vuex-module-decorators/)
+
 Typescript/ES7 Decorators to make Vuex modules a breeze
 
 [![Build Status](https://travis-ci.org/championswimmer/vuex-module-decorators.svg?branch=master)](https://travis-ci.org/championswimmer/vuex-module-decorators)

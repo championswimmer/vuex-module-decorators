@@ -9,5 +9,5 @@ export function Mutation<T, R> (target: T, key: string | symbol, descriptor: Typ
   const mutation: Mut<typeof target> = function (state: typeof target, payload: Payload) {
     mutationFunction.call(state, payload)
   }
-  module.mutations[key] = mutation
+  module.mutations[<string>key] = mutation
 }

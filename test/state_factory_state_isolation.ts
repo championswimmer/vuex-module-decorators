@@ -9,7 +9,7 @@ class FactoryModule extends VuexModule {
   wheels = 2
 
   @Mutation
-  incrWheels(extra) {
+  incrWheels(extra: number) {
     this.wheels += extra
   }
 
@@ -24,7 +24,7 @@ class StateObjectModule extends VuexModule {
   wheels = 2
 
   @Mutation
-  incrWheels(extra) {
+  incrWheels(extra: number) {
     this.wheels += extra
   }
 

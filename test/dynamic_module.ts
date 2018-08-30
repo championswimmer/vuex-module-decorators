@@ -15,7 +15,7 @@ class MyModule extends VuexModule {
   count = 0
 
   @Mutation
-  incrCount(delta) {
+  incrCount(delta: number) {
     this.count += delta
   }
 

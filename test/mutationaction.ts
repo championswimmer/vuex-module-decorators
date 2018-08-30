@@ -9,7 +9,7 @@ class MyModule extends VuexModule {
   count = 0
 
   @MutationAction({mutate: ['count']})
-  async updateCount (newcount) {
+  async updateCount (newcount: number) {
     return {count: newcount}
   }
 

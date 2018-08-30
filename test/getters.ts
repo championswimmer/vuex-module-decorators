@@ -9,7 +9,7 @@ class MyModule extends VuexModule {
   wheels = 2
 
   @Mutation
-  incrWheels(extra) {
+  incrWheels(extra: number) {
     this.wheels += extra
   }
 
