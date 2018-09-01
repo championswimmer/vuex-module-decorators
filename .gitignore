@@ -14,3 +14,7 @@ node_modules/
 
 # Vuepress
 /docs/.vuepress/dist/
+
+# Cache
+/.cache/
+/.rpt2_cache/

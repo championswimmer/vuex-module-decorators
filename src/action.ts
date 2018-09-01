@@ -26,7 +26,7 @@ function actionDecoratorFactory<T> (params?: ActionDecoratorParams): MethodDecor
         console.error(e)
       }
     }
-    module.actions[key] = action
+    module.actions[key as string] = action
   }
 }
 
