@@ -1,4 +1,4 @@
-import {ActionTree, GetterTree, Module as Mod, ModuleTree, MutationTree, Store} from 'vuex'
+import {ActionTree, GetterTree, Module as Mod, ModuleTree, MutationTree, Store, Commit} from 'vuex'
 
 export class VuexModule<S = ThisType<S>, R = any> implements Mod<S, R> {
   /*
@@ -21,6 +21,7 @@ export class VuexModule<S = ThisType<S>, R = any> implements Mod<S, R> {
   state?: S | (() => S)
   mutations?: MutationTree<S>
   actions?: ActionTree<S, R>
+  commit!: Commit
 
   constructor(module: Mod<S, any>) {
     this.actions = module.actions

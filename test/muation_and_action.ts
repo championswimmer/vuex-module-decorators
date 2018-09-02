@@ -1,4 +1,4 @@
-import Vuex, {Module as Mod} from 'vuex'
+import Vuex, {Module as Mod, Store} from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
 import {Action, Module, Mutation, MutationAction, VuexModule} from '../dist'
@@ -18,6 +18,11 @@ class MyModule extends VuexModule {
     return 5
   }
 
+  @Action
+  fetchCountDelta() {
+    this.commit('incrCount', 5)
+  }
+
 }
 
 const store = new Vuex.Store({
@@ -27,12 +32,18 @@ const store = new Vuex.Store({
 })
 
 describe('dispatching action which mutates works', () => {
-  it('should update count', function (done) {
+  it('should update count (async)', function (done) {
 
     store.dispatch('getCountDelta').then(() => {
       expect(parseInt(store.state.mm.count)).to.equal(5)
       done()
     }).catch(done)
+
+  })
+  it('should update count (sync)', async function () {
+
+    await store.dispatch('fetchCountDelta')
+    expect(parseInt(store.state.mm.count)).to.equal(10)
 
   })
 })

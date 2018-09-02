@@ -1,0 +1,15 @@
+[
+    "/pages/installation",
+    "/pages/overview",
+    "/pages/getting-started",
+    {
+        "title": "Core Concepts",
+        "collapsable": false,
+        "children": [
+            "/pages/core/state",
+            "/pages/core/getters",
+            "/pages/core/mutations",
+            "/pages/core/actions"
+        ]
+    }
+]

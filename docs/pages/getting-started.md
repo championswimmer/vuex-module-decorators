@@ -1,5 +1,7 @@
 # Getting Started
 
+[[toc]]
+
 ## Define a module
 
 To define a module, create a class that extends from `VuexModule`

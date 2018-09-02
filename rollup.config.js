@@ -7,7 +7,6 @@ export default [
         output: {
             file: "dist/index.js",
             format: "cjs",
-            name: "vuex-persist",
             sourcemap: true,
             exports: 'named',
             interop: false,
