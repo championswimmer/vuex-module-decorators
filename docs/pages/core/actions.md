@@ -3,11 +3,11 @@
 All functions that are decorated with `@Action` are converted into
 vuex actions.
 
-For example this code - 
+For example this code -
 
-```typescript {7-10}
+```typescript {13-17}
 import {Module, VuexModule, Mutation} from 'vuex-module-decorators'
-import {St}
+import {get} from 'request'
 
 @Module
 export default class Vehicle extends VuexModule {
@@ -19,21 +19,29 @@ export default class Vehicle extends VuexModule {
     }
 
     @Action
-    async function(context:) {
-
+    async fetchNewWheels(wheelStore: string) {
+        const wheels = await get(wheelStore)
+        this.commit('addWheel', wheels)
     }
 }
 ```
 
-is equivalent of this - 
+is equivalent of this -
 
-```js {6}
+```js {9-14}
+const request = require('request')
 export default {
     state: {
         wheels: 2
     },
     mutations: {
-        puncture: (state, payload) => {state.wheels = state.wheels - payload}
+        addWheel: (state, payload) => {state.wheels = state.wheels + payload}
+    },
+    actions: {
+        fetchNewWheels: async (context, payload) => {
+            const wheels = await request.get(payload)
+            context.commit('addWheel', wheels)
+        }
     }
 }
 ```

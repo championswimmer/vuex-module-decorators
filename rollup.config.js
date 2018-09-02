@@ -7,6 +7,7 @@ export default [
         output: {
             file: "dist/index.js",
             format: "cjs",
+            name: "vuex-module-decorators",
             sourcemap: true,
             exports: 'named',
             interop: false,
@@ -18,7 +19,7 @@ export default [
         input: 'dist/index.js',
         output: {
             file: 'dist/index.min.js',
-            name: 'vuex-persist',
+            name: 'vuex-module-decorators',
             format: 'cjs',
             sourcemap: true
         },
