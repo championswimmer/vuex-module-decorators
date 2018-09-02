@@ -12,13 +12,19 @@ export default [
             exports: 'named',
             interop: false,
         },
-        external: [
-            "vuex",
-        ],
-        plugins: [
-            typescript(),
-            uglify()
-        ]
+        external: [ "vuex" ],
+        plugins: [ typescript() ]
     },
+    {
+        input: 'dist/index.js',
+        output: {
+            file: 'dist/index.min.js',
+            name: 'vuex-persist',
+            format: 'cjs',
+            sourcemap: true
+        },
+        external: [ 'vuex' ],
+        plugins: [ uglify() ]
+    }
     
 ];
