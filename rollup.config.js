@@ -1,11 +1,11 @@
 import typescript from 'rollup-plugin-typescript2'
-import {uglify} from 'rollup-plugin-uglify'
+import { terser } from 'rollup-plugin-terser'
 
 export default [
     {
         input: 'src/index.ts',
         output: {
-            file: "dist/index.js",
+            file: "dist/index.min.js",
             format: "cjs",
             name: "vuex-module-decorators",
             sourcemap: true,
@@ -13,18 +13,6 @@ export default [
             interop: false,
         },
         external: [ "vuex" ],
-        plugins: [ typescript() ]
-    },
-    {
-        input: 'dist/index.js',
-        output: {
-            file: 'dist/index.min.js',
-            name: 'vuex-module-decorators',
-            format: 'cjs',
-            sourcemap: true
-        },
-        external: [ 'vuex' ],
-        plugins: [ uglify() ]
+        plugins: [ typescript(), terser() ]
     }
-    
 ];
