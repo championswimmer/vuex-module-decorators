@@ -37,5 +37,11 @@ export class VuexModule<S = ThisType<S>, R = any> implements Mod<S, R> {
 export function getModule<M extends VuexModule>(
   moduleClass: M,
 ): M {
-  return (<any>moduleClass.constructor)._statics
+  const statics: M = (moduleClass.constructor as any)._statics
+  if (!statics) {
+    throw new Error (`ERR_GET_MODULE_NO_STATICS : Could not get module accessor. 
+      Make sure your module is dynamic and has name,
+      i.e. @Module({dynamic: true, name: 'something' })`)
+  }
+  return statics
 }
