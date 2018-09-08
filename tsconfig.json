@@ -8,6 +8,7 @@
     ],
     "sourceMap": true,
     "declaration": true,
+    "declarationDir": "dist/types",
     "rootDir": "src",
     "outDir": "dist",
     "sourceRoot": "src",

@@ -1,7 +1,7 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
-import {VuexModule} from '../dist'
+import {VuexModule} from '../'
 import {expect} from 'chai'
 import { promisify } from 'util';
 
