@@ -46,14 +46,16 @@
     "mocha": "^5.1.1",
     "nyc": "^13.0.1",
     "rimraf": "^2.6.2",
-    "rollup": "^0.65.0",
+    "rollup": "^0.65.2",
     "rollup-plugin-typescript2": "^0.17.0",
+    "rollup-plugin-uglify": "^5.0.2",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
-    "tslint-config-standard": "^7.1.0",
+    "tslint-config-standard": "^8.0.1",
     "typescript": "^3.0.3",
     "vue": "^2.5.17",
     "vuepress": "^0.14.2",
     "vuex": "^3.0.1"
-  }
+  },
+  "dependencies": {}
 }
