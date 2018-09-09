@@ -1,4 +1,4 @@
-import {Store} from 'vuex'
+import { Store } from 'vuex'
 /**
  * Options to pass to the @Module decorator
  */

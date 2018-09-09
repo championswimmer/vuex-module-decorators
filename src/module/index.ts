@@ -1,6 +1,6 @@
-import {GetterTree, Module as Mod} from 'vuex'
-import {DynamicModuleOptions, ModuleOptions} from '../moduleoptions'
-import {stateFactory as sf} from './stateFactory'
+import { GetterTree, Module as Mod } from 'vuex'
+import { DynamicModuleOptions, ModuleOptions } from '../moduleoptions'
+import { stateFactory as sf } from './stateFactory'
 import {
   staticActionGenerators,
   staticGetterGenerator,
@@ -9,13 +9,17 @@ import {
 } from './staticGenerators'
 
 function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
-
-  return function <TFunction extends Function>(constructor: TFunction): TFunction | void {
+  return function<TFunction extends Function>(
+    constructor: TFunction
+  ): TFunction | void {
     const module: Function & Mod<S, any> = constructor
     const stateFactory = () => sf(module)
 
     if (!module.state) {
-      module.state = (moduleOptions && (<ModuleOptions>moduleOptions).stateFactory) ? stateFactory : stateFactory()
+      module.state =
+        moduleOptions && moduleOptions.stateFactory
+          ? stateFactory
+          : stateFactory()
     }
 
     if (!module.getters) {
@@ -23,12 +27,16 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
     }
     module.namespaced = moduleOptions && moduleOptions.namespaced
     Object.getOwnPropertyNames(module.prototype).forEach((funcName: string) => {
-      const descriptor = Object.getOwnPropertyDescriptor(module.prototype, funcName)
-      if (descriptor.get) {
-        module.getters[funcName] = (moduleState: S) => descriptor.get.call(moduleState)
+      const descriptor = Object.getOwnPropertyDescriptor(
+        module.prototype,
+        funcName
+      ) as PropertyDescriptor
+      if (descriptor.get && module.getters) {
+        module.getters[funcName] = (moduleState: S) =>
+          (descriptor.get as Function).call(moduleState)
       }
     })
-    if ((<DynamicModuleOptions>moduleOptions).dynamic) {
+    if ((moduleOptions as DynamicModuleOptions).dynamic) {
       const modOpt: DynamicModuleOptions = moduleOptions as DynamicModuleOptions
 
       if (!modOpt.name) {
@@ -55,7 +63,7 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
       }
 
       modOpt.store.registerModule(
-        modOpt.name,              // TODO: Handle nested modules too in future
+        modOpt.name, // TODO: Handle nested modules too in future
         module
       )
 
@@ -66,18 +74,17 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
       return constructor
     }
   }
-
 }
 
 export function Module<S>(module: Function & Mod<S, any>): void
 export function Module<S>(options: ModuleOptions): ClassDecorator
 
 export function Module<S>(modOrOpt: ModuleOptions | Function & Mod<S, any>) {
-  if (typeof modOrOpt === 'function') {
+  if (typeof (modOrOpt as any) === 'function') {
     /*
      * @Module decorator called without options (directly on the class definition)
      */
-    moduleDecoratorFactory({})(modOrOpt)
+    moduleDecoratorFactory({})(modOrOpt as Function & Mod<S, any>)
   } else {
     /*
      * @Module({...}) decorator called with options

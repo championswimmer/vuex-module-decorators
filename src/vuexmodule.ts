@@ -1,4 +1,12 @@
-import {ActionTree, GetterTree, Module as Mod, ModuleTree, MutationTree, Store, Commit} from 'vuex'
+import {
+  ActionTree,
+  GetterTree,
+  Module as Mod,
+  ModuleTree,
+  MutationTree,
+  Store,
+  Commit
+} from 'vuex'
 
 export class VuexModule<S = ThisType<S>, R = any> implements Mod<S, R> {
   /*
@@ -31,15 +39,12 @@ export class VuexModule<S = ThisType<S>, R = any> implements Mod<S, R> {
     this.namespaced = module.namespaced
     this.modules = module.modules
   }
-
 }
 
-export function getModule<M extends VuexModule>(
-  moduleClass: M,
-): M {
+export function getModule<M extends VuexModule>(moduleClass: M): M {
   const statics: M = (moduleClass.constructor as any)._statics
   if (!statics) {
-    throw new Error (`ERR_GET_MODULE_NO_STATICS : Could not get module accessor. 
+    throw new Error(`ERR_GET_MODULE_NO_STATICS : Could not get module accessor. 
       Make sure your module is dynamic and has name,
       i.e. @Module({dynamic: true, name: 'something' })`)
   }

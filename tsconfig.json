@@ -12,7 +12,8 @@
     "rootDir": "src",
     "outDir": "dist",
     "sourceRoot": "src",
-    "removeComments": false
+    "removeComments": false,
+    "strictNullChecks": true
   },
   "include": [
     "src"
