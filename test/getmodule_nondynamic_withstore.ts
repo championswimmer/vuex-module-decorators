@@ -37,7 +37,8 @@ const store = new Vuex.Store<StoreType>({
 describe('accessing statics fails on non-dynamic module', () => {
   it('should show error', function (done) {
 
-    const mm = getModule(MyModule, store)
+    // const mm = getModule(MyModule, store)
+    const mm = getModule(MyModule)
     expect(mm.count).to.equal(0)
 
     mm.incrCount(5)
