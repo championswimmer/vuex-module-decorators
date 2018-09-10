@@ -24,7 +24,9 @@ function actionDecoratorFactory<T>(
       payload: Payload
     ) {
       try {
-        const actionPayload = await actionFunction.call(context, payload)
+        (context.state as any).commit = context.commit
+        const actionPayload = await actionFunction.call(context.state, payload)
+        delete (context.state as any).commit
         if (params) {
           if (params.commit) {
             context.commit(params.commit, actionPayload)
