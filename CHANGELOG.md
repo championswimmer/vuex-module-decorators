@@ -4,6 +4,9 @@
 
 ### 0.8.0
 ##### 0.8.0-1
+ - in `@Action` functions -
+    - `this.stateField` works pointing to fields in the module's state
+    - `this.commit()` is the context.commit function
 
 ##### 0.8.0-0
  - allow `getModule()` even for non-dynamic modules
