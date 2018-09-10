@@ -1,11 +1,4 @@
-import {
-  Action as Act,
-  ActionContext,
-  Module as Mod,
-  Mutation as Mut,
-  Payload,
-  Store
-} from 'vuex'
+import { Action as Act, ActionContext, Module as Mod, Mutation as Mut, Payload, Store } from 'vuex'
 
 export interface MutationActionParams {
   mutate: string[]

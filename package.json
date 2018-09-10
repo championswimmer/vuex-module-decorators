@@ -7,7 +7,7 @@
   "typings": "dist/types/index.d.ts",
   "module": "dist/esm/index.js",
   "scripts": {
-    "clean": "rimraf dist .rpt2_cache",
+    "clean": "rimraf dist .rpt2_cache .nyc_output",
     "prebuild": "npm run clean",
     "build": "rollup -c",
     "prepublishOnly": "npm run build",

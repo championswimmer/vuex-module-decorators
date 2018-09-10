@@ -9,13 +9,8 @@ export function Mutation<T, R>(
   if (!module.mutations) {
     module.mutations = {}
   }
-  const mutationFunction: Function = descriptor.value
-    ? descriptor.value
-    : (...args: any[]) => ({})
-  const mutation: Mut<typeof target> = function(
-    state: typeof target,
-    payload: Payload
-  ) {
+  const mutationFunction: Function = descriptor.value ? descriptor.value : (...args: any[]) => ({})
+  const mutation: Mut<typeof target> = function(state: typeof target, payload: Payload) {
     mutationFunction.call(state, payload)
   }
   module.mutations[key as string] = mutation

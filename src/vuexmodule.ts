@@ -5,7 +5,8 @@ import {
   ModuleTree,
   MutationTree,
   Store,
-  Commit, ActionContext
+  Commit,
+  ActionContext
 } from 'vuex'
 
 export class VuexModule<S = ThisType<S>, R = any> implements Mod<S, R> {
@@ -42,15 +43,12 @@ export class VuexModule<S = ThisType<S>, R = any> implements Mod<S, R> {
 }
 type ConstructorOf<C> = { new (...args: any[]): C }
 
-export function getModule<M extends VuexModule>(moduleClass: ConstructorOf<M>, store: Store<any>): M
-export function getModule<M extends VuexModule>(moduleClass: ConstructorOf<M>): M
-
 export function getModule<M extends VuexModule>(
   moduleClass: ConstructorOf<M>,
   store?: Store<any>
 ): M {
   if ((moduleClass as any)._statics) {
-    return ((moduleClass as any)._statics)
+    return (moduleClass as any)._statics
   }
   const genStatic: ((providedStore?: Store<any>) => M) = (moduleClass as any)._genStatic
   if (!genStatic) {
@@ -58,5 +56,5 @@ export function getModule<M extends VuexModule>(
       Make sure your module has name, we can't make accessors for unnamed modules
       i.e. @Module({ 'something' })`)
   }
-  return ((moduleClass as any)._statics) = genStatic(store)
+  return ((moduleClass as any)._statics = genStatic(store))
 }

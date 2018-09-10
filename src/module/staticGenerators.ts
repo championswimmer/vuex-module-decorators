@@ -9,10 +9,7 @@ export function staticStateGenerator<S>(
   Object.keys(module.state as S).forEach((key) => {
     if ((module.state as S).hasOwnProperty(key)) {
       // If not undefined or function means it is a state value
-      if (
-        ['undefined', 'function'].indexOf(typeof (module.state as S)[key]) ===
-        -1
-      ) {
+      if (['undefined', 'function'].indexOf(typeof (module.state as S)[key]) === -1) {
         Object.defineProperty(statics, key, {
           get() {
             return modOpt.store.state[modOpt.name][key]

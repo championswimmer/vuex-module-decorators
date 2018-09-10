@@ -1,4 +1,4 @@
-import {GetterTree, Module as Mod, Store} from 'vuex'
+import { GetterTree, Module as Mod, Store } from 'vuex'
 import { DynamicModuleOptions, ModuleOptions } from '../moduleoptions'
 import { stateFactory as sf } from './stateFactory'
 import {
@@ -9,17 +9,12 @@ import {
 } from './staticGenerators'
 
 function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
-  return function<TFunction extends Function>(
-    constructor: TFunction
-  ): TFunction | void {
+  return function<TFunction extends Function>(constructor: TFunction): TFunction | void {
     const module: Function & Mod<S, any> = constructor
     const stateFactory = () => sf(module)
 
     if (!module.state) {
-      module.state =
-        moduleOptions && moduleOptions.stateFactory
-          ? stateFactory
-          : stateFactory()
+      module.state = moduleOptions && moduleOptions.stateFactory ? stateFactory : stateFactory()
     }
 
     if (!module.getters) {
