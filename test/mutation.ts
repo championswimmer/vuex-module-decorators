@@ -1,8 +1,8 @@
-import Vuex, {Module as Mod} from 'vuex'
+import Vuex, { Module as Mod } from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
-import {Action, Module, Mutation, MutationAction, VuexModule} from '../'
-import {expect} from 'chai'
+import { Action, Module, Mutation, MutationAction, VuexModule } from '..'
+import { expect } from 'chai'
 
 @Module
 class MyModule extends VuexModule {
@@ -12,7 +12,6 @@ class MyModule extends VuexModule {
   incrCount(delta: number) {
     this.count += delta
   }
-
 }
 
 const store = new Vuex.Store({
@@ -22,10 +21,8 @@ const store = new Vuex.Store({
 })
 
 describe('committing mutation works', () => {
-  it('should update count', function () {
-
+  it('should update count', function() {
     store.commit('incrCount', 5)
     expect(parseInt(store.state.mm.count)).to.equal(5)
-
   })
 })

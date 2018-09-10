@@ -1,7 +1,7 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
-import {VuexModule} from '../'
-import {expect} from 'chai'
+import { VuexModule } from '..'
+import { expect } from 'chai'
 
 Vue.use(Vuex)
 
@@ -28,11 +28,9 @@ const store = new Vuex.Store({
 })
 
 describe('new VuexModule() constuctor works', () => {
-  it('should increase axles', function () {
-
+  it('should increase axles', function() {
     store.commit('incrWheels', 4)
     const axles = store.getters.axles
     expect(axles).to.equal(3)
-
   })
 })

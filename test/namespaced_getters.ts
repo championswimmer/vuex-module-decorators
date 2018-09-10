@@ -1,10 +1,10 @@
-import Vuex, {Module as Mod} from 'vuex'
+import Vuex, { Module as Mod } from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
-import {Action, Module, Mutation, MutationAction, VuexModule} from '../'
-import {expect} from 'chai'
+import { Action, Module, Mutation, MutationAction, VuexModule } from '..'
+import { expect } from 'chai'
 
-@Module({namespaced: true, name: 'mm'})
+@Module({ namespaced: true, name: 'mm' })
 class MyModule extends VuexModule {
   wheels = 2
 
@@ -14,9 +14,8 @@ class MyModule extends VuexModule {
   }
 
   get axles() {
-    return (this.wheels / 2)
+    return this.wheels / 2
   }
-
 }
 
 const store = new Vuex.Store({
@@ -26,11 +25,9 @@ const store = new Vuex.Store({
 })
 
 describe('fetching via namespaced getters works', () => {
-  it('should increase axles', function () {
-
+  it('should increase axles', function() {
     store.commit('mm/incrWheels', 4)
     const axles = store.getters['mm/axles']
     expect(axles).to.equal(3)
-
   })
 })

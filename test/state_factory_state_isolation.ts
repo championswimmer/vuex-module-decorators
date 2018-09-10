@@ -1,8 +1,8 @@
-import Vuex, {Module as Mod} from 'vuex'
+import Vuex, { Module as Mod } from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
-import {Action, Module, Mutation, MutationAction, VuexModule} from '../'
-import {expect} from 'chai'
+import { Action, Module, Mutation, MutationAction, VuexModule } from '..'
+import { expect } from 'chai'
 
 @Module({ stateFactory: true, namespaced: true })
 class FactoryModule extends VuexModule {
@@ -14,9 +14,8 @@ class FactoryModule extends VuexModule {
   }
 
   get axles() {
-    return (this.wheels / 2)
+    return this.wheels / 2
   }
-
 }
 
 @Module({ namespaced: true })
@@ -29,9 +28,8 @@ class StateObjectModule extends VuexModule {
   }
 
   get axles() {
-    return (this.wheels / 2)
+    return this.wheels / 2
   }
-
 }
 
 const store = new Vuex.Store({
@@ -39,23 +37,20 @@ const store = new Vuex.Store({
     factoryModA: FactoryModule,
     factoryModB: FactoryModule,
     objectModA: StateObjectModule,
-    objectModB: StateObjectModule,
+    objectModB: StateObjectModule
   }
 })
 
 describe('state isolation', () => {
-  it('should share state by default when reused', function () {
-
+  it('should share state by default when reused', function() {
     store.commit('objectModA/incrWheels', 4)
     const axlesA = store.getters['objectModA/axles']
     const axlesB = store.getters['objectModB/axles']
 
     expect(axlesA).to.equal(3)
     expect(axlesB).to.equal(3)
-
   })
-  it('should isolate state using factories when reused', function () {
-
+  it('should isolate state using factories when reused', function() {
     store.commit('factoryModA/incrWheels', 4)
     const axlesA = store.getters['factoryModA/axles']
     const axlesB = store.getters['factoryModB/axles']

@@ -1,8 +1,8 @@
-import Vuex, {Module as Mod} from 'vuex'
+import Vuex, { Module as Mod } from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
-import {Action, Module, Mutation, MutationAction, VuexModule} from '../'
-import {expect} from 'chai'
+import { Action, Module, Mutation, VuexModule } from '..'
+import { expect } from 'chai'
 
 @Module
 class MyModule extends VuexModule {
@@ -14,9 +14,8 @@ class MyModule extends VuexModule {
   }
 
   get axles() {
-    return (this.wheels / 2)
+    return this.wheels / 2
   }
-
 }
 
 const store = new Vuex.Store({
@@ -26,11 +25,9 @@ const store = new Vuex.Store({
 })
 
 describe('fetching via getters works', () => {
-  it('should increase axles', function () {
-
+  it('should increase axles', function() {
     store.commit('incrWheels', 4)
     const axles = store.getters.axles
     expect(axles).to.equal(3)
-
   })
 })

@@ -1,8 +1,8 @@
-import Vuex, {Module as Mod} from 'vuex'
+import Vuex, { Module as Mod } from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
-import {Action, getModule, Module, Mutation, MutationAction, VuexModule} from '../'
-import {expect} from 'chai'
+import { Action, getModule, Module, Mutation, MutationAction, VuexModule } from '../..'
+import { expect } from 'chai'
 
 interface StoreType {
   mm: MyModule
@@ -17,15 +17,14 @@ class MyModule extends VuexModule {
     this.count += delta
   }
 
-  @Action({commit: 'incrCount'})
+  @Action({ commit: 'incrCount' })
   async getCountDelta(retVal: number = 5) {
     return retVal
   }
 
-  get halfCount () {
+  get halfCount() {
     return (this.count / 2).toPrecision(1)
   }
-
 }
 
 const store = new Vuex.Store<StoreType>({
@@ -34,10 +33,8 @@ const store = new Vuex.Store<StoreType>({
   }
 })
 
-describe('accessing statics fails on non-dynamic module', () => {
-  it('should show error', function () {
-
+describe('getModule() on unnamed non-dynamic module', () => {
+  it('should error without name in decorator', function() {
     expect(() => getModule(MyModule)).to.throw('ERR_GET_MODULE_NO_STATICS')
-
   })
 })
