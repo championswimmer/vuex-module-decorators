@@ -5,7 +5,7 @@ import {
   ModuleTree,
   MutationTree,
   Store,
-  Commit
+  Commit, ActionContext
 } from 'vuex'
 
 export class VuexModule<S = ThisType<S>, R = any> implements Mod<S, R> {
@@ -29,7 +29,7 @@ export class VuexModule<S = ThisType<S>, R = any> implements Mod<S, R> {
   state?: S | (() => S)
   mutations?: MutationTree<S>
   actions?: ActionTree<S, R>
-  commit!: Commit
+  context!: ActionContext<S, R>
 
   constructor(module: Mod<S, any>) {
     this.actions = module.actions

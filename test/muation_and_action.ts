@@ -20,7 +20,7 @@ class MyModule extends VuexModule {
 
   @Action
   fetchCountDelta() {
-    this.commit('incrCount', 5)
+    this.context.commit('incrCount', 5)
   }
 }
 

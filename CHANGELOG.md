@@ -1,14 +1,20 @@
 # CHANGELOG
+If `(beta)` or `(alpha)` is marked in front of any release, it can be
+installed as `npm install vuex-module-decorators@beta` (or alpha similar).
 
 ## 1.0.0
 
 ### 0.8.0
-##### 0.8.0-1
+##### 0.8.0-2 (beta)
  - in `@Action` functions -
     - `this.stateField` works pointing to fields in the module's state
-    - `this.commit()` is the context.commit function
+    - `this.context.commit('mutationName', payload)` is way to trigger mutation
+    - `this.context.getters['getterName'])` is the way to use getters
+    - **iff your module is dynamic** you get more typesafety
+        - calling `this.mutationName(payload)` will work as well
+        - accessing `this.getterName` will work as well
 
-##### 0.8.0-0
+##### 0.8.0-0 (beta)
  - allow `getModule()` even for non-dynamic modules
 
     > **NOTE:** From now on you have to use`getModule(ModuleClass)`  

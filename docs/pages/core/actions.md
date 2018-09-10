@@ -48,9 +48,10 @@ export default {
 
 :::tip NOTE  
 Once decorated with `@Action` the function will be called with `this`
-as `context`. The action payload comes as an argument.
+having the following shape - `{...[all fields of state], context}`
+The action payload comes as an argument.
 So to commit a mutation manually from within action's body
-simply call **`this.commit('mutationName', mutPayload)`**
+simply call **`this.context.commit('mutationName', mutPayload)`**
 :::
 
 :::danger 🚨️️ WARNING

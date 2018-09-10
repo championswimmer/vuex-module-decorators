@@ -1,4 +1,5 @@
 import { Action as Act, ActionContext, Module as Mod, Payload } from 'vuex'
+import { getModule, VuexModule } from './vuexmodule'
 
 /**
  * Parameters that can be passed to the @Action decorator
@@ -6,14 +7,8 @@ import { Action as Act, ActionContext, Module as Mod, Payload } from 'vuex'
 export interface ActionDecoratorParams {
   commit: string
 }
-function actionDecoratorFactory<T>(
-  params?: ActionDecoratorParams
-): MethodDecorator {
-  return function(
-    target: T,
-    key: string | symbol,
-    descriptor: TypedPropertyDescriptor<any>
-  ) {
+function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecorator {
+  return function(target: T, key: string | symbol, descriptor: TypedPropertyDescriptor<any>) {
     const module = target.constructor as Mod<T, any>
     if (!module.actions) {
       module.actions = {}
@@ -24,17 +19,34 @@ function actionDecoratorFactory<T>(
       payload: Payload
     ) {
       try {
-        (context.state as any).commit = context.commit
-        const actionPayload = await actionFunction.call(context.state, payload)
-        delete (context.state as any).commit
+        let actionPayload = null
+
+        if ((module as any)._genStatic) {
+          const moduleAccessor = getModule(module as typeof VuexModule)
+          moduleAccessor.context = context
+          actionPayload = await actionFunction.call(moduleAccessor, payload)
+        } else {
+          ;(context.state as any).context = context
+          actionPayload = await actionFunction.call(context.state, payload)
+          delete (context.state as any).context
+        }
         if (params) {
           if (params.commit) {
             context.commit(params.commit, actionPayload)
           }
         }
       } catch (e) {
-        console.error('Could not perform action ' + key.toString())
-        console.error(e)
+        throw new Error(
+          'ERR_ACTION_ACCESS_UNDEFINED: Are you trying to access ' +
+            'this.someMutation() or this.someGetter inside an @Action? \n' +
+            'That works only in dynamic modules. \n' +
+            'If not dynamic use this.context.commit("mutationName", payload) ' +
+            'and this.context.getters["getterName"]' +
+            '\n' +
+            new Error(`Could not perform action ${key.toString()}`).stack +
+            '\n' +
+            e.stack
+        )
       }
     }
     module.actions[key as string] = action

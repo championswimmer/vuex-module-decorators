@@ -1,10 +1,13 @@
 import Vuex, { Module as Mod, Store } from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
-import { Action, Module, Mutation, MutationAction, VuexModule } from '..'
+import { Action, Module, Mutation, VuexModule } from '..'
 import { expect } from 'chai'
+import {getModule} from '../src/vuexmodule'
 
-@Module
+const store = new Vuex.Store({})
+
+@Module({name: 'mm', dynamic: true, store})
 class MyModule extends VuexModule {
   fieldFoo = 'foo'
   fieldBar = 'bar'
@@ -21,14 +24,6 @@ class MyModule extends VuexModule {
   @Action
   async concatFooOrBar(newstr: string) {
     if (this.fieldFoo.length < this.fieldBar.length) {
-      this.context.commit('setFoo', newstr)
-    } else {
-      this.context.commit('setBar', newstr)
-    }
-  }
-  @Action
-  async concatFooOrBarWithThis(newstr: string) {
-    if (this.fieldFoo.length < this.fieldBar.length) {
       this.setFoo(newstr)
     } else {
       this.setBar(newstr)
@@ -36,22 +31,18 @@ class MyModule extends VuexModule {
   }
 }
 
-const store = new Vuex.Store({
-  modules: {
-    mm: MyModule
-  }
-})
 
-describe('@Action with non-dynamic module', () => {
+describe('@Action with dynamic module', () => {
   it('should concat foo & bar (promise)', function(done) {
+    const mm = getModule(MyModule)
     store
       .dispatch('concatFooOrBar', 't1')
       .then(() => {
-        expect(store.state.mm.fieldBar).to.equal('bart1')
+        expect(mm.fieldBar).to.equal('bart1')
       })
       .then(() => {
         store.dispatch('concatFooOrBar', 't1').then(() => {
-          expect(store.state.mm.fieldFoo).to.equal('foot1')
+          expect(mm.fieldFoo).to.equal('foot1')
         })
         done()
       })
@@ -59,16 +50,10 @@ describe('@Action with non-dynamic module', () => {
   })
 
   it('should concat foo & bar (await)', async function() {
+    const mm = getModule(MyModule)
     await store.dispatch('concatFooOrBar', 't1')
-    expect(store.state.mm.fieldBar).to.equal('bart1t1')
+    expect(mm.fieldBar).to.equal('bart1t1')
     await store.dispatch('concatFooOrBar', 't1')
-    expect(store.state.mm.fieldFoo).to.equal('foot1t1')
-  })
-  it('should error if this.mutation() is used in non-dynamic', async function() {
-    try {
-      await store.dispatch('concatFooOrBarWithThis', 't1')
-    } catch (e) {
-      expect(e.message).to.contain('ERR_ACTION_ACCESS_UNDEFINED')
-    }
+    expect(mm.fieldFoo).to.equal('foot1t1')
   })
 })
