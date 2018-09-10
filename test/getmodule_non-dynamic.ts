@@ -38,7 +38,7 @@ describe('accessing statics fails on non-dynamic module', () => {
   it('should show error', function () {
 
     try {
-      const mm = getModule(MyModule.prototype)
+      const mm = getModule(MyModule)
     } catch (e) {
       expect((<Error>e).message).to.contain('ERR_GET_MODULE_NO_STATICS')
     }

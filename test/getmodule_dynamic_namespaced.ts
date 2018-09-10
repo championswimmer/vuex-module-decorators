@@ -1,8 +1,9 @@
 import Vuex, {Module as Mod} from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
-import {Action, getModule, Module, Mutation, MutationAction, VuexModule} from '../'
+import {Action, Module, Mutation, MutationAction, VuexModule} from '../'
 import {expect} from 'chai'
+import {getModule} from '../src'
 
 interface StoreType {
   mm: MyModule
@@ -30,12 +31,10 @@ class MyModule extends VuexModule {
 
 }
 
-
-
 describe('accessing statics works on dynamic (namespaced) module', () => {
   it('should update count', function (done) {
 
-    const mm = getModule<MyModule>(MyModule.prototype)
+    const mm = getModule(MyModule)
     expect(mm.count).to.equal(0)
 
     mm.incrCount(5)

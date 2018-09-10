@@ -45,3 +45,18 @@ export default {
     }
 }
 ```
+
+:::tip NOTE  
+Once decorated with `@Action` the function will be called with `this`
+as `context`. The action payload comes as an argument.
+So to commit a mutation manually from within action's body
+simply call **`this.commit('mutationName', mutPayload)`**
+:::
+
+:::danger 🚨️️ WARNING
+If you are doing a long running task inside your action, it is recommended
+to define it as an **async** function. But even if you do not, this library
+will wrap your function into a **Promise** and _await_ it.
+
+Also **do not** define them as arrow :arrow_right: functions, since we need to rebind them at runtime.
+:::

@@ -7,11 +7,11 @@
   "typings": "dist/types/index.d.ts",
   "module": "dist/esm/index.js",
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rimraf dist .rpt2_cache",
     "prebuild": "npm run clean",
     "build": "rollup -c",
     "prepublishOnly": "npm run build",
-    "pretest": "npm run build",
+    "pretest": "npm run build && npm run lint",
     "test": "cd test && mocha -r ts-node/register *.ts",
     "cover": "nyc npm test",
     "prereport": "npm run cover",
@@ -19,7 +19,7 @@
     "docs:build": "vuepress build docs",
     "docs:serve": "vuepress dev docs",
     "lint": "tslint -p tsconfig.json",
-    "lint:fix": "prettier --write './src/**/*.ts' && tslint -p tsconfig.json --fix"
+    "lint:fix": "tslint -p tsconfig.json --fix"
   },
   "repository": {
     "type": "git",

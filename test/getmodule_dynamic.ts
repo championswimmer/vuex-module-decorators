@@ -35,7 +35,7 @@ class MyModule extends VuexModule {
 describe('accessing statics works on dynamic module', () => {
   it('should update count', function (done) {
 
-    const mm = getModule(MyModule.prototype)
+    const mm = getModule(MyModule)
     expect(mm.count).to.equal(0)
 
     mm.incrCount(5)

@@ -70,11 +70,11 @@ export function staticActionGenerators<S>(
 ) {
   Object.keys(module.actions as ActionTree<S, any>).forEach((key) => {
     if (module.namespaced) {
-      statics[key] = async function(...args) {
+      statics[key] = async function(...args: any[]) {
         return modOpt.store.dispatch(`${modOpt.name}/${key}`, ...args)
       }
     } else {
-      statics[key] = async function(...args) {
+      statics[key] = async function(...args: any[]) {
         return modOpt.store.dispatch(key, ...args)
       }
     }

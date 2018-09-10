@@ -1,14 +1,17 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint-config-standard",
-        "tslint-config-prettier"
-    ],
-    "jsRules": {},
-    "rules": {
-        "prettier": true
-    },
-    "rulesDirectory": [
-        "tslint-plugin-prettier"
+  "defaultSeverity": "error",
+  "extends": ["tslint-config-standard", "tslint-config-prettier"],
+  "jsRules": {},
+  "rules": {
+    "prettier": [
+      true,
+      {
+        "semi": false,
+        "arrowParens": "always",
+        "singleQuote": true,
+        "trailingComma": "none"
+      }
     ]
+  },
+  "rulesDirectory": ["tslint-plugin-prettier"]
 }

@@ -7,6 +7,7 @@ import {
   Store,
   Commit
 } from 'vuex'
+import { deprecate } from 'util'
 
 export class VuexModule<S = ThisType<S>, R = any> implements Mod<S, R> {
   /*
@@ -40,13 +41,16 @@ export class VuexModule<S = ThisType<S>, R = any> implements Mod<S, R> {
     this.modules = module.modules
   }
 }
+type ConstructorOf<C> = { new (...args: any[]): C }
 
-export function getModule<M extends VuexModule>(moduleClass: M): M {
-  const statics: M = (moduleClass.constructor as any)._statics
+export function getModule<M extends VuexModule>(
+  moduleClass: ConstructorOf<M>
+): M {
+  const statics: M = (moduleClass as any)._statics
   if (!statics) {
     throw new Error(`ERR_GET_MODULE_NO_STATICS : Could not get module accessor. 
       Make sure your module is dynamic and has name,
-      i.e. @Module({dynamic: true, name: 'something' })`)
+      i.e. @Module({ dynamic: true, name: 'something', store })`)
   }
   return statics
 }

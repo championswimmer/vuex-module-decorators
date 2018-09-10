@@ -45,6 +45,11 @@ export function MutationAction<T>(params: MutationActionParams) {
       for (let stateItem of params.mutate) {
         if (state[stateItem] != null && payload[stateItem] != null) {
           state[stateItem] = payload[stateItem]
+        } else {
+          throw new Error(`ERR_MUTATE_PARAMS_NOT_IN_PAYLOAD
+          In @MutationAction, mutate: ['a', 'b', ...] array keys must
+          match with return type = {a: {}, b: {}, ...} and must
+          also be in state.`)
         }
       }
     }
