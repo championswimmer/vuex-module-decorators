@@ -3,8 +3,13 @@
 ## 1.0.0
 
 ### 0.8.0
+##### 0.8.0-1
+
 ##### 0.8.0-0
  - allow `getModule()` even for non-dynamic modules
+
+    > **NOTE:** From now on you have to use`getModule(ModuleClass)`  
+    > instead of the earlier `getModule(ModuleClass.prototype)`
  - update to prettier code formatting
 
 #### 0.7.1
