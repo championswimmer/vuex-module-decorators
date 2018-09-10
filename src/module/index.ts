@@ -1,4 +1,4 @@
-import { GetterTree, Module as Mod } from 'vuex'
+import {GetterTree, Module as Mod, Store} from 'vuex'
 import { DynamicModuleOptions, ModuleOptions } from '../moduleoptions'
 import { stateFactory as sf } from './stateFactory'
 import {
@@ -36,43 +36,49 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
           (descriptor.get as Function).call(moduleState)
       }
     })
-    if ((moduleOptions as DynamicModuleOptions).dynamic) {
-      const modOpt: DynamicModuleOptions = moduleOptions as DynamicModuleOptions
+    const modOpt = moduleOptions as DynamicModuleOptions
+    if (modOpt.name) {
+      Object.defineProperty(constructor, '_genStatic', {
+        value: (store?: Store<any>) => {
+          let statics = {}
+          modOpt.store = modOpt.store || store
+          if (!modOpt.store) {
+            throw new Error(`ERR_STORE_NOT_PROVIDED: To use getModule(), either the module
+            should be decorated with store in decorator, i.e. @Module({store: store}) or
+            store should be passed when calling getModule(), i.e. getModule(MyModule, this.$store)`)
+          }
+          // ===========  For statics ==============
+          // ------ state -------
+          staticStateGenerator(module, modOpt, statics)
 
+          // ------- getters -------
+          if (module.getters) {
+            staticGetterGenerator(module, modOpt, statics)
+          }
+
+          // -------- mutations --------
+          if (module.mutations) {
+            staticMutationGenerator(module, modOpt, statics)
+          }
+          // -------- actions ---------
+          if (module.actions) {
+            staticActionGenerators(module, modOpt, statics)
+          }
+          return statics
+        }
+      })
+    }
+
+    if (modOpt.dynamic) {
       if (!modOpt.name) {
         throw new Error('Name of module not provided in decorator options')
       }
-
-      let statics = {}
-      // ===========  For statics ==============
-      // ------ state -------
-      staticStateGenerator(module, modOpt, statics)
-
-      // ------- getters -------
-      if (module.getters) {
-        staticGetterGenerator(module, modOpt, statics)
-      }
-
-      // -------- mutations --------
-      if (module.mutations) {
-        staticMutationGenerator(module, modOpt, statics)
-      }
-      // -------- actions ---------
-      if (module.actions) {
-        staticActionGenerators(module, modOpt, statics)
-      }
-
       modOpt.store.registerModule(
         modOpt.name, // TODO: Handle nested modules too in future
         module
       )
-
-      Object.defineProperty(constructor, '_statics', {
-        value: statics
-      })
-
-      return constructor
     }
+    return constructor
   }
 }
 

@@ -37,11 +37,7 @@ const store = new Vuex.Store<StoreType>({
 describe('accessing statics fails on non-dynamic module', () => {
   it('should show error', function () {
 
-    try {
-      const mm = getModule(MyModule)
-    } catch (e) {
-      expect((<Error>e).message).to.contain('ERR_GET_MODULE_NO_STATICS')
-    }
+    expect(() => getModule(MyModule)).to.throw('ERR_STORE_NOT_PROVIDED')
 
   })
 })
