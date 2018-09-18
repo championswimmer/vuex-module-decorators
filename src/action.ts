@@ -5,9 +5,11 @@ import { getModule, VuexModule } from './vuexmodule'
  * Parameters that can be passed to the @Action decorator
  */
 export interface ActionDecoratorParams {
-  commit: string
+  commit?: string,
+  throwOriginalError?: boolean
 }
 function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecorator {
+  const { commit = undefined, throwOriginalError = false } = params || {}
   return function(target: T, key: string | symbol, descriptor: TypedPropertyDescriptor<any>) {
     const module = target.constructor as Mod<T, any>
     if (!module.actions) {
@@ -30,13 +32,11 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
           actionPayload = await actionFunction.call(context.state, payload)
           delete (context.state as any).context
         }
-        if (params) {
-          if (params.commit) {
-            context.commit(params.commit, actionPayload)
-          }
+        if (commit) {
+          context.commit(commit, actionPayload)
         }
       } catch (e) {
-        throw new Error(
+        throw throwOriginalError ? e : new Error(
           'ERR_ACTION_ACCESS_UNDEFINED: Are you trying to access ' +
             'this.someMutation() or this.someGetter inside an @Action? \n' +
             'That works only in dynamic modules. \n' +
