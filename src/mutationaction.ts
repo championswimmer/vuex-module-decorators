@@ -1,7 +1,7 @@
 import { Action as Act, ActionContext, Module as Mod, Mutation as Mut, Payload, Store } from 'vuex'
 
 export interface MutationActionParams {
-  mutate: string[],
+  mutate: string[]
   throwOriginalErrorForAction?: boolean
 }
 export function MutationAction<T>(params: MutationActionParams) {

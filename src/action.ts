@@ -5,7 +5,7 @@ import { getModule, VuexModule } from './vuexmodule'
  * Parameters that can be passed to the @Action decorator
  */
 export interface ActionDecoratorParams {
-  commit?: string,
+  commit?: string
   throwOriginalError?: boolean
 }
 function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecorator {
@@ -36,17 +36,19 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
           context.commit(commit, actionPayload)
         }
       } catch (e) {
-        throw throwOriginalError ? e : new Error(
-          'ERR_ACTION_ACCESS_UNDEFINED: Are you trying to access ' +
-            'this.someMutation() or this.someGetter inside an @Action? \n' +
-            'That works only in dynamic modules. \n' +
-            'If not dynamic use this.context.commit("mutationName", payload) ' +
-            'and this.context.getters["getterName"]' +
-            '\n' +
-            new Error(`Could not perform action ${key.toString()}`).stack +
-            '\n' +
-            e.stack
-        )
+        throw throwOriginalError
+          ? e
+          : new Error(
+              'ERR_ACTION_ACCESS_UNDEFINED: Are you trying to access ' +
+                'this.someMutation() or this.someGetter inside an @Action? \n' +
+                'That works only in dynamic modules. \n' +
+                'If not dynamic use this.context.commit("mutationName", payload) ' +
+                'and this.context.getters["getterName"]' +
+                '\n' +
+                new Error(`Could not perform action ${key.toString()}`).stack +
+                '\n' +
+                e.stack
+            )
       }
     }
     module.actions[key as string] = action
