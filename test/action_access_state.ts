@@ -34,6 +34,11 @@ class MyModule extends VuexModule {
       this.setBar(newstr)
     }
   }
+
+  @Action({ throwOriginalError: true })
+  async alwaysFail() {
+    throw Error('Foo Bar!')
+  }
 }
 
 const store = new Vuex.Store({
@@ -69,6 +74,13 @@ describe('@Action with non-dynamic module', () => {
       await store.dispatch('concatFooOrBarWithThis', 't1')
     } catch (e) {
       expect(e.message).to.contain('ERR_ACTION_ACCESS_UNDEFINED')
+    }
+  })
+  it('should save original error', async function() {
+    try {
+      await store.dispatch('alwaysFail')
+    } catch (e) {
+      expect(e.message).to.equal('Foo Bar!')
     }
   })
 })
