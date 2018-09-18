@@ -48,19 +48,14 @@ const store = new Vuex.Store({
 })
 
 describe('@Action with non-dynamic module', () => {
-  it('should concat foo & bar (promise)', function(done) {
-    store
-      .dispatch('concatFooOrBar', 't1')
-      .then(() => {
-        expect(store.state.mm.fieldBar).to.equal('bart1')
-      })
-      .then(() => {
-        store.dispatch('concatFooOrBar', 't1').then(() => {
-          expect(store.state.mm.fieldFoo).to.equal('foot1')
-        })
-        done()
-      })
-      .catch(done)
+  it('should concat foo & bar (promise)', async function() {
+    const { state: { mm } } = store
+    try {
+      await store.dispatch('concatFooOrBar', 't1')
+      expect(mm.fieldBar).to.equal('bart1')
+      await store.dispatch('concatFooOrBar', 't1')
+      expect(mm.fieldFoo).to.equal('foot1')
+    } catch (err) {}
   })
 
   it('should concat foo & bar (await)', async function() {

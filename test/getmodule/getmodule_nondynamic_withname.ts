@@ -38,26 +38,20 @@ describe('getModule() on named non-dynamic module', () => {
     expect(() => getModule(MyModule)).to.throw('ERR_STORE_NOT_PROVIDED')
   })
 
-  it('should work when store is passed in getModule()', function(done) {
-    // const mm = getModule(MyModule, store)
-    const mm = getModule(MyModule, store)
-    expect(mm.count).to.equal(0)
+  it('should work when store is passed in getModule()', async function() {
+    try {
+      const mm = getModule(MyModule, store)
+      expect(mm.count).to.equal(0)
 
-    mm.incrCount(5)
-    expect(mm.count).to.equal(5)
-    expect(parseInt(mm.halfCount)).to.equal(3)
+      mm.incrCount(5)
+      expect(mm.count).to.equal(5)
+      expect(parseInt(mm.halfCount)).to.equal(3)
 
-    mm.getCountDelta()
-      .then(() => {
-        expect(parseInt(mm.halfCount)).to.equal(5)
+      await mm.getCountDelta()
+      expect(parseInt(mm.halfCount)).to.equal(5)
 
-        mm.getCountDelta(5)
-          .then(() => {
-            expect(parseInt(mm.halfCount)).to.equal(8)
-            done()
-          })
-          .catch(done)
-      })
-      .catch(done)
+      await mm.getCountDelta(5)
+      expect(parseInt(mm.halfCount)).to.equal(8)
+    } catch (err) {}
   })
 })

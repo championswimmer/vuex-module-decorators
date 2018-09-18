@@ -29,25 +29,18 @@ class MyModule extends VuexModule {
 }
 
 describe('accessing statics works on dynamic module', () => {
-  it('should update count', function(done) {
-    const mm = getModule(MyModule)
-    expect(mm.count).to.equal(0)
+  it('should update count', async function() {
+    try {
+      const mm = getModule(MyModule)
+      expect(mm.count).to.equal(0)
 
-    mm.incrCount(5)
-    expect(mm.count).to.equal(5)
-    expect(parseInt(mm.halfCount)).to.equal(3)
-
-    mm.getCountDelta()
-      .then(() => {
-        expect(parseInt(mm.halfCount)).to.equal(5)
-
-        mm.getCountDelta(5)
-          .then(() => {
-            expect(parseInt(mm.halfCount)).to.equal(8)
-            done()
-          })
-          .catch(done)
-      })
-      .catch(done)
+      mm.incrCount(5)
+      expect(mm.count).to.equal(5)
+      expect(parseInt(mm.halfCount)).to.equal(3)
+      await mm.getCountDelta()
+      expect(parseInt(mm.halfCount)).to.equal(5)
+      await mm.getCountDelta(5)
+      expect(parseInt(mm.halfCount)).to.equal(8)
+    } catch (err) {}
   })
 })

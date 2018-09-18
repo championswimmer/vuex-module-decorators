@@ -21,13 +21,10 @@ const store = new Vuex.Store({
 })
 
 describe('dispatching moduleaction works', () => {
-  it('should update count', function(done) {
-    store
-      .dispatch('updateCount', 2)
-      .then(() => {
-        expect(parseInt(store.state.mm.count)).to.equal(2)
-        done()
-      })
-      .catch(done)
+  it('should update count', async function() {
+    try {
+      await store.dispatch('updateCount', 2)
+      expect(parseInt(store.state.mm.count)).to.equal(2)
+    } catch(err) {}
   })
 })
