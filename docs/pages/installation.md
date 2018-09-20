@@ -1,5 +1,7 @@
 # Installation
 
+<sponsor-cb-sidebar/>
+
 ```bash
 npm install vuex-module-decorators
 # or

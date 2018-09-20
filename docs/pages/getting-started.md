@@ -1,5 +1,7 @@
 # Getting Started
 
+<sponsor-cb-sidebar/>
+
 [[toc]]
 
 ## Define a module
@@ -9,13 +11,12 @@ and **must be** decorated with `Module` decorator
 
 ```typescript
 // eg. /app/store/mymodule.ts
-import {Module, VuexModule} from 'vuex-module-decorators'
+import { Module, VuexModule } from 'vuex-module-decorators'
 
 @Module
 export default class MyModule extends VuexModule {
-    someField: string = 'somedata'
+  someField: string = 'somedata'
 }
-
 ```
 
 :::warning CAREFUL  
@@ -36,9 +37,9 @@ import Vuex from 'vuex'
 import MyModule from '~/store/mymodule'
 
 const store = new Vuex.Store({
-    modules: {
-        myMod: MyModule
-    }
+  modules: {
+    myMod: MyModule
+  }
 })
 ```
 
@@ -58,7 +59,7 @@ All the usual ways of accessing the module works -
 
    ```typescript {3}
    import store from '~/store'
-   
+
    store.state.myMod.someField
    ```
 
@@ -72,16 +73,15 @@ In addition to that, for a much more typesafe access, we can use `getModule()`
 
 3. Use `getModule()` to create type-safe accessor
 
-    ```typescript {8}
-    import {Module, VuexModule, getModule} from 'vuex-module-decorators'
-    import store from '@/store'
-    
-    @Module({dynamic: true, store, name: 'mymod'})
-    class MyModule extends VuexModule {
-      someField: number = 10
-    }
-    const myMod = getModule(MyModule)
-    myMod.someField //works
-    myMod.someOtherField //Typescript will error, as field doesn't exist
-    ```
+   ```typescript {8}
+   import { Module, VuexModule, getModule } from 'vuex-module-decorators'
+   import store from '@/store'
 
+   @Module({ dynamic: true, store, name: 'mymod' })
+   class MyModule extends VuexModule {
+     someField: number = 10
+   }
+   const myMod = getModule(MyModule)
+   myMod.someField //works
+   myMod.someOtherField //Typescript will error, as field doesn't exist
+   ```

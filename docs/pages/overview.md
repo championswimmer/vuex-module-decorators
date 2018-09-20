@@ -1,8 +1,10 @@
 # Overview
 
+<sponsor-cb-sidebar/>
+
 ## What it does ?
 
-With this library, you can write `vuex` modules in this format - 
+With this library, you can write `vuex` modules in this format -
 
 ```typescript
 // eg. /app/store/posts.ts
@@ -39,31 +41,34 @@ The resultant `/app/store/posts` file output would be
 ```javascript
 // equivalent eg. /app/store/posts.js
 module.exports = {
-    state: {
-        posts: []
-    },
-    getters: {
-        totalComments: state => {
-            return state.posts.filter((post) => {
-                return post.comments && post.comments.length
-            }).reduce((sum, post) => {
-                return sum + post.comments.length
-            }, 0)
-        }
-    },
-    mutations: {
-        updatePosts: (state, posts) => { // 'posts' is payload
-            state.posts = posts
-        }
-    },
-    actions: {
-        fetchPosts: async (context) => {
-            // the return of the function is passed as payload
-            const payload = await get('https://jsonplaceholder.typicode.com/posts')
-            // the value of 'commit' in decorator is the mutation used
-            context.commit('updatePosts', payload)
-        }
-    },
+  state: {
+    posts: []
+  },
+  getters: {
+    totalComments: (state) => {
+      return state.posts
+        .filter((post) => {
+          return post.comments && post.comments.length
+        })
+        .reduce((sum, post) => {
+          return sum + post.comments.length
+        }, 0)
+    }
+  },
+  mutations: {
+    updatePosts: (state, posts) => {
+      // 'posts' is payload
+      state.posts = posts
+    }
+  },
+  actions: {
+    fetchPosts: async (context) => {
+      // the return of the function is passed as payload
+      const payload = await get('https://jsonplaceholder.typicode.com/posts')
+      // the value of 'commit' in decorator is the mutation used
+      context.commit('updatePosts', payload)
+    }
+  }
 }
 ```
 
@@ -75,11 +80,12 @@ Instead of using the usual way to dispatch and commit ...
 store.commit('updatePosts', posts)
 await store.dispatch('fetchPosts')
 ```
+
 ... which provide no typesafety for the payload and no autocomplete help in IDEs,
 you can now use more type safe mechanism using the `getModule` accessor
 
 ```typescript
-import {getModule} from 'vuex-module-decorators'
+import { getModule } from 'vuex-module-decorators'
 import Posts from `~/store/posts.js`
 
 const postsModule = getModule(Posts.prototype)
@@ -95,5 +101,4 @@ postsModule.updatePosts(newPostsArray)
 
 // dispatch action
 await postsModule.fetchPosts()
-
 ```

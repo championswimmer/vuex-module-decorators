@@ -1,5 +1,5 @@
 ---
-home: true
+home: trueac
 actionText: "Get Started →"
 actionLink: "/pages/installation"
 features:
@@ -14,7 +14,10 @@ features:
       access action and mutation functions with type-safety and
       get autocomplete help"
 ---
+
 <content-center>
+
+<sponsor-cb/>
 
 [![Build Status](https://travis-ci.org/championswimmer/vuex-module-decorators.svg?branch=master)](https://travis-ci.org/championswimmer/vuex-module-decorators)
 [![npm:size:gzip](https://img.shields.io/bundlephobia/minzip/vuex-module-decorators.svg?label=npm:size:gzip)](https://bundlephobia.com/result?p=vuex-module-decorators)

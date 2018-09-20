@@ -26,7 +26,7 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
           moduleAccessor.context = context
           actionPayload = await actionFunction.call(moduleAccessor, payload)
         } else {
-          ;(context.state as any).context = context
+          (context.state as any).context = context
           actionPayload = await actionFunction.call(context.state, payload)
           delete (context.state as any).context
         }
