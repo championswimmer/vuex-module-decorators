@@ -13,9 +13,13 @@
   border-radius: 4px;
   display: inline-block;
   margin: 1em 0 !important;
-  position: fixed;
-  top: 60px;
-  right: 10px;
+}
+@media (min-width: 960px) {
+  .sponsor {
+    position: fixed;
+    top: 60px;
+    right: 10px;
+  }
 }
 .sponsor h5 {
   margin: 4px;
