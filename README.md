@@ -11,6 +11,7 @@ Typescript/ES7 Decorators to make Vuex modules a breeze
 [![npm](https://img.shields.io/npm/v/vuex-module-decorators.svg)](https://www.npmjs.com/package/vuex-module-decorators)
 [![npm](https://img.shields.io/npm/dw/vuex-module-decorators.svg?colorB=ff0033)](https://www.npmjs.com/package/vuex-module-decorators)
 ![npm type definitions](https://img.shields.io/npm/types/vuex-module-decorators.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/5b1dfa8d3d4bdf409b60/maintainability)](https://codeclimate.com/github/championswimmer/vuex-module-decorators/maintainability)
 
 ## Installation
 
