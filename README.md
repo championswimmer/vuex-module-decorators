@@ -6,7 +6,7 @@ Typescript/ES7 Decorators to make Vuex modules a breeze
 
 [![Build Status](https://travis-ci.org/championswimmer/vuex-module-decorators.svg?branch=master)](https://travis-ci.org/championswimmer/vuex-module-decorators)
 [![npm:size:gzip](https://img.shields.io/bundlephobia/minzip/vuex-module-decorators.svg?label=npm:size:gzip)](https://bundlephobia.com/result?p=vuex-module-decorators)
-[![cdn:min:gzip](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/vuex-module-decorators/dist/cjs/index.min.js?label=cdn:min:gzip)](https://cdn.jsdelivr.net/npm/vuex-module-decorators/dist/cjs/index.min.js)
+[![cdn:min:gzip](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/vuex-module-decorators.svg?label=cdn:min:gzip&compression=gzip)](https://cdn.jsdelivr.net/npm/vuex-module-decorators/dist/cjs/index.min.js)
 [![codecov](https://codecov.io/gh/championswimmer/vuex-module-decorators/branch/master/graph/badge.svg)](https://codecov.io/gh/championswimmer/vuex-module-decorators)
 [![npm](https://img.shields.io/npm/v/vuex-module-decorators.svg)](https://www.npmjs.com/package/vuex-module-decorators)
 [![npm](https://img.shields.io/npm/dw/vuex-module-decorators.svg?colorB=ff0033)](https://www.npmjs.com/package/vuex-module-decorators)
