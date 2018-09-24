@@ -48,7 +48,7 @@ const store = new Vuex.Store({
 })
 
 describe('@Action with non-dynamic module', () => {
-  it('should concat foo & bar (promise)', async function() {
+  it('should concat foo & bar', async function() {
     const {
       state: { mm }
     } = store
@@ -56,13 +56,6 @@ describe('@Action with non-dynamic module', () => {
     expect(mm.fieldBar).to.equal('bart1')
     await store.dispatch('concatFooOrBar', 't1')
     expect(mm.fieldFoo).to.equal('foot1')
-  })
-
-  it('should concat foo & bar (await)', async function() {
-    await store.dispatch('concatFooOrBar', 't1')
-    expect(store.state.mm.fieldBar).to.equal('bart1t1')
-    await store.dispatch('concatFooOrBar', 't1')
-    expect(store.state.mm.fieldFoo).to.equal('foot1t1')
   })
   it('should error if this.mutation() is used in non-dynamic', async function() {
     try {
