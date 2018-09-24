@@ -39,19 +39,17 @@ describe('getModule() on named non-dynamic module', () => {
   })
 
   it('should work when store is passed in getModule()', async function() {
-    try {
-      const mm = getModule(MyModule, store)
-      expect(mm.count).to.equal(0)
+    const mm = getModule(MyModule, store)
+    expect(mm.count).to.equal(0)
 
-      mm.incrCount(5)
-      expect(mm.count).to.equal(5)
-      expect(parseInt(mm.halfCount)).to.equal(3)
+    mm.incrCount(5)
+    expect(mm.count).to.equal(5)
+    expect(parseInt(mm.halfCount)).to.equal(3)
 
-      await mm.getCountDelta()
-      expect(parseInt(mm.halfCount)).to.equal(5)
+    await mm.getCountDelta()
+    expect(parseInt(mm.halfCount)).to.equal(5)
 
-      await mm.getCountDelta(5)
-      expect(parseInt(mm.halfCount)).to.equal(8)
-    } catch (err) {}
+    await mm.getCountDelta(5)
+    expect(parseInt(mm.halfCount)).to.equal(8)
   })
 })
