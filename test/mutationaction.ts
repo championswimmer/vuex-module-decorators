@@ -1,8 +1,9 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
-Vue.use(Vuex)
 import { Module, MutationAction, VuexModule } from '..'
 import { expect } from 'chai'
+
+Vue.use(Vuex)
 
 @Module
 class MyModule extends VuexModule {
@@ -11,6 +12,11 @@ class MyModule extends VuexModule {
   @MutationAction({ mutate: ['count'] })
   async updateCount(newcount: number) {
     return { count: newcount }
+  }
+
+  @MutationAction({ mutate: ['definitelyNotCount'], throwOriginalErrorForAction: true })
+  async updateCountButNoSuchPayload(newcount: number) {
+    return { definitelyNotCount: newcount }
   }
 
   @MutationAction({ mutate: ['count'], throwOriginalErrorForAction: true })
@@ -38,9 +44,15 @@ describe('dispatching moduleaction works', () => {
     expect(parseInt(store.state.mm.count, 10)).to.equal(8)
 
     try {
+      await store.dispatch('updateCountButNoSuchPayload', '1337')
+    } catch (e) {
+      expect(e.message).to.contain('ERR_MUTATE_PARAMS_NOT_IN_PAYLOAD')
+    }
+
+    try {
       await store.dispatch('updateCountOnlyOnEven', 7)
     } catch (e) {
-      expect(e.message).to.equal('The number provided is not an even number')
+      expect(e.message).to.contain('not an even number')
     }
   })
 })
