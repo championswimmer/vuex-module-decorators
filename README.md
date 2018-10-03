@@ -31,6 +31,13 @@ npm install -D vuex-module-decorators
 1. set `experimentalDecorators` to true
 2. For reduced code with decorators, set `emitHelpers: true` and `importHelpers: true`
 
+## Examples
+Read the rest of the README to figure out how to use, or if you readily want to jump into a production codebase and see how this is used, you can check out - 
+
+ - https://github.com/Armour/vue-typescript-admin-template 
+ - https://github.com/xieguangcai/vue-order-admin
+ 
+
 ## Usage
 
 #### The <strike>conventional</strike> old & boring way
