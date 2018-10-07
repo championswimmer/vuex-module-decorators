@@ -34,6 +34,11 @@ class MyModule extends VuexModule {
       this.setBar(newstr)
     }
   }
+
+  @Action({ throwOriginalError: true })
+  async alwaysFail() {
+    throw Error('Foo Bar!')
+  }
 }
 
 const store = new Vuex.Store({
@@ -43,32 +48,27 @@ const store = new Vuex.Store({
 })
 
 describe('@Action with non-dynamic module', () => {
-  it('should concat foo & bar (promise)', function(done) {
-    store
-      .dispatch('concatFooOrBar', 't1')
-      .then(() => {
-        expect(store.state.mm.fieldBar).to.equal('bart1')
-      })
-      .then(() => {
-        store.dispatch('concatFooOrBar', 't1').then(() => {
-          expect(store.state.mm.fieldFoo).to.equal('foot1')
-        })
-        done()
-      })
-      .catch(done)
-  })
-
-  it('should concat foo & bar (await)', async function() {
+  it('should concat foo & bar', async function() {
+    const {
+      state: { mm }
+    } = store
     await store.dispatch('concatFooOrBar', 't1')
-    expect(store.state.mm.fieldBar).to.equal('bart1t1')
+    expect(mm.fieldBar).to.equal('bart1')
     await store.dispatch('concatFooOrBar', 't1')
-    expect(store.state.mm.fieldFoo).to.equal('foot1t1')
+    expect(mm.fieldFoo).to.equal('foot1')
   })
   it('should error if this.mutation() is used in non-dynamic', async function() {
     try {
       await store.dispatch('concatFooOrBarWithThis', 't1')
     } catch (e) {
       expect(e.message).to.contain('ERR_ACTION_ACCESS_UNDEFINED')
+    }
+  })
+  it('should save original error', async function() {
+    try {
+      await store.dispatch('alwaysFail')
+    } catch (e) {
+      expect(e.message).to.equal('Foo Bar!')
     }
   })
 })

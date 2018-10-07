@@ -5,6 +5,13 @@ installed as `npm install vuex-module-decorators@beta` (or alpha similar).
 ## 1.0.0
 
 ### 0.8.0
+##### 0.8.0-3 (beta)
+  - in `@Action` and `@MutationAction` functions -
+    - Now introduces `throwOriginalError` and `throwOriginalErrorForAction` decorator option respectively
+      - By default they are set to false to keep the old behavior
+  - in`@Action` functions -
+    - `commit` decorator option can now be optional
+
 ##### 0.8.0-2 (beta)
  - in `@Action` functions -
     - `this.stateField` works pointing to fields in the module's state

@@ -33,27 +33,11 @@ class MyModule extends VuexModule {
 
 
 describe('@Action with dynamic module', () => {
-  it('should concat foo & bar (promise)', function(done) {
-    const mm = getModule(MyModule)
-    store
-      .dispatch('concatFooOrBar', 't1')
-      .then(() => {
-        expect(mm.fieldBar).to.equal('bart1')
-      })
-      .then(() => {
-        store.dispatch('concatFooOrBar', 't1').then(() => {
-          expect(mm.fieldFoo).to.equal('foot1')
-        })
-        done()
-      })
-      .catch(done)
-  })
-
-  it('should concat foo & bar (await)', async function() {
+  it('should concat foo & bar', async function() {
     const mm = getModule(MyModule)
     await store.dispatch('concatFooOrBar', 't1')
-    expect(mm.fieldBar).to.equal('bart1t1')
+    expect(mm.fieldBar).to.equal('bart1')
     await store.dispatch('concatFooOrBar', 't1')
-    expect(mm.fieldFoo).to.equal('foot1t1')
+    expect(mm.fieldFoo).to.equal('foot1')
   })
 })
