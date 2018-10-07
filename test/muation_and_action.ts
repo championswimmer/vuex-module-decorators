@@ -31,17 +31,12 @@ const store = new Vuex.Store({
 })
 
 describe('dispatching action which mutates works', () => {
-  it('should update count (async)', function(done) {
-    store
-      .dispatch('getCountDelta')
-      .then(() => {
-        expect(parseInt(store.state.mm.count)).to.equal(5)
-        done()
-      })
-      .catch(done)
+  it('should update count', async function() {
+    await store.dispatch('getCountDelta')
+    expect(parseInt(store.state.mm.count)).to.equal(5)
   })
   it('should update count (sync)', async function() {
-    await store.dispatch('fetchCountDelta')
+    store.dispatch('fetchCountDelta')
     expect(parseInt(store.state.mm.count)).to.equal(10)
   })
 })

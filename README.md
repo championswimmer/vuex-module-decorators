@@ -6,11 +6,16 @@ Typescript/ES7 Decorators to make Vuex modules a breeze
 
 [![Build Status](https://travis-ci.org/championswimmer/vuex-module-decorators.svg?branch=master)](https://travis-ci.org/championswimmer/vuex-module-decorators)
 [![npm:size:gzip](https://img.shields.io/bundlephobia/minzip/vuex-module-decorators.svg?label=npm:size:gzip)](https://bundlephobia.com/result?p=vuex-module-decorators)
-[![cdn:min:gzip](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/vuex-module-decorators/dist/cjs/index.min.js?label=cdn:min:gzip)](https://cdn.jsdelivr.net/npm/vuex-module-decorators/dist/cjs/index.min.js)
+[![cdn:min:gzip](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/vuex-module-decorators.svg?label=cdn:min:gzip&compression=gzip)](https://cdn.jsdelivr.net/npm/vuex-module-decorators/dist/cjs/index.min.js)
 [![codecov](https://codecov.io/gh/championswimmer/vuex-module-decorators/branch/master/graph/badge.svg)](https://codecov.io/gh/championswimmer/vuex-module-decorators)
 [![npm](https://img.shields.io/npm/v/vuex-module-decorators.svg)](https://www.npmjs.com/package/vuex-module-decorators)
 [![npm](https://img.shields.io/npm/dw/vuex-module-decorators.svg?colorB=ff0033)](https://www.npmjs.com/package/vuex-module-decorators)
 ![npm type definitions](https://img.shields.io/npm/types/vuex-module-decorators.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/5b1dfa8d3d4bdf409b60/maintainability)](https://codeclimate.com/github/championswimmer/vuex-module-decorators/maintainability)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b7944c579d5c4c1d949f71a91a538d77)](https://www.codacy.com/app/championswimmer/vuex-module-decorators?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=championswimmer/vuex-module-decorators&amp;utm_campaign=Badge_Grade)
+[![codebeat badge](https://codebeat.co/badges/0272746c-8a7d-428b-a20d-387d22bfbcfb)](https://codebeat.co/projects/github-com-championswimmer-vuex-module-decorators-master)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/championswimmer/vuex-module-decorators.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/championswimmer/vuex-module-decorators/alerts/)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/championswimmer/vuex-module-decorators.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/championswimmer/vuex-module-decorators/context:javascript)
 
 ## Installation
 
@@ -25,6 +30,13 @@ npm install -D vuex-module-decorators
 
 1. set `experimentalDecorators` to true
 2. For reduced code with decorators, set `emitHelpers: true` and `importHelpers: true`
+
+## Examples
+Read the rest of the README to figure out how to use, or if you readily want to jump into a production codebase and see how this is used, you can check out - 
+
+ - https://github.com/Armour/vue-typescript-admin-template 
+ - https://github.com/xieguangcai/vue-order-admin
+ 
 
 ## Usage
 

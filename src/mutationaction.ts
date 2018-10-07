@@ -2,6 +2,7 @@ import { Action as Act, ActionContext, Module as Mod, Mutation as Mut, Payload, 
 
 export interface MutationActionParams {
   mutate: string[]
+  throwOriginalErrorForAction?: boolean
 }
 export function MutationAction<T>(params: MutationActionParams) {
   return function(
@@ -26,8 +27,12 @@ export function MutationAction<T>(params: MutationActionParams) {
         const actionPayload = await mutactFunction.call(context, payload)
         context.commit(key as string, actionPayload)
       } catch (e) {
-        console.error('Could not perform action ' + key.toString())
-        console.error(e)
+        if (params.throwOriginalErrorForAction) {
+          throw e
+        } else {
+          console.error('Could not perform action ' + key.toString())
+          console.error(e)
+        }
       }
     }
 
