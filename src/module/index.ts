@@ -26,9 +26,22 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
         module.prototype,
         funcName
       ) as PropertyDescriptor
+      /**
+       * Creating getters
+       *  > Attach a temporary context to it while doing it
+       */
       if (descriptor.get && module.getters) {
-        module.getters[funcName] = (moduleState: S) =>
-          (descriptor.get as Function).call(moduleState)
+        module.getters[funcName] = function(
+          state: S,
+          getters: GetterTree<S, any>,
+          rootState: any,
+          rootGetters: GetterTree<any, any>
+        ) {
+          ;(state as any).context = { getters, rootState, rootGetters }
+          const got = (descriptor.get as Function).call(state)
+          delete (state as any).context
+          return got
+        }
       }
     })
     const modOpt = moduleOptions as DynamicModuleOptions

@@ -14,21 +14,23 @@ class MyModule extends VuexModule {
   }
 
   get axles() {
-    return this.wheels / 2
+    return (this.wheels / 2) * this.context.rootState.cars
   }
 }
 
 const store = new Vuex.Store({
-  state: {},
+  state: {
+    cars: 10
+  },
   modules: {
     mm: MyModule
   }
 })
 
-describe('fetching via getters works', () => {
-  it('should increase axles', function() {
+describe('fetching rootState via getters works', () => {
+  it('should increase axles * cars', function() {
     store.commit('incrWheels', 4)
     const axles = store.getters.axles
-    expect(axles).to.equal(3)
+    expect(axles).to.equal(30)
   })
 })

@@ -5,6 +5,10 @@ installed as `npm install vuex-module-decorators@beta` (or alpha similar).
 ## 1.0.0
 
 ### 0.8.0
+##### 0.8.0-4 (beta)
+  - inside getters we can access `rootState` and `rootGetters`
+    - Use `this.context.rootState` and `this.context.rootGetters`
+
 ##### 0.8.0-3 (beta)
   - in `@Action` and `@MutationAction` functions -
     - Now introduces `rawError` decorator option
