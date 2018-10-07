@@ -17,6 +17,10 @@ Typescript/ES7 Decorators to make Vuex modules a breeze
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/championswimmer/vuex-module-decorators.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/championswimmer/vuex-module-decorators/alerts/)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/championswimmer/vuex-module-decorators.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/championswimmer/vuex-module-decorators/context:javascript)
 
+## CHANGELOG
+There are major usage improvements (non backwards compatible) in 0.8.0
+Please check [CHANGELOG](CHANGELOG.md)
+
 ## Installation
 
 ```
