@@ -6,10 +6,10 @@ import { getModule, VuexModule } from './vuexmodule'
  */
 export interface ActionDecoratorParams {
   commit?: string
-  throwOriginalError?: boolean
+  rawError?: boolean
 }
 function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecorator {
-  const { commit = undefined, throwOriginalError = false } = params || {}
+  const { commit = undefined, rawError = false } = params || {}
   return function(target: T, key: string | symbol, descriptor: TypedPropertyDescriptor<any>) {
     const module = target.constructor as Mod<T, any>
     if (!module.actions) {
@@ -23,6 +23,11 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
       try {
         let actionPayload = null
 
+        /**
+         * Inside the @Action functions `this` points to `state` / `moduleAccessor`
+         * So temporarily attach `context` into `state` (or `moduleAccessor`)
+         * that allows us to access this.context
+         */
         if ((module as any)._genStatic) {
           const moduleAccessor = getModule(module as typeof VuexModule)
           moduleAccessor.context = context
@@ -36,7 +41,7 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
           context.commit(commit, actionPayload)
         }
       } catch (e) {
-        throw throwOriginalError
+        throw rawError
           ? e
           : new Error(
               'ERR_ACTION_ACCESS_UNDEFINED: Are you trying to access ' +

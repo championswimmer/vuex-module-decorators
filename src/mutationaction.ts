@@ -2,7 +2,7 @@ import { Action as Act, ActionContext, Module as Mod, Mutation as Mut, Payload, 
 
 export interface MutationActionParams {
   mutate: string[]
-  throwOriginalErrorForAction?: boolean
+  rawError?: boolean
 }
 export function MutationAction<T>(params: MutationActionParams) {
   return function(
@@ -27,7 +27,7 @@ export function MutationAction<T>(params: MutationActionParams) {
         const actionPayload = await mutactFunction.call(context, payload)
         context.commit(key as string, actionPayload)
       } catch (e) {
-        if (params.throwOriginalErrorForAction) {
+        if (params.rawError) {
           throw e
         } else {
           console.error('Could not perform action ' + key.toString())

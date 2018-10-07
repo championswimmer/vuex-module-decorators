@@ -35,7 +35,7 @@ class MyModule extends VuexModule {
     }
   }
 
-  @Action({ throwOriginalError: true })
+  @Action({ rawError: true })
   async alwaysFail() {
     throw Error('Foo Bar!')
   }

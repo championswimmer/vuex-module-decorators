@@ -14,12 +14,12 @@ class MyModule extends VuexModule {
     return { count: newcount }
   }
 
-  @MutationAction({ mutate: ['definitelyNotCount'], throwOriginalErrorForAction: true })
+  @MutationAction({ mutate: ['definitelyNotCount'], rawError: true })
   async updateCountButNoSuchPayload(newcount: number) {
     return { definitelyNotCount: newcount }
   }
 
-  @MutationAction({ mutate: ['count'], throwOriginalErrorForAction: true })
+  @MutationAction({ mutate: ['count'], rawError: true })
   async updateCountOnlyOnEven(newcount: number) {
     if (newcount % 2 !== 0) {
       throw new Error('The number provided is not an even number')

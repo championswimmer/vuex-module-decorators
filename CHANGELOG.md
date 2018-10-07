@@ -7,8 +7,10 @@ installed as `npm install vuex-module-decorators@beta` (or alpha similar).
 ### 0.8.0
 ##### 0.8.0-3 (beta)
   - in `@Action` and `@MutationAction` functions -
-    - Now introduces `throwOriginalError` and `throwOriginalErrorForAction` decorator option respectively
+    - Now introduces `rawError` decorator option
       - By default they are set to false to keep the old behavior
+      - Old behaviour - it is wrapped in a helper message
+      - If set to true, errors inside actions will be thrown as it is
   - in`@Action` functions -
     - `commit` decorator option can now be optional
 
