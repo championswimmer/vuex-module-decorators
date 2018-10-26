@@ -35,12 +35,28 @@ npm install -D vuex-module-decorators
 1. set `experimentalDecorators` to true
 2. For reduced code with decorators, set `emitHelpers: true` and `importHelpers: true`
 
-## Examples
-Read the rest of the README to figure out how to use, or if you readily want to jump into a production codebase and see how this is used, you can check out - 
 
- - https://github.com/Armour/vue-typescript-admin-template 
+## Configuration
+
+### Using with `target: es5`
+This package generates code in `es2015` format. If your Vue project targets ES6 or ES2015 then
+you need not do anything. But in case your project uses `es5` target (to support old browsers), then
+you need to tell Vue CLI / Babel to transpile this package.
+
+```js
+// in your vue.config.js
+module.exports = {
+  /* ... other settings */
+  transpileDependencies: ['vuex-module-decorators']
+}
+```
+
+## Examples
+Read the rest of the README to figure out how to use, or if you readily want to jump into a production codebase and see how this is used, you can check out -
+
+ - https://github.com/Armour/vue-typescript-admin-template
  - https://github.com/xieguangcai/vue-order-admin
- 
+
 
 ## Usage
 
@@ -76,7 +92,7 @@ const store = new Vuex.Store({
 Well not anymore. Now you get better syntax. Inspired by `vue-class-component`
 
 ```typescript
-import {Module, VuexModule, Mutation, Action} from 'vuex-module-decorators' 
+import {Module, VuexModule, Mutation, Action} from 'vuex-module-decorators'
 
 @Module
 export default class Counter2 extends VuexModule {
@@ -98,7 +114,7 @@ Want to see something even better ?
 
 ```typescript
 import {Module, VuexModule, MutationAction} from 'vuex-module-decorators'
-import {ConferencesEntity, EventsEntity} from '@/models/definitions' 
+import {ConferencesEntity, EventsEntity} from '@/models/definitions'
 
 @Module
 export default class HGAPIModule extends VuexModule {
