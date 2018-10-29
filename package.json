@@ -62,7 +62,8 @@
     "typescript": "^3.0.3",
     "vue": "^2.5.17",
     "vuepress": "^0.14.2",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "vuex-persist": "^2.0.0"
   },
   "dependencies": {}
 }
