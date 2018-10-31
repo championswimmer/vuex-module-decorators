@@ -8,7 +8,7 @@ import { expect } from 'chai'
 class MyModule extends VuexModule {
   @Action
   public value() {
-    return 'Test2'
+    return 'Test1'
   }
 
   @Action
@@ -26,7 +26,7 @@ const store = new Vuex.Store({
 describe('actions return inner promises', () => {
   it('should return resolved value', async function() {
     const value = await store.dispatch('value')
-    expect(value).to.equal('Test2')
+    expect(value).to.equal('Test1')
   })
 
   it('should return resolved promise', async function() {
