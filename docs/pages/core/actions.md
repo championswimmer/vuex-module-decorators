@@ -23,7 +23,7 @@ export default class Vehicle extends VuexModule {
   @Action
   async fetchNewWheels(wheelStore: string) {
     const wheels = await get(wheelStore)
-    this.commit('addWheel', wheels)
+    this.context.commit('addWheel', wheels)
   }
 }
 ```
