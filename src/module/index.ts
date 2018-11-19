@@ -37,9 +37,8 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
           rootState: any,
           rootGetters: GetterTree<any, any>
         ) {
-          ;(state as any).context = { getters, rootState, rootGetters }
-          const got = (descriptor.get as Function).call(state)
-          delete (state as any).context
+          const thisObj = { context: { getters, rootState, rootGetters }, ...(state as any) }
+          const got = (descriptor.get as Function).call(thisObj)
           return got
         }
       }
