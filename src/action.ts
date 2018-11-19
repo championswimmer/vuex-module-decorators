@@ -33,9 +33,8 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
           moduleAccessor.context = context
           actionPayload = await actionFunction.call(moduleAccessor, payload)
         } else {
-          ;(context.state as any).context = context
-          actionPayload = await actionFunction.call(context.state, payload)
-          delete (context.state as any).context
+          const thisObj = { context, ...(context.state as any) }
+          actionPayload = await actionFunction.call(thisObj, payload)
         }
         if (commit) {
           context.commit(commit, actionPayload)
