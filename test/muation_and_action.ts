@@ -27,11 +27,6 @@ class MyModule extends VuexModule {
   async incrCountAction(payload) {
     const context = this.context
     await this.context.dispatch('getCountDelta')
-
-    // Notice that the action we just called just deleted this action's this.context.
-    // Because `this` is actually the vuex state and `context` was added on to `state` by
-    // the action and then we called another action which then added the context and then deleted it
-    // and now at this point this.context no longer exists
     expect(this.context).to.equal(context)
   }
 }

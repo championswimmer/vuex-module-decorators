@@ -18,9 +18,6 @@ class MyModule extends VuexModule {
     const context = this.context
     this.context.commit('incrWheels', payload)
     const axles = this.context.getters.axles
-    // Notice that the getter just changed the action's this.context and then
-    // deleted it. Because this is actually state and context was added on to state by
-    // the action and then we did a get which then changed the context and then deleted it
     expect(this.context).to.equal(context)
   }
 
