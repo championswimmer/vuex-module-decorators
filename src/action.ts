@@ -31,6 +31,7 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
         } else {
           const thisObj = { context }
           addPropertiesToObject(thisObj, context.state)
+          addPropertiesToObject(thisObj, context.getters)
           actionPayload = await actionFunction.call(thisObj, payload)
         }
         if (commit) {
