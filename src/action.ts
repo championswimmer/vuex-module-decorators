@@ -37,6 +37,7 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
         if (commit) {
           context.commit(commit, actionPayload)
         }
+        return actionPayload
       } catch (e) {
         throw rawError
           ? e
