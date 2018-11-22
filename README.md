@@ -12,20 +12,22 @@ Typescript/ES7 Decorators to make Vuex modules a breeze
 [![npm](https://img.shields.io/npm/dw/vuex-module-decorators.svg?colorB=ff0033)](https://www.npmjs.com/package/vuex-module-decorators)
 ![npm type definitions](https://img.shields.io/npm/types/vuex-module-decorators.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/5b1dfa8d3d4bdf409b60/maintainability)](https://codeclimate.com/github/championswimmer/vuex-module-decorators/maintainability)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b7944c579d5c4c1d949f71a91a538d77)](https://www.codacy.com/app/championswimmer/vuex-module-decorators?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=championswimmer/vuex-module-decorators&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b7944c579d5c4c1d949f71a91a538d77)](https://www.codacy.com/app/championswimmer/vuex-module-decorators?utm_source=github.com&utm_medium=referral&utm_content=championswimmer/vuex-module-decorators&utm_campaign=Badge_Grade)
 [![codebeat badge](https://codebeat.co/badges/0272746c-8a7d-428b-a20d-387d22bfbcfb)](https://codebeat.co/projects/github-com-championswimmer-vuex-module-decorators-master)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/championswimmer/vuex-module-decorators.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/championswimmer/vuex-module-decorators/alerts/)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/championswimmer/vuex-module-decorators.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/championswimmer/vuex-module-decorators/context:javascript)
 
 ## CHANGELOG
+
 There are major usage improvements (non backwards compatible) in 0.8.0
 Please check [CHANGELOG](CHANGELOG.md)
 
 ## Installation
 
-```
+```shell
 npm install -D vuex-module-decorators
 ```
+
 ### Babel 6/7
 
 1. You need to install `babel-plugin-transform-decorators`
@@ -35,10 +37,10 @@ npm install -D vuex-module-decorators
 1. set `experimentalDecorators` to true
 2. For reduced code with decorators, set `emitHelpers: true` and `importHelpers: true`
 
-
 ## Configuration
 
 ### Using with `target: es5`
+
 This package generates code in `es2015` format. If your Vue project targets ES6 or ES2015 then
 you need not do anything. But in case your project uses `es5` target (to support old browsers), then
 you need to tell Vue CLI / Babel to transpile this package.
@@ -52,11 +54,11 @@ module.exports = {
 ```
 
 ## Examples
+
 Read the rest of the README to figure out how to use, or if you readily want to jump into a production codebase and see how this is used, you can check out -
 
- - https://github.com/Armour/vue-typescript-admin-template
- - https://github.com/xieguangcai/vue-order-admin
-
+- <https://github.com/Armour/vue-typescript-admin-template>
+- <https://github.com/xieguangcai/vue-order-admin>
 
 ## Usage
 
@@ -86,25 +88,36 @@ const store = new Vuex.Store({
 })
 ```
 
-
 #### Hello Decorators !
 
 Well not anymore. Now you get better syntax. Inspired by `vue-class-component`
 
 ```typescript
-import {Module, VuexModule, Mutation, Action} from 'vuex-module-decorators'
+import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 
 @Module
 export default class Counter2 extends VuexModule {
   count = 0
 
-  @Mutation increment(delta: number) {this.count+=delta}
-  @Mutation decrement(delta: number) {this.count-=delta}
+  @Mutation
+  increment(delta: number) {
+    this.count += delta
+  }
+  @Mutation
+  decrement(delta: number) {
+    this.count -= delta
+  }
 
   // action 'incr' commits mutation 'increment' when done with return value as payload
-  @Action({commit: 'increment'}) incr() {return 5}
+  @Action({ commit: 'increment' })
+  incr() {
+    return 5
+  }
   // action 'decr' commits mutation 'decrement' when done with return value as payload
-  @Action({commit: 'decrement'}) decr() {return 5}
+  @Action({ commit: 'decrement' })
+  decr() {
+    return 5
+  }
 }
 ```
 
@@ -113,8 +126,8 @@ export default class Counter2 extends VuexModule {
 Want to see something even better ?
 
 ```typescript
-import {Module, VuexModule, MutationAction} from 'vuex-module-decorators'
-import {ConferencesEntity, EventsEntity} from '@/models/definitions'
+import { Module, VuexModule, MutationAction } from 'vuex-module-decorators'
+import { ConferencesEntity, EventsEntity } from '@/models/definitions'
 
 @Module
 export default class HGAPIModule extends VuexModule {
@@ -123,8 +136,8 @@ export default class HGAPIModule extends VuexModule {
 
   // 'events' and 'conferences' are replaced by returned object
   // whose shape must be `{events: {...}, conferences: {...} }`
-  @MutationAction({mutate: ['events', 'conferences']})
-  async fetchAll () {
+  @MutationAction({ mutate: ['events', 'conferences'] })
+  async fetchAll() {
     const response: Response = await getJSON('https://hasgeek.github.io/events/api/events.json')
     return response
   }
@@ -132,6 +145,7 @@ export default class HGAPIModule extends VuexModule {
 ```
 
 #### Automatic getter detection
+
 ```typescript
 @Module
 class MyModule extends VuexModule {
@@ -143,9 +157,8 @@ class MyModule extends VuexModule {
   }
 
   get axles() {
-    return (this.wheels / 2)
+    return this.wheels / 2
   }
-
 }
 ```
 
@@ -153,7 +166,7 @@ this is turned into the equivalent
 
 ```javascript
 const module = {
-  state: {wheels: 2},
+  state: { wheels: 2 },
   mutations: {
     incrWheels(state, extra) {
       state.wheels += extra
@@ -165,19 +178,18 @@ const module = {
 }
 ```
 
-
 ### Putting into the store
 
 Use the modules just like you would earlier
 
 ```typescript
-import Vue from 'nativescript-vue';
-import Vuex, {Module} from 'vuex'
+import Vue from 'nativescript-vue'
+import Vuex, { Module } from 'vuex'
 
-import counter from './modules/Counter2';
+import counter from './modules/Counter2'
 import hgapi from './modules/HGAPIModule'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {},
@@ -185,7 +197,7 @@ const store = new Vuex.Store({
     counter,
     hgapi
   }
-});
+})
 ```
 
 ### Module re-use, use with NuxtJS
@@ -205,9 +217,8 @@ class MyModule extends VuexModule {
   }
 
   get axles() {
-    return (this.wheels / 2)
+    return this.wheels / 2
   }
-
 }
 ```
 
@@ -216,7 +227,7 @@ this is turned into the equivalent
 ```javascript
 const module = {
   state() {
-    return {wheels: 2};
+    return { wheels: 2 }
   },
 
   mutations: {
@@ -240,13 +251,12 @@ interface StoreType {
   mm: MyModule
 }
 // Declare empty store first
-const store = new Vuex.Store<StoreType>({
-})
+const store = new Vuex.Store<StoreType>({})
 
 // Create module later in your code (it will register itself automatically)
 // In the decorator we pass the store object into which module is injected
 // NOTE: When you set dynamic true, make sure you give module a name
-@Module({dynamic: true, store: store, name: 'mm'})
+@Module({ dynamic: true, store: store, name: 'mm' })
 class MyModule extends VuexModule {
   count = 0
 
@@ -254,7 +264,5 @@ class MyModule extends VuexModule {
   incrCount(delta) {
     this.count += delta
   }
-
 }
-
 ```
