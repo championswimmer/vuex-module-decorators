@@ -12,7 +12,8 @@
         "trailingComma": "none",
         "printWidth": 100
       }
-    ]
+    ],
+    "radix": false
   },
   "rulesDirectory": ["tslint-plugin-prettier"]
 }

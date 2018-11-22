@@ -1,13 +1,13 @@
 /**
- * Takes the properties on object from paramerter y and adds them to the object
- * parameter x
- * @param {object} x  Object to have properties copied onto from y
- * @param {object} y  Object with properties to be copied to x
+ * Takes the properties on object from parameter source and adds them to the object
+ * parameter target
+ * @param {object} target  Object to have properties copied onto from y
+ * @param {object} source  Object with properties to be copied to x
  */
-export function addPropertiesToObject(x: any, y: any) {
-  for (let k of Object.keys(y || {})) {
-    Object.defineProperty(x, k, {
-      get: () => y[k]
+export function addPropertiesToObject(target: any, source: any) {
+  for (let k of Object.keys(source || {})) {
+    Object.defineProperty(target, k, {
+      get: () => source[k]
     })
   }
 }

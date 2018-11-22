@@ -37,10 +37,10 @@ export default {
 :::tip NOTE
 Once decorated with the `@Mutation` decorator _Mutations_ are run with **this** (context) set to the _state_
 So when you want to change things in the state,
-`state.item++` is simply `this.item++` or more simply `item++`
+`state.item++` is simply `this.item++`
 :::
 
 :::danger 🚨 WARNING
-Muation functions **MUST NOT** be _async_ functions.  
+Muation functions **MUST NOT** be _async_ functions.
 Also **do not** define them as arrow :arrow_right: functions, since we need to rebind them at runtime.
 :::

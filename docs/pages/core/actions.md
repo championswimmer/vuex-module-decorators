@@ -50,7 +50,7 @@ export default {
 }
 ```
 
-:::tip NOTE  
+:::tip NOTE
 Once decorated with `@Action` the function will be called with `this`
 having the following shape - `{...[all fields of state], context}`
 The action payload comes as an argument.
@@ -62,6 +62,8 @@ simply call **`this.context.commit('mutationName', mutPayload)`**
 If you are doing a long running task inside your action, it is recommended
 to define it as an **async** function. But even if you do not, this library
 will wrap your function into a **Promise** and _await_ it.
+
+If you want something to **actually** happen synchronously, make it a `Mutation` instead
 
 Also **do not** define them as arrow :arrow_right: functions, since we need to rebind them at runtime.
 :::

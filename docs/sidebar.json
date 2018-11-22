@@ -11,5 +11,13 @@
             "/pages/core/mutations",
             "/pages/core/actions"
         ]
+    },
+    {
+        "title": "Advanced Usage",
+        "collapsable": false,
+        "children": [
+            "/pages/advanced/namespaced",
+            "/pages/advanced/dynamic"
+        ]
     }
 ]

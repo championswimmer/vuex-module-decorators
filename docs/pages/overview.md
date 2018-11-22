@@ -88,7 +88,7 @@ you can now use more type safe mechanism using the `getModule` accessor
 import { getModule } from 'vuex-module-decorators'
 import Posts from `~/store/posts.js`
 
-const postsModule = getModule(Posts.prototype)
+const postsModule = getModule(Posts)
 
 // access posts
 const posts = postsModule.posts
