@@ -10,6 +10,14 @@ class MyModule extends VuexModule {
   fieldBar = 'bar'
 
   @Mutation
+  resetFoo(data: string) {
+    this.fieldFoo = 'foo'
+  }
+  @Mutation
+  resetBar(data: string) {
+    this.fieldBar = 'bar'
+  }
+  @Mutation
   setFoo(data: string) {
     this.fieldFoo += data
   }
@@ -33,6 +41,12 @@ class MyModule extends VuexModule {
     } else {
       this.setBar(newstr)
     }
+  }
+  @Action({ rawError: true })
+  async testStateInAction(payload) {
+    this.context.commit('setFoo', payload)
+    expect((this.context.state as any).fieldFoo).to.equal('foo' + payload)
+    expect(this.fieldFoo).to.equal('foo' + payload)
   }
 
   @Action({ rawError: true })
@@ -70,5 +84,14 @@ describe('@Action with non-dynamic module', () => {
     } catch (e) {
       expect(e.message).to.equal('Foo Bar!')
     }
+  })
+  it('should have access to the state even if the state changes', async function() {
+    const {
+      state: { mm }
+    } = store
+    store.commit('resetFoo')
+    expect(mm.fieldFoo).to.equal('foo')
+    await store.dispatch('testStateInAction', 'bar')
+    expect(mm.fieldFoo).to.equal('foobar')
   })
 })

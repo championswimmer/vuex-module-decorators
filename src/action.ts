@@ -1,5 +1,6 @@
 import { Action as Act, ActionContext, Module as Mod, Payload } from 'vuex'
 import { getModule, VuexModule } from './vuexmodule'
+import { addPropertiesToObject } from './helpers'
 
 /**
  * Parameters that can be passed to the @Action decorator
@@ -23,17 +24,13 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
       try {
         let actionPayload = null
 
-        /**
-         * Inside the @Action functions `this` points to `state` / `moduleAccessor`
-         * So temporarily attach `context` into `state` (or `moduleAccessor`)
-         * that allows us to access this.context
-         */
         if ((module as any)._genStatic) {
           const moduleAccessor = getModule(module as typeof VuexModule)
           moduleAccessor.context = context
           actionPayload = await actionFunction.call(moduleAccessor, payload)
         } else {
-          const thisObj = { context, ...(context.state as any) }
+          const thisObj = { context }
+          addPropertiesToObject(thisObj, context.state)
           actionPayload = await actionFunction.call(thisObj, payload)
         }
         if (commit) {
