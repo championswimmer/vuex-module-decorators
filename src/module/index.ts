@@ -1,6 +1,7 @@
 import { GetterTree, Module as Mod, Store } from 'vuex'
 import { DynamicModuleOptions, ModuleOptions } from '../moduleoptions'
 import { stateFactory as sf } from './stateFactory'
+import { addPropertiesToObject } from '../helpers'
 import {
   staticActionGenerators,
   staticGetterGenerator,
@@ -26,10 +27,6 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
         module.prototype,
         funcName
       ) as PropertyDescriptor
-      /**
-       * Creating getters
-       *  > Attach a temporary context to it while doing it
-       */
       if (descriptor.get && module.getters) {
         module.getters[funcName] = function(
           state: S,
@@ -37,7 +34,9 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
           rootState: any,
           rootGetters: GetterTree<any, any>
         ) {
-          const thisObj = { context: { getters, rootState, rootGetters }, ...(state as any) }
+          const thisObj = { context: { state, getters, rootState, rootGetters } }
+          addPropertiesToObject(thisObj, state)
+          addPropertiesToObject(thisObj, getters)
           const got = (descriptor.get as Function).call(thisObj)
           return got
         }

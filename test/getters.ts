@@ -19,10 +19,14 @@ class MyModule extends VuexModule {
     this.context.commit('incrWheels', payload)
     const axles = this.context.getters.axles
     expect(this.context).to.equal(context)
+    expect(this.axles).to.equal(axles)
   }
 
   get axles() {
     return this.wheels / 2
+  }
+  get axlesAndWheels() {
+    return { axles: this.axles, wheels: this.wheels }
   }
 }
 
@@ -43,5 +47,9 @@ describe('fetching via getters works', () => {
     store.commit('incrWheels', 2)
     const axles = store.getters.axles
     expect(axles).to.equal(3)
+  })
+  it(`should be able to access a getter within a getter with this['key']`, async () => {
+    const axlesAndWheels = store.getters.axlesAndWheels
+    expect(axlesAndWheels.axles).to.equal(3)
   })
 })
