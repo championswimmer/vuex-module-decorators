@@ -1,29 +1,38 @@
-import { Mutation, Store } from 'vuex'
+import { Mutation, Payload, Store } from 'vuex'
 
 export function MutablePlugin(store: Store<any>) {
-  for (let el in (store as any)._mutations) {
-    if (el.startsWith('auto:')) {
-      let comp = el.replace('auto:', '').split(':')
-      let module = comp[0]
-      let field = comp[1]
+  const storeModules = (store as any)._modules.root._children
+  console.log(storeModules)
+  for (let mod in storeModules) {
+    for (let field in storeModules[mod].state) {
+      if (field.startsWith('auto:')) {
+        let name = field.replace('auto:', '')
+        console.log(name)
 
-      if (store.state[module][field] !== undefined) {
-        store.state[module]['_' + field] = store.state[module][field]
-        let descriptor = Object.getOwnPropertyDescriptor(store.state[module], field)
+        let mutationSig = 'auto:' + mod + ':' + name
+        const mutation = [
+          function(payload: Payload) {
+            store.state[mod]['_' + name] = payload
+          }
+        ]
+        ;(store as any)._mutations[mutationSig] = mutation
+        let descriptor = Object.getOwnPropertyDescriptor(store.state[mod], field)
         if (descriptor) {
+          store.state[mod]['_' + name] = store.state[mod][field]
           let rSet = descriptor.set
           let rGet = descriptor.get
 
           descriptor.set = (val) => {
-            store.commit(el, val)
+            console.log('set')
+            store.commit(mutationSig, val)
             if (rSet) rSet(val)
           }
           descriptor.get = () => {
             if (rGet) rGet()
-            return store.state[module]['_' + field]
+            return store.state[mod]['_' + name]
           }
-          delete store.state[module][field]
-          Object.defineProperty(store.state[module], field, descriptor)
+          delete store.state[mod][field]
+          Object.defineProperty(store.state[mod], name, descriptor)
         }
       }
     }
