@@ -41,7 +41,7 @@ export function MutationAction<T>(params: MutationActionParams) {
       payload: Payload & { [k: string]: any }
     ) {
       for (let stateItem of params.mutate) {
-        if (state[stateItem] != null && payload[stateItem] != null) {
+        if (state.hasOwnProperty(stateItem) && payload.hasOwnProperty(stateItem)) {
           state[stateItem] = payload[stateItem]
         } else {
           throw new Error(`ERR_MUTATE_PARAMS_NOT_IN_PAYLOAD
