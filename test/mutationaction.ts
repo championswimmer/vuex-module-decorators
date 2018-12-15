@@ -8,16 +8,18 @@ Vue.use(Vuex)
 @Module
 class MyModule extends VuexModule {
   count = 0
+  fruit = 'Apple'
 
   @MutationAction({ mutate: ['count'] })
   async updateCount(newcount: number) {
     return { count: newcount }
   }
 
-  @MutationAction({ mutate: ['definitelyNotCount'], rawError: true })
-  async updateCountButNoSuchPayload(newcount: number) {
-    return { definitelyNotCount: newcount }
-  }
+  // Newer more type-safe 'mutate' param removes need for this test
+  // @MutationAction({ mutate: ['definitelyNotCount'], rawError: true })
+  // async updateCountButNoSuchPayload(newcount: number) {
+  //   return { definitelyNotCount: newcount }
+  // }
 
   @MutationAction({ mutate: ['count'], rawError: true })
   async updateCountOnlyOnEven(newcount: number) {
@@ -43,11 +45,11 @@ describe('dispatching moduleaction works', () => {
     await store.dispatch('updateCountOnlyOnEven', 8)
     expect(parseInt(store.state.mm.count, 10)).to.equal(8)
 
-    try {
-      await store.dispatch('updateCountButNoSuchPayload', '1337')
-    } catch (e) {
-      expect(e.message).to.contain('ERR_MUTATE_PARAMS_NOT_IN_PAYLOAD')
-    }
+    // try {
+    //   await store.dispatch('updateCountButNoSuchPayload', '1337')
+    // } catch (e) {
+    //   expect(e.message).to.contain('ERR_MUTATE_PARAMS_NOT_IN_PAYLOAD')
+    // }
 
     try {
       await store.dispatch('updateCountOnlyOnEven', 7)

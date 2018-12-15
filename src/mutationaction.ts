@@ -1,14 +1,14 @@
 import { Action as Act, ActionContext, Module as Mod, Mutation as Mut, Payload, Store } from 'vuex'
 
-export interface MutationActionParams {
-  mutate: string[]
+export interface MutationActionParams<M=any> {
+  mutate?: (keyof M)[]
   rawError?: boolean
 }
-export function MutationAction<T>(params: MutationActionParams) {
+export function MutationAction<T>(params: MutationActionParams<T>) {
   return function(
     target: T,
     key: string | symbol,
-    descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<any>>
+    descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<T>>>
   ) {
     const module = target.constructor as Mod<T, any>
     if (!module.mutations) {
@@ -38,8 +38,11 @@ export function MutationAction<T>(params: MutationActionParams) {
 
     const mutation: Mut<typeof target> = function(
       state: typeof target & Store<T>,
-      payload: Payload & { [k: string]: any }
+      payload: Payload & { [k in keyof T]: any }
     ) {
+      if (!params.mutate) {
+        params.mutate = Object.keys(payload) as (keyof T)[]
+      }
       for (let stateItem of params.mutate) {
         if (state.hasOwnProperty(stateItem) && payload.hasOwnProperty(stateItem)) {
           state[stateItem] = payload[stateItem]

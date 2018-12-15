@@ -66,7 +66,6 @@ export function Action<T, R>(
 export function Action<T>(params: ActionDecoratorParams): MethodDecorator
 
 /**
- * /**
  * The @Action decorator turns an async function into an Vuex action
  *
  * @param targetOrParams the module class
