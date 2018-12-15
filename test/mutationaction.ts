@@ -15,6 +15,12 @@ class MyModule extends VuexModule {
     return { count: newcount }
   }
 
+  @MutationAction
+  async changeFruit(fruitName: string) {
+    await new Promise(resolve => setTimeout(resolve, 500))
+    return {fruit: fruitName}
+  }
+
   // Newer more type-safe 'mutate' param removes need for this test
   // @MutationAction({ mutate: ['definitelyNotCount'], rawError: true })
   // async updateCountButNoSuchPayload(newcount: number) {
@@ -56,5 +62,10 @@ describe('dispatching moduleaction works', () => {
     } catch (e) {
       expect(e.message).to.contain('not an even number')
     }
+  })
+
+  it('should update fruitname', async function() {
+    await store.dispatch('changeFruit', 'Guava')
+    expect(store.state.mm.fruit).to.equal('Guava')
   })
 })
