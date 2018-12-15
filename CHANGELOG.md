@@ -5,6 +5,10 @@ installed as `npm install vuex-module-decorators@beta` (or alpha similar).
 
 ## 1.0.0
 
+#### 0.9.4
+
+ - initializing properties with `null` and then running `@MutationAction` is possible now
+
 #### 0.9.3
 
  - we will distribute in ES5 as a lot of people still use ES5 target for their websites
