@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "module": "es2015",
-    "target": "es2015",
+    "target": "es5",
     "moduleResolution": "node",
     "lib": [
       "dom", "es2015"
     ],
+    "importHelpers": true,
     "sourceMap": true,
     "declaration": true,
     "declarationDir": "dist/types",
