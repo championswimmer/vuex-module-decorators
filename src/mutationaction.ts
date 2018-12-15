@@ -1,6 +1,6 @@
 import { Action as Act, ActionContext, Module as Mod, Mutation as Mut, Payload, Store } from 'vuex'
 
-export interface MutationActionParams<M = any> {
+export interface MutationActionParams<M> {
   mutate?: (keyof M)[]
   rawError?: boolean
 }
