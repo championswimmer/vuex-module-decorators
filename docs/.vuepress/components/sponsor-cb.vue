@@ -1,9 +1,12 @@
 <template>
   <div class="sponsor">
     <a href="https://codingblocks.com?utm_source=VuexModuleDecorators&amp;utm_medium=vmd&amp;utm_campaign=vmd&amp;utm_term=vmd&amp;utm_content=championswimmer">
-      This project is sponsored by 
+      This project is sponsored by
+      <img
+        :src="$withBase('/cblogo_big.png')"
+        alt="Coding Blocks"
+      >
     </a>
-    <img :src="$withBase('/cblogo_big.png')" alt="Coding Blocks">
   </div>
 </template>
 <style scoped>
