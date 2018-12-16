@@ -11,7 +11,7 @@ export interface ActionDecoratorParams {
 }
 function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecorator {
   const { commit = undefined, rawError = false } = params || {}
-  return function(target: T, key: string | symbol, descriptor: TypedPropertyDescriptor<any>) {
+  return function(target: Object, key: string | symbol, descriptor: TypedPropertyDescriptor<any>) {
     const module = target.constructor as Mod<T, any>
     if (!module.actions) {
       module.actions = {}

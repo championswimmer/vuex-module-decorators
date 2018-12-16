@@ -7,8 +7,8 @@ Vue.use(Vuex)
 
 @Module
 class MyModule extends VuexModule {
-  count = 0
-  fruit = 'Apple'
+  count: number = 0
+  fruit: string = 'Apple'
 
   @MutationAction({ mutate: ['count'] })
   async updateCount(newcount: number) {

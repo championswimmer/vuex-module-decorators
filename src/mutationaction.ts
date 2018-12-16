@@ -18,7 +18,7 @@ function mutationActionDecoratorFactory<T>(params: MutationActionParams<T>) {
     if (!module.actions) {
       module.actions = {}
     }
-    const mutactFunction = descriptor.value as (() => Promise<any>)
+    const mutactFunction = descriptor.value as ((payload: any) => Promise<any>)
 
     const action: Act<typeof target, any> = async function (
       context: ActionContext<typeof target, any>,
@@ -38,7 +38,7 @@ function mutationActionDecoratorFactory<T>(params: MutationActionParams<T>) {
     }
 
     const mutation: Mut<typeof target> = function (
-      state: typeof target & Store<T>,
+      state: typeof target | Store<T>,
       payload: Payload & { [k in keyof T]: any }
     ) {
       if (!params.mutate) {
@@ -46,7 +46,7 @@ function mutationActionDecoratorFactory<T>(params: MutationActionParams<T>) {
       }
       for (let stateItem of params.mutate) {
         if (state.hasOwnProperty(stateItem) && payload.hasOwnProperty(stateItem)) {
-          state[ stateItem ] = payload[ stateItem ]
+          (state as T)[ stateItem ] = payload[ stateItem ]
         } else {
           throw new Error(`ERR_MUTATE_PARAMS_NOT_IN_PAYLOAD
           In @MutationAction, mutate: ['a', 'b', ...] array keys must
