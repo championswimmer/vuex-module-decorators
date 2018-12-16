@@ -9,6 +9,8 @@ Vue.use(Vuex)
 class MyModule extends VuexModule {
   count: number = 0
   fruit: string = 'Apple'
+  vegetable: string | null = null
+
 
   @MutationAction({ mutate: ['count'] })
   async updateCount(newcount: number) {
@@ -16,9 +18,14 @@ class MyModule extends VuexModule {
   }
 
   @MutationAction
+  async changeVeggie() {
+    return {vegetable: 'Carrot'}
+  }
+
+  @MutationAction
   async changeFruit(fruitName: string) {
     await new Promise(resolve => setTimeout(resolve, 500))
-    return {fruit: 'Guava'}
+    return {fruit: fruitName || 'Guava'}
   }
 
   // Newer more type-safe 'mutate' param removes need for this test

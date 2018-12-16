@@ -60,8 +60,8 @@ function mutationActionDecoratorFactory<T>(params: MutationActionParams<T>) {
   }
 }
 
-export function MutationAction<K> (
-  target: Required<K>,
+export function MutationAction<K, T extends K> (
+  target: {[k in keyof T]: T[k] | null},
   key: string | symbol,
   descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<K>>
 ): void
@@ -83,8 +83,8 @@ export function MutationAction<T> (
  * @param descriptor the function body
  * @constructor
  */
-export function MutationAction<T, K>(
-  paramsOrTarget: MutationActionParams<T> | K,
+export function MutationAction<T, K, M extends K>(
+  paramsOrTarget: MutationActionParams<T> | M,
   key?: string | symbol,
   descriptor?: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<K>>>
 ): ((
