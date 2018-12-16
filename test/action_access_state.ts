@@ -43,7 +43,7 @@ class MyModule extends VuexModule {
     }
   }
   @Action({ rawError: true })
-  async testStateInAction(payload) {
+  async testStateInAction(payload: string) {
     this.context.commit('setFoo', payload)
     expect((this.context.state as any).fieldFoo).to.equal('foo' + payload)
     expect(this.fieldFoo).to.equal('foo' + payload)

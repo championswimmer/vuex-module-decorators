@@ -1,7 +1,7 @@
 import { Action as Act, ActionContext, Module as Mod, Mutation as Mut, Payload, Store } from 'vuex'
 
 export interface MutationActionParams<M> {
-  mutate?: (keyof M)[]
+  mutate?: (keyof Partial<M>)[]
   rawError?: boolean
 }
 
@@ -61,9 +61,9 @@ function mutationActionDecoratorFactory<T>(params: MutationActionParams<T>) {
 }
 
 export function MutationAction<K> (
-  target: K,
+  target: Required<K>,
   key: string | symbol,
-  descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<K>>>
+  descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<K>>
 ): void
 
 export function MutationAction<T> (
@@ -71,7 +71,7 @@ export function MutationAction<T> (
 ): ((
   target: T,
   key: string | symbol,
-  descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<T>>>
+  descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<T>>
 ) => void)
 
 /**
@@ -86,7 +86,7 @@ export function MutationAction<T> (
 export function MutationAction<T, K>(
   paramsOrTarget: MutationActionParams<T> | K,
   key?: string | symbol,
-  descriptor?: TypedPropertyDescriptor<(...args: any[]) => Promise<any>>
+  descriptor?: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<K>>>
 ): ((
   target: T,
   key: string | symbol,

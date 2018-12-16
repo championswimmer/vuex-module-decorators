@@ -24,7 +24,7 @@ class MyModule extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async incrCountAction(payload) {
+  async incrCountAction(payload: number) {
     const context = this.context
     await this.context.dispatch('getCountDelta')
     expect(this.context).to.equal(context)

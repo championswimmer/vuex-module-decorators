@@ -18,7 +18,7 @@ class MyModule extends VuexModule {
   @MutationAction
   async changeFruit(fruitName: string) {
     await new Promise(resolve => setTimeout(resolve, 500))
-    return {fruit: fruitName}
+    return {fruit: 'Guava'}
   }
 
   // Newer more type-safe 'mutate' param removes need for this test
@@ -33,7 +33,7 @@ class MyModule extends VuexModule {
       throw new Error('The number provided is not an even number')
     }
 
-    return { count: newcount }
+    return {count: newcount}
   }
 }
 
