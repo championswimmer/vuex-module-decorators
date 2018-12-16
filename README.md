@@ -18,9 +18,20 @@ Typescript/ES7 Decorators to make Vuex modules a breeze
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/championswimmer/vuex-module-decorators.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/championswimmer/vuex-module-decorators/context:javascript)
 
 ## CHANGELOG
+ - There are major type-checking changes (could be breaking) in v0.9.7 
 
-There are major usage improvements (non backwards compatible) in 0.8.0
+ - There are major usage improvements (non backwards compatible) in 0.8.0
+
 Please check [CHANGELOG](CHANGELOG.md)
+
+
+## Examples
+
+Read the rest of the README to figure out how to use, or if you readily want to jump into a production codebase and see how this is used, you can check out -
+
+- <https://github.com/Armour/vue-typescript-admin-template>
+- <https://github.com/xieguangcai/vue-order-admin>
+- <https://github.com/coding-blocks-archives/realworld-vue-typescript>
 
 ## Installation
 
@@ -54,13 +65,6 @@ module.exports = {
   transpileDependencies: ['vuex-module-decorators']
 }
 ```
-
-## Examples
-
-Read the rest of the README to figure out how to use, or if you readily want to jump into a production codebase and see how this is used, you can check out -
-
-- <https://github.com/Armour/vue-typescript-admin-template>
-- <https://github.com/xieguangcai/vue-order-admin>
 
 ## Usage
 
