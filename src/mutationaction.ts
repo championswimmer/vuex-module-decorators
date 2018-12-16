@@ -6,7 +6,7 @@ export interface MutationActionParams<M> {
 }
 
 function mutationActionDecoratorFactory<T>(params: MutationActionParams<T>) {
-  return function (
+  return function(
     target: T,
     key: string | symbol,
     descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<T>>>
@@ -20,7 +20,7 @@ function mutationActionDecoratorFactory<T>(params: MutationActionParams<T>) {
     }
     const mutactFunction = descriptor.value as ((payload: any) => Promise<any>)
 
-    const action: Act<typeof target, any> = async function (
+    const action: Act<typeof target, any> = async function(
       context: ActionContext<typeof target, any>,
       payload: Payload
     ) {
@@ -37,7 +37,7 @@ function mutationActionDecoratorFactory<T>(params: MutationActionParams<T>) {
       }
     }
 
-    const mutation: Mut<typeof target> = function (
+    const mutation: Mut<typeof target> = function(
       state: typeof target | Store<T>,
       payload: Payload & { [k in keyof T]: any }
     ) {
@@ -46,7 +46,7 @@ function mutationActionDecoratorFactory<T>(params: MutationActionParams<T>) {
       }
       for (let stateItem of params.mutate) {
         if (state.hasOwnProperty(stateItem) && payload.hasOwnProperty(stateItem)) {
-          (state as T)[ stateItem ] = payload[ stateItem ]
+          ;(state as T)[stateItem] = payload[stateItem]
         } else {
           throw new Error(`ERR_MUTATE_PARAMS_NOT_IN_PAYLOAD
           In @MutationAction, mutate: ['a', 'b', ...] array keys must
@@ -55,18 +55,18 @@ function mutationActionDecoratorFactory<T>(params: MutationActionParams<T>) {
         }
       }
     }
-    module.actions[ key as string ] = action
-    module.mutations[ key as string ] = mutation
+    module.actions[key as string] = action
+    module.mutations[key as string] = mutation
   }
 }
 
-export function MutationAction<K, T extends K> (
-  target: {[k in keyof T]: T[k] | null},
+export function MutationAction<K, T extends K>(
+  target: { [k in keyof T]: T[k] | null },
   key: string | symbol,
   descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<K>>
 ): void
 
-export function MutationAction<T> (
+export function MutationAction<T>(
   params: MutationActionParams<T>
 ): ((
   target: T,
@@ -87,11 +87,13 @@ export function MutationAction<T, K, M extends K>(
   paramsOrTarget: MutationActionParams<T> | M,
   key?: string | symbol,
   descriptor?: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<K>>>
-): ((
-  target: T,
-  key: string | symbol,
-  descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<T>>>
-) => void) | void {
+):
+  | ((
+      target: T,
+      key: string | symbol,
+      descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<T>>>
+    ) => void)
+  | void {
   if (!key && !descriptor) {
     /*
      * This is the case when `paramsOrTarget` is params.
@@ -115,6 +117,10 @@ export function MutationAction<T, K, M extends K>(
         }
      * </pre>
      */
-    mutationActionDecoratorFactory({} as MutationActionParams<K>)(paramsOrTarget as K, key!, descriptor!)
+    mutationActionDecoratorFactory({} as MutationActionParams<K>)(
+      paramsOrTarget as K,
+      key!,
+      descriptor!
+    )
   }
 }
