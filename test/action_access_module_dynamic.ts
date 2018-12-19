@@ -7,7 +7,7 @@ import {getModule} from '../src/vuexmodule'
 
 const store = new Vuex.Store({})
 
-@Module({name: 'mm', dynamic: true, store})
+@Module({ dynamic: true, store, name: 'mm' })
 class MyModule extends VuexModule {
   fieldFoo = 'foo'
   fieldBar = 'bar'
