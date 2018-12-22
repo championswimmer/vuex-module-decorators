@@ -41,6 +41,8 @@ npm install -D vuex-module-decorators
 
 ### Babel 6/7
 
+> **NOTE** This is **not** necessary for `vue-cli@3` projects, since `@vue/babel-preset-app` already includes this plugin
+
 1. You need to install `babel-plugin-transform-decorators`
 
 ### Typescript
