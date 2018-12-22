@@ -5,7 +5,6 @@ import {
   ModuleTree,
   MutationTree,
   Store,
-  Commit,
   ActionContext
 } from 'vuex'
 
