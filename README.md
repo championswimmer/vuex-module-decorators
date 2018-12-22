@@ -43,10 +43,11 @@ npm install -D vuex-module-decorators
 
 1. You need to install `babel-plugin-transform-decorators`
 
-### Typescript
+### TypeScript
 
 1. set `experimentalDecorators` to true
-2. For reduced code with decorators, set `emitHelpers: true` and `importHelpers: true`
+2. For reduced code with decorators, set `importHelpers: true` in `tsconfig.json`
+3. *(only for TypeScript 2)* set `emitHelpers: true` in `tsconfig.json`
 
 ## Configuration
 
