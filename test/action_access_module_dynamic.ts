@@ -3,7 +3,7 @@ import Vue from 'vue'
 Vue.use(Vuex)
 import { Action, Module, Mutation, VuexModule } from '..'
 import { expect } from 'chai'
-import {getModule} from '../src/vuexmodule'
+import { getModule } from '../src/vuexmodule'
 
 const store = new Vuex.Store({})
 
@@ -30,7 +30,6 @@ class MyModule extends VuexModule {
     }
   }
 }
-
 
 describe('@Action with dynamic module', () => {
   it('should concat foo & bar', async function() {

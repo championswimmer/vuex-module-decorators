@@ -8,7 +8,7 @@ import {
   ActionContext
 } from 'vuex'
 
-export class VuexModule<S = ThisType<S>, R = any> implements Mod<S, R> {
+export class VuexModule<S = ThisType<any>, R = any> implements Mod<S, R> {
   /*
    * To use with `extends Class` syntax along with decorators
    */
@@ -51,7 +51,7 @@ export function getModule<M extends VuexModule>(
   }
   const genStatic: (providedStore?: Store<any>) => M = (moduleClass as any)._genStatic
   if (!genStatic) {
-    throw new Error(`ERR_GET_MODULE_NO_STATICS : Could not get module accessor. 
+    throw new Error(`ERR_GET_MODULE_NO_STATICS : Could not get module accessor.
       Make sure your module has name, we can't make accessors for unnamed modules
       i.e. @Module({ name: 'something' })`)
   }
