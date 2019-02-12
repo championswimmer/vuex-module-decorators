@@ -50,7 +50,7 @@ export function getModule<M extends VuexModule>(
   if ((moduleClass as any)._statics) {
     return (moduleClass as any)._statics
   }
-  const genStatic: ((providedStore?: Store<any>) => M) = (moduleClass as any)._genStatic
+  const genStatic: (providedStore?: Store<any>) => M = (moduleClass as any)._genStatic
   if (!genStatic) {
     throw new Error(`ERR_GET_MODULE_NO_STATICS : Could not get module accessor. 
       Make sure your module has name, we can't make accessors for unnamed modules

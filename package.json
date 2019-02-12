@@ -48,12 +48,12 @@
     "@types/mocha": "^5.2.5",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
-    "prettier": "^1.15.3",
-    "rimraf": "^2.6.2",
-    "rollup": "^0.67.4",
-    "rollup-plugin-typescript2": "^0.18.1",
-    "rollup-plugin-uglify": "^6.0.0",
+    "nyc": "^13.2.0",
+    "prettier": "^1.16.4",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.1.2",
+    "rollup-plugin-typescript2": "^0.19.2",
+    "rollup-plugin-uglify": "^6.0.2",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.17.0",
@@ -64,5 +64,10 @@
     "vuepress": "^0.14.8",
     "vuex": "^3.0.1"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "engines": {
+    "node": ">= 8",
+    "npm": ">= 5",
+    "yarn": ">= 1"
+  }
 }

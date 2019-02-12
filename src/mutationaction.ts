@@ -68,11 +68,11 @@ export function MutationAction<K, T extends K>(
 
 export function MutationAction<T>(
   params: MutationActionParams<T>
-): ((
+): (
   target: T,
   key: string | symbol,
   descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<T>>
-) => void)
+) => void
 
 /**
  * The @MutationAction decorator turns this into an action that further calls a mutation
