@@ -1,6 +1,7 @@
 # vuex-module-decorators
 
-[![Usage Guide](https://img.shields.io/badge/usage-guide-1e90ff.svg?style=for-the-badge&longCache=true)](https://championswimmer.in/vuex-module-decorators/)
+[![Usage Guide](https://img.shields.io/badge/usage-guide-1e90ff.svg?style=for-the-badge&longCache=true)](https://championswimmer.in/vuex-module-decorators/)    
+Detailed Guide: https://championswimmer.in/vuex-module-decorators/ 
 
 Typescript/ES7 Decorators to make Vuex modules a breeze
 
@@ -41,12 +42,15 @@ npm install -D vuex-module-decorators
 
 ### Babel 6/7
 
+> **NOTE** This is **not** necessary for `vue-cli@3` projects, since `@vue/babel-preset-app` already includes this plugin
+
 1. You need to install `babel-plugin-transform-decorators`
 
-### Typescript
+### TypeScript
 
 1. set `experimentalDecorators` to true
-2. For reduced code with decorators, set `emitHelpers: true` and `importHelpers: true`
+2. For reduced code with decorators, set `importHelpers: true` in `tsconfig.json`
+3. *(only for TypeScript 2)* set `emitHelpers: true` in `tsconfig.json`
 
 ## Configuration
 

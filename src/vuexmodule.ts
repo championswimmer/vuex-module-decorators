@@ -5,7 +5,6 @@ import {
   ModuleTree,
   MutationTree,
   Store,
-  Commit,
   ActionContext
 } from 'vuex'
 
@@ -54,7 +53,7 @@ export function getModule<M extends VuexModule>(
   if (!genStatic) {
     throw new Error(`ERR_GET_MODULE_NO_STATICS : Could not get module accessor. 
       Make sure your module has name, we can't make accessors for unnamed modules
-      i.e. @Module({ 'something' })`)
+      i.e. @Module({ name: 'something' })`)
   }
   return ((moduleClass as any)._statics = genStatic(store))
 }

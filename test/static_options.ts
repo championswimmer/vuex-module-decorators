@@ -4,9 +4,17 @@ Vue.use(Vuex)
 import { Action, Module, Mutation, MutationAction, VuexModule } from '..'
 import { expect } from 'chai'
 
-@Module({ namespaced: true })
+interface MyModule {
+  count: number
+}
+
+@Module
 class MyModule extends VuexModule {
-  count = 0
+  static namespaced = true
+
+  static state () {
+    return { count: 0 }
+  }
 
   @Mutation
   incrCount(delta: number) {
@@ -20,7 +28,7 @@ const store = new Vuex.Store({
   }
 })
 
-describe('committing mutation works', () => {
+describe('static module properties work', () => {
   it('should update count', function() {
     store.commit('mm/incrCount', 5)
     expect(parseInt(store.state.mm.count)).to.equal(5)
