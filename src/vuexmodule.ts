@@ -47,7 +47,9 @@ export function getModule<M extends VuexModule>(
   store?: Store<any>
 ): M {
   if ((moduleClass as any)._statics) {
-    return (moduleClass as any)._statics
+    const _statics = (moduleClass as any)._statics
+    _statics.store = store || _statics.store
+    return _statics
   }
   const genStatic: (providedStore?: Store<any>) => M = (moduleClass as any)._genStatic
   if (!genStatic) {

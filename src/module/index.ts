@@ -47,8 +47,9 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
     if (modOpt.name) {
       Object.defineProperty(constructor, '_genStatic', {
         value: (store?: Store<any>) => {
-          let statics = {}
+          let statics = {} as any
           modOpt.store = modOpt.store || store
+          statics.store = modOpt.store
           if (!modOpt.store) {
             throw new Error(`ERR_STORE_NOT_PROVIDED: To use getModule(), either the module
             should be decorated with store in decorator, i.e. @Module({store: store}) or
