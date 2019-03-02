@@ -59,7 +59,7 @@ npm install -D vuex-module-decorators
 > **NOTE** Since version `0.9.3` we distribute as ES5, so this section is applicable only to v0.9.2 and below
 
 This package generates code in `es2015` format. If your Vue project targets ES6 or ES2015 then
-you need not do anything. But in case your project uses `es5` target (to support old browsers), then
+you don't need to do anything. But in case your project uses `es5` target (to support old browsers), then
 you need to tell Vue CLI / Babel to transpile this package.
 
 ```js
