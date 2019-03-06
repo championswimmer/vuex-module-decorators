@@ -13,7 +13,7 @@ import { Module, VuexModule } from 'vuex-module-decorators'
 export default class Vehicle extends VuexModule {
   wheels = 2
   get axles() {
-    return wheels / 2
+    return this.wheels / 2
   }
 }
 ```
