@@ -29,7 +29,7 @@ let store = new Vuex.Store<StoreType>({
   plugins: [vuexLocal.plugin]
 })
 
-@Module({ dynamic: true, namespaced: true, store: store, name: 'mm', loadInitialState: true })
+@Module({ dynamic: true, namespaced: true, store: store, name: 'mm', preserveState: true })
 class MyModule extends VuexModule {
   count = 0
 
