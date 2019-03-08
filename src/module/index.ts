@@ -77,13 +77,24 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
     }
 
     if (modOpt.dynamic) {
+      const stateClone = { ...modOpt.store.state }
       if (!modOpt.name) {
         throw new Error('Name of module not provided in decorator options')
       }
+
       modOpt.store.registerModule(
         modOpt.name, // TODO: Handle nested modules too in future
         module
       )
+
+      // When loadInitialState is enabled it will check if there already is a state for the current
+      // name and replace that with the current state
+      if (modOpt.loadInitialState && stateClone[modOpt.name] !== undefined) {
+        modOpt.store.replaceState({
+          ...modOpt.store.state,
+          [modOpt.name]: stateClone[modOpt.name]
+        })
+      }
     }
     return constructor
   }

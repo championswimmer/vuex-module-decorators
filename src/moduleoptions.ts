@@ -34,9 +34,16 @@ export interface DynamicModuleOptions {
   name: string
 
   /**
+   * If this is enabled it will try to load the state when loading the module dynamically.
+   * e.g when loading the state with vuex-persist
+   */
+  loadInitialState?: true
+
+  /**
    * whether or not the module is namespaced
    */
   namespaced?: boolean
+
   /**
    * Whether to generate a plain state object, or a state factory for the module
    */

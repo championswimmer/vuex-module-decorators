@@ -276,3 +276,38 @@ class MyModule extends VuexModule {
   }
 }
 ```
+
+### Dynamic Modules with vuex-persist
+
+When you are using vuex-persist it will load the state from the storage of choice,
+but when the modules get dynamically created it will override the loaded state from vuex-persist.
+
+But don't worry! If you provide a `loadInitialState: true` to the `@Module()` it will try to load the state if it already exists.
+
+```typescript
+interface StoreType {
+  mm: MyModule
+}
+
+let vuexLocal = new VuexPersistence({
+  storage: localStorage
+})
+
+// Declare store with Vuex Persitance
+let store = new Vuex.Store<StoreType>({
+  plugins: [vuexLocal.plugin]
+})
+
+// Create module later in your code (it will register itself automatically)
+// In the decorator we pass the store object into which module is injected
+// NOTE: When you set dynamic true, make sure you give module a name
+@Module({ dynamic: true, store: store, name: 'mm', loadInitialState: true })
+class MyModule extends VuexModule {
+  count = 0
+
+  @Mutation
+  incrCount(delta) {
+    this.count += delta
+  }
+}
+```
