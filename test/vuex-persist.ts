@@ -58,7 +58,6 @@ describe('state restored by vuex-persist', () => {
     expect(mm.count).to.equal(35)
 
     const msm = getModule(MySecondModule)
-    console.log(msm.count)
     msm.incrCount(5)
     expect(msm.count).to.equal(5)
     msm.incrCount(10)
