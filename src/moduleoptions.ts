@@ -36,7 +36,7 @@ export interface DynamicModuleOptions {
   /**
    * If this is enabled it will preserve the state when loading the module
    */
-  preserveState?: true
+  preserveState?: boolean
 
   /**
    * whether or not the module is namespaced
