@@ -8,7 +8,7 @@ With this library, you can write `vuex` modules in this format -
 
 ```typescript
 // eg. /app/store/posts.ts
-import {VuexModule, Module} from 'vuex-module-decorators'
+import {VuexModule, Module, Mutation, Action} from 'vuex-module-decorators'
 import {get} from 'axios'
 
 @Module
