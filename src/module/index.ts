@@ -80,9 +80,32 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
       if (!modOpt.name) {
         throw new Error('Name of module not provided in decorator options')
       }
+
+      if (modOpt.preserveState) {
+        const moduleState = modOpt.stateFactory ? (module as any).state() : module.state
+        if (typeof modOpt.store.state[modOpt.name] === 'undefined') {
+          modOpt.store.state[modOpt.name] = moduleState
+        } else {
+          const currentState = modOpt.store.state[modOpt.name]
+          const currentVariables = Object.getOwnPropertyNames(currentState)
+          const moduleVariables = Object.getOwnPropertyNames(moduleState)
+          const missingVariables = moduleVariables.filter((key) => {
+            // If not undefined or function means it is a state value
+            if (['undefined', 'function'].indexOf(typeof moduleState[key]) === -1) {
+              return currentVariables.indexOf(key) < 0
+            }
+            return false
+          })
+          missingVariables.forEach((item) => (currentState[item] = moduleState[item]))
+        }
+      }
+
       modOpt.store.registerModule(
         modOpt.name, // TODO: Handle nested modules too in future
-        module
+        module,
+        {
+          preserveState: modOpt.preserveState
+        }
       )
     }
     return constructor
