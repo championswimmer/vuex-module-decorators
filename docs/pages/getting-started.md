@@ -30,7 +30,7 @@ decorator. Make sure you import correct Module decorator from from
 
 ## Use in store
 
-In you store, you use the `MyModule` class itself as a module.
+In your store, you use the `MyModule` class itself as a module.
 
 ```typescript
 import Vuex from 'vuex'

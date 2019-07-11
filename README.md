@@ -302,3 +302,43 @@ class MyModule extends VuexModule {
 
 ...
 ```
+### Accessing modules with NuxtJS
+
+There are many possible ways to construct your modules. Here is one way for drop-in use with NuxtJS (you simply need to add your modules to `~/utils/store-accessor.ts` and then just import the modules from `~/store`):
+
+`~/store/index.ts`:
+```
+import { Store } from 'vuex'
+import { initialiseStores } from '~/utils/store-accessor'
+const initializer = (store: Store<any>) => initialiseStores(store)
+export const plugins = [initializer]
+export * from '~/utils/store-accessor'
+```
+
+`~/utils/store-accessor.ts`:
+```
+import { Store } from 'vuex'
+import { getModule } from 'vuex-module-decorators'
+import example from '~/store/example'
+
+let exampleStore: example
+
+function initialiseStores(store: Store<any>): void {
+  exampleStore = getModule(example, store)
+}
+
+export {
+  initialiseStores,
+  exampleStore,
+}
+```
+
+Now you can access stores in a type-safe way by doing the following from a component or page - no extra initialization required.
+
+```
+import { exampleStore } from '~/store'
+...
+someMethod() {
+  return exampleStore.exampleGetter
+}
+```
