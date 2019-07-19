@@ -8,8 +8,8 @@ With this library, you can write `vuex` modules in this format -
 
 ```typescript
 // eg. /app/store/posts.ts
-import {VuexModule, Module} from 'vuex-module-decorators'
-import {get} from 'axios'
+import { VuexModule, Module } from 'vuex-module-decorators'
+import { get } from 'axios'
 
 @Module
 export default class Posts extends VuexModule {
@@ -31,7 +31,7 @@ export default class Posts extends VuexModule {
 
     @Action({commit: 'updatePosts'})
     async function fetchPosts() {
-        return await get('https://jsonplaceholder.typicode.com/posts')
+        return get('https://jsonplaceholder.typicode.com/posts')
     }
 }
 ```
