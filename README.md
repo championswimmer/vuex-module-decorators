@@ -317,3 +317,57 @@ someMethod() {
   return exampleStore.exampleGetter
 }
 ```
+
+### Using the decorators with ServerSideRender
+
+When SSR is involved the store is recreated on each request. Every time the module is accessed
+using `getModule` function the current store instance must be provided and the module must
+be manually registered to the root store modules
+
+#### Example
+
+```typescript
+// store/modules/MyStoreModule.ts
+import { Module, VuexModule, Mutation } from 'vuex-module-decorators'
+
+@Module({
+  name: 'MyStoreModule',
+  namespaced: true,
+  stateFactory: true,
+})
+export default class MyStoreModule extends VuexModule {
+  public test: string = 'initial'
+
+  @Mutation
+  public setTest(val: string) {
+    this.test = val
+  }
+}
+
+
+// store/index.ts
+import Vuex from 'vuex'
+import MyStoreModule from '~/store/modules/MyStoreModule'
+
+export function createStore() {
+  return new Vuex.Store({
+    modules: {
+      MyStoreModule,
+    },
+  }
+}
+
+// components/Random.tsx
+import { Component, Vue } from 'vue-property-decorator';
+import { getModule } from 'vuex-module-decorators';
+import MyStoreModule from '~/store/modules/MyStoreModule'
+
+@Component
+export default class extends Vue {
+    public created() {
+        const MyModuleInstance = getModule(MyStoreModule, this.$store);
+        // Do stuff with module
+        MyModuleInstance.setTest('random')
+    }
+}
+```
