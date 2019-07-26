@@ -47,13 +47,7 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
     if (modOpt.name) {
       Object.defineProperty(constructor, '_genStatic', {
         value: (store?: Store<any>) => {
-          let statics = {}
-          modOpt.store = modOpt.store || store
-          if (!modOpt.store) {
-            throw new Error(`ERR_STORE_NOT_PROVIDED: To use getModule(), either the module
-            should be decorated with store in decorator, i.e. @Module({store: store}) or
-            store should be passed when calling getModule(), i.e. getModule(MyModule, this.$store)`)
-          }
+          let statics = { store: store || modOpt.store }
           // ===========  For statics ==============
           // ------ state -------
           staticStateGenerator(module, modOpt, statics)
@@ -73,6 +67,10 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
           }
           return statics
         }
+      })
+
+      Object.defineProperty(constructor, '_vmdModuleName', {
+        value: modOpt.name
       })
     }
 
