@@ -80,6 +80,11 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
       if (!modOpt.name) {
         throw new Error('Name of module not provided in decorator options')
       }
+
+      if (!modOpt.store) {
+        throw new Error('Store not provided in decorator options when using dynamic option')
+      }
+
       modOpt.store.registerModule(
         modOpt.name, // TODO: Handle nested modules too in future
         module
