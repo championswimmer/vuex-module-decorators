@@ -6,7 +6,7 @@ export interface StaticModuleOptions {
   /**
    * name of module, if being namespaced
    */
-  name?: string
+  name?: string | string[]
   /**
    * whether or not the module is namespaced
    */
@@ -31,7 +31,7 @@ export interface DynamicModuleOptions {
   /**
    * name of module, compulsory for dynamic modules
    */
-  name: string
+  name: string | string[]
 
   /**
    * whether or not the module is namespaced
