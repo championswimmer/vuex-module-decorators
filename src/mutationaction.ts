@@ -3,6 +3,7 @@ import { Action as Act, ActionContext, Module as Mod, Mutation as Mut, Payload, 
 export interface MutationActionParams<M> {
   mutate?: (keyof Partial<M>)[]
   rawError?: boolean
+  root?: boolean
 }
 
 function mutationActionDecoratorFactory<T>(params: MutationActionParams<T>) {
@@ -55,7 +56,7 @@ function mutationActionDecoratorFactory<T>(params: MutationActionParams<T>) {
         }
       }
     }
-    module.actions[key as string] = action
+    module.actions[key as string] = params.root ? { root: true, handler: action } : action
     module.mutations[key as string] = mutation
   }
 }
