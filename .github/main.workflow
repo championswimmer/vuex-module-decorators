@@ -15,7 +15,7 @@ action "Test" {
 }
 
 action "Publish" {
-  needs = "Tag"
+  needs = "Test"
   uses = "actions/npm@master"
   args = "publish --access public"
   secrets = ["NPM_AUTH_TOKEN"]
