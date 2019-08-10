@@ -1,4 +1,4 @@
-workflow "Build, Test, and Publish" {
+workflow "Build, Test (and Publish on Tag)" {
   on = "release"
   resolves = ["Publish"]
 }
