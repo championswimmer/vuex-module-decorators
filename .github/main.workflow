@@ -1,7 +1,7 @@
 workflow "Build, Test (and Publish on Tag)" {
   resolves = [
     "Publish",
-    "JamesIves/github-pages-deploy-action@master",
+    "Github Pages",
   ]
   on = "push"
 }
@@ -25,13 +25,15 @@ action "Tag" {
 }
 
 action "Publish" {
-  needs = "Tag"
+  needs = [
+    "Tag"
+  ]
   uses = "actions/npm@master"
   args = "publish --access public"
   secrets = ["NPM_AUTH_TOKEN"]
 }
 
-action "JamesIves/github-pages-deploy-action@master" {
+action "Github Pages" {
   uses = "JamesIves/github-pages-deploy-action@master"
   needs = ["Test"]
   env = {
