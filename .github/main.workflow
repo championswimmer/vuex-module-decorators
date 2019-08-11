@@ -1,9 +1,9 @@
 workflow "Build, Test (and Publish on Tag)" {
-  on = "release"
   resolves = [
     "Publish",
     "JamesIves/github-pages-deploy-action@master",
   ]
+  on = "push"
 }
 
 action "Build" {
