@@ -1,6 +1,9 @@
 workflow "Build, Test (and Publish on Tag)" {
   on = "release"
-  resolves = ["Publish"]
+  resolves = [
+    "Publish",
+    "JamesIves/github-pages-deploy-action@master",
+  ]
 }
 
 action "Build" {
@@ -26,4 +29,17 @@ action "Publish" {
   uses = "actions/npm@master"
   args = "publish --access public"
   secrets = ["NPM_AUTH_TOKEN"]
+}
+
+action "JamesIves/github-pages-deploy-action@master" {
+  uses = "JamesIves/github-pages-deploy-action@master"
+  needs = ["Test"]
+  env = {
+    BUILD_SCRIPT = "npm run docs:build"
+    BRANCH = "gh-pages"
+    FOLDER = "docs/.vuepress/dist"
+  }
+  secrets = [
+    "ACCESS_TOKEN",
+  ]
 }
