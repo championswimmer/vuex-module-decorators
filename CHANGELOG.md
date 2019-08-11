@@ -5,6 +5,9 @@ installed as `npm install vuex-module-decorators@beta` (or alpha similar).
 
 ## 1.0.0
 
+#### 0.9.9
+ - added github actions
+
 #### 0.9.5
 
  - more typesafe `@MutationAction`
