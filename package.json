@@ -60,8 +60,8 @@
     "tslint-config-standard": "^8.0.1",
     "tslint-plugin-prettier": "^2.0.1",
     "typescript": "^3.3.3",
-    "vue": "^2.6.6",
-    "vuepress": "^0.14.8",
+    "vue": "^2.6.10",
+    "vuepress": "^1.0.3",
     "vuex": "^3.1.0"
   },
   "dependencies": {},
