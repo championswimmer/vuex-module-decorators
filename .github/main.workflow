@@ -1,7 +1,6 @@
-workflow "Build, Test (and Publish on Tag)" {
+workflow "Build and Test" {
   resolves = [
-    "Publish",
-    "JamesIves/github-pages-deploy-action@master",
+    "Test",
   ]
   on = "push"
 }
@@ -17,23 +16,19 @@ action "Test" {
   args = "test"
 }
 
-# Filter for a new tag
-action "Tag" {
-  needs = "Test"
-  uses = "actions/bin/filter@master"
-  args = "tag"
+workflow "NPM and Docs Publish" {
+  resolves = ["Publish", "Github Pages"]
+  on = "release"
 }
 
 action "Publish" {
-  needs = "Tag"
   uses = "actions/npm@master"
   args = "publish --access public"
   secrets = ["NPM_AUTH_TOKEN"]
 }
 
-action "JamesIves/github-pages-deploy-action@master" {
+action "Github Pages" {
   uses = "JamesIves/github-pages-deploy-action@master"
-  needs = ["Test"]
   env = {
     BUILD_SCRIPT = "npm run docs:build"
     BRANCH = "gh-pages"
