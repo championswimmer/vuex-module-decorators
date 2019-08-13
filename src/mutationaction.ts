@@ -6,7 +6,7 @@ export interface MutationActionParams<M> {
   root?: boolean
 }
 
-function mutationActionDecoratorFactory<T>(params: MutationActionParams<T>) {
+function mutationActionDecoratorFactory<T extends Object>(params: MutationActionParams<T>) {
   return function(
     target: T,
     key: string | symbol,

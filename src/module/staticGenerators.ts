@@ -1,7 +1,7 @@
 import { ActionTree, GetterTree, Module as Mod, MutationTree } from 'vuex'
 import { DynamicModuleOptions } from '../moduleoptions'
 
-export function staticStateGenerator<S>(
+export function staticStateGenerator<S extends Object>(
   module: Function & Mod<S, any>,
   modOpt: DynamicModuleOptions,
   statics: any

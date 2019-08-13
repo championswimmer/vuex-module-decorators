@@ -51,18 +51,18 @@
     "nyc": "^13.2.0",
     "prettier": "^1.16.4",
     "rimraf": "^2.6.3",
-    "rollup": "^1.1.2",
-    "rollup-plugin-typescript2": "^0.19.2",
+    "rollup": "^1.19.4",
+    "rollup-plugin-typescript2": "^0.19.3",
     "rollup-plugin-uglify": "^6.0.2",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-config-standard": "^8.0.1",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.3.3",
+    "typescript": "^3.5.3",
     "vue": "^2.6.10",
     "vuepress": "^1.0.3",
-    "vuex": "^3.1.0"
+    "vuex": "^3.1.1"
   },
   "dependencies": {},
   "engines": {

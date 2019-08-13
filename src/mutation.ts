@@ -1,6 +1,6 @@
 import { Module as Mod, Mutation as Mut, Payload } from 'vuex'
 
-export function Mutation<T, R>(
+export function Mutation<T extends Object, R>(
   target: T,
   key: string | symbol,
   descriptor: TypedPropertyDescriptor<(...args: any[]) => R>
