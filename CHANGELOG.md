@@ -5,22 +5,27 @@ installed as `npm install vuex-module-decorators@beta` (or alpha similar).
 
 ## 1.0.0
 
+### 0.10.0
+
+- Updated to TypeScript 3.5
+
 #### 0.9.9
- - added github actions
+
+- added github actions
 
 #### 0.9.5
 
- - more typesafe `@MutationAction`
-   - you cannot `mutate` keys not in the module
-   - the returned object must be a partial of the module
+- more typesafe `@MutationAction`
+  - you cannot `mutate` keys not in the module
+  - the returned object must be a partial of the module
 
 #### 0.9.4
 
- - initializing properties with `null` and then running `@MutationAction` is possible now
+- initializing properties with `null` and then running `@MutationAction` is possible now
 
 #### 0.9.3
 
- - we will distribute in ES5 as a lot of people still use ES5 target for their websites
+- we will distribute in ES5 as a lot of people still use ES5 target for their websites
 
 #### 0.9.1
 
