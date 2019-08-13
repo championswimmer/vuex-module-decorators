@@ -30,7 +30,7 @@ action "Publish" {
 action "Github Pages" {
   uses = "JamesIves/github-pages-deploy-action@master"
   env = {
-    BUILD_SCRIPT = "npm run docs:build"
+    BUILD_SCRIPT = "npm install && npm run docs:build"
     BRANCH = "gh-pages"
     FOLDER = "docs/.vuepress/dist"
   }
