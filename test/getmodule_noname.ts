@@ -4,10 +4,6 @@ Vue.use(Vuex)
 import { getModule, Module, VuexModule } from '..'
 import { expect } from 'chai'
 
-interface StoreType {
-  mm: MyModule
-}
-
 @Module
 class MyModule extends VuexModule {}
 
