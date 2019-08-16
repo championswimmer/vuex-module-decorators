@@ -9,6 +9,21 @@ import {
   staticStateGenerator
 } from './staticGenerators'
 
+function registerDynamicModule<S>(module: Mod<S, any>, modOpt: DynamicModuleOptions) {
+  if (!modOpt.name) {
+    throw new Error('Name of module not provided in decorator options')
+  }
+
+  if (!modOpt.store) {
+    throw new Error('Store not provided in decorator options when using dynamic option')
+  }
+
+  modOpt.store.registerModule(
+    modOpt.name, // TODO: Handle nested modules too in future
+    module
+  )
+}
+
 function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
   return function<TFunction extends Function>(constructor: TFunction): TFunction | void {
     const module: Function & Mod<S, any> = constructor
@@ -75,18 +90,7 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
     }
 
     if (modOpt.dynamic) {
-      if (!modOpt.name) {
-        throw new Error('Name of module not provided in decorator options')
-      }
-
-      if (!modOpt.store) {
-        throw new Error('Store not provided in decorator options when using dynamic option')
-      }
-
-      modOpt.store.registerModule(
-        modOpt.name, // TODO: Handle nested modules too in future
-        module
-      )
+      registerDynamicModule(module, modOpt)
     }
     return constructor
   }
