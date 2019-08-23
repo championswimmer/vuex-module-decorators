@@ -1,9 +1,9 @@
-import Vuex, { Module as Mod, Store } from 'vuex'
 import Vue from 'vue'
-Vue.use(Vuex)
-import { Action, Module, Mutation, VuexModule } from '..'
+import Vuex, { Module as Mod, Store } from 'vuex'
+import { Action, Module, Mutation, VuexModule, getModule } from '../src'
 import { expect } from 'chai'
-import { getModule } from '../src/vuexmodule'
+
+Vue.use(Vuex)
 
 const store = new Vuex.Store({})
 
@@ -22,7 +22,7 @@ class BaseModule extends VuexModule {
   }
 
   @Action
-  async changeBarBase(value: string) {
+  changeBarBase(value: string) {
     this.setBarBase(value)
   }
 }
@@ -30,12 +30,12 @@ class BaseModule extends VuexModule {
 @Module({ dynamic: true, store, name: 'mm' })
 class MyModule extends BaseModule {
   @Action
-  async changeFoo(value: string) {
+  changeFoo(value: string) {
     this.setFooBase(value)
   }
 
   @Action
-  async changeBar(value: string) {
+  changeBar(value: string) {
     this.changeBarBase(value);
   }
 }
