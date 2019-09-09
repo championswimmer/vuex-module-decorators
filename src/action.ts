@@ -14,8 +14,8 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
   const { commit = undefined, rawError = false, root = false } = params || {}
   return function(target: Object, key: string | symbol, descriptor: TypedPropertyDescriptor<any>) {
     const module = target.constructor as Mod<T, any>
-    if (!module.actions) {
-      module.actions = {}
+    if (!module.hasOwnProperty('actions')) {
+      module.actions = Object.assign({}, module.actions)
     }
     const actionFunction: Function = descriptor.value
     const action: Act<typeof target, any> = async function(
@@ -55,7 +55,7 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
             )
       }
     }
-    module.actions[key as string] = root ? { root, handler: action } : action
+    module.actions![key as string] = root ? { root, handler: action } : action
   }
 }
 
