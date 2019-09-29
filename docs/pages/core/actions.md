@@ -8,7 +8,7 @@ vuex actions.
 For example this code -
 
 ```typescript {13-17}
-import { Module, VuexModule, Mutation } from 'vuex-module-decorators'
+import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { get } from 'request'
 
 @Module
