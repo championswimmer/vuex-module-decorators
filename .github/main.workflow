@@ -17,14 +17,11 @@ action "Test" {
 }
 
 workflow "NPM and Docs Publish" {
-  resolves = ["Publish", "Github Pages"]
+  resolves = [
+    "Github Pages",
+    "Publish",
+  ]
   on = "release"
-}
-
-action "Publish" {
-  uses = "actions/npm@master"
-  args = "publish --access public"
-  secrets = ["NPM_AUTH_TOKEN"]
 }
 
 action "Github Pages" {
@@ -37,4 +34,16 @@ action "Github Pages" {
   secrets = [
     "ACCESS_TOKEN",
   ]
+}
+
+action "Build for Publish" {
+  uses = "actions/npm@master"
+  args = "build"
+}
+
+action "Publish" {
+  uses = "actions/npm@master"
+  args = "publish --access publish"
+  secrets = ["NPM_AUTH_TOKEN"]
+  needs = ["Build for Publish"]
 }

@@ -13,11 +13,11 @@ function mutationActionDecoratorFactory<T extends Object>(params: MutationAction
     descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<T>>>
   ) {
     const module = target.constructor as Mod<T, any>
-    if (!module.mutations) {
-      module.mutations = {}
+    if (!module.hasOwnProperty('mutations')) {
+      module.mutations = Object.assign({}, module.mutations)
     }
-    if (!module.actions) {
-      module.actions = {}
+    if (!module.hasOwnProperty('actions')) {
+      module.actions = Object.assign({}, module.actions)
     }
     const mutactFunction = descriptor.value as ((payload: any) => Promise<any>)
 
@@ -56,8 +56,8 @@ function mutationActionDecoratorFactory<T extends Object>(params: MutationAction
         }
       }
     }
-    module.actions[key as string] = params.root ? { root: true, handler: action } : action
-    module.mutations[key as string] = mutation
+    module.actions![key as string] = params.root ? { root: true, handler: action } : action
+    module.mutations![key as string] = mutation
   }
 }
 

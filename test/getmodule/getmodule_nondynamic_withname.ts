@@ -8,7 +8,7 @@ interface StoreType {
   mm: MyModule
 }
 
-@Module
+@Module({ name: 'mm' })
 class MyModule extends VuexModule {
   count = 0
 
