@@ -5,6 +5,10 @@ installed as `npm install vuex-module-decorators@beta` (or alpha similar).
 
 ## 1.0.0
 
+### 0.11.0
+
+- fix support for SSR (with NUXT)
+
 ### 0.10.0
 
 - Updated to TypeScript 3.5
