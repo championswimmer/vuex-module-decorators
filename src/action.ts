@@ -2,6 +2,15 @@ import { Action as Act, ActionContext, Module as Mod, Payload } from 'vuex'
 import { getModule, VuexModule } from './vuexmodule'
 import { addPropertiesToObject } from './helpers'
 
+type AllowedArgs = [] | [any]
+type Func<A extends AllowedArgs, R> = (...args: A) => R
+
+type MethodDecorator<T, R, A extends AllowedArgs> = (
+  target: T,
+  propertyKey: string | symbol,
+  descriptor: TypedPropertyDescriptor<Func<A, R>>,
+) => TypedPropertyDescriptor<Func<A, R>> | void
+
 /**
  * Parameters that can be passed to the @Action decorator
  */
@@ -10,14 +19,15 @@ export interface ActionDecoratorParams {
   rawError?: boolean
   root?: boolean
 }
-function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecorator {
+
+function actionDecoratorFactory<T, R, A extends AllowedArgs>(params?: ActionDecoratorParams): MethodDecorator<T, R, A> {
   const { commit = undefined, rawError = false, root = false } = params || {}
-  return function(target: Object, key: string | symbol, descriptor: TypedPropertyDescriptor<any>) {
-    const module = target.constructor as Mod<T, any>
+  return function(target: T, key: string | symbol, descriptor: TypedPropertyDescriptor<Func<A, R>>) {
+    const module = (target as any).constructor as unknown as Mod<T, any>
     if (!module.hasOwnProperty('actions')) {
       module.actions = Object.assign({}, module.actions)
     }
-    const actionFunction: Function = descriptor.value
+    const actionFunction = descriptor.value as unknown as Func<A, R>
     const action: Act<typeof target, any> = async function(
       context: ActionContext<typeof target, any>,
       payload: Payload
@@ -59,12 +69,15 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
   }
 }
 
-export function Action<T, R>(
+
+export function Action<T, R, A extends AllowedArgs>(
   target: T,
   key: string | symbol,
-  descriptor: TypedPropertyDescriptor<(...args: any[]) => R>
+  descriptor: TypedPropertyDescriptor<Func<A, R>>
 ): void
-export function Action<T>(params: ActionDecoratorParams): MethodDecorator
+export function Action<T, R, A extends AllowedArgs>(
+  params: ActionDecoratorParams,
+): MethodDecorator<T, R, A>
 
 /**
  * The @Action decorator turns an async function into an Vuex action
@@ -74,10 +87,10 @@ export function Action<T>(params: ActionDecoratorParams): MethodDecorator
  * @param descriptor the action function descriptor
  * @constructor
  */
-export function Action<T, R>(
+export function Action<T, R, A extends AllowedArgs>(
   targetOrParams: T | ActionDecoratorParams,
   key?: string | symbol,
-  descriptor?: TypedPropertyDescriptor<(...args: any[]) => R>
+  descriptor?: TypedPropertyDescriptor<Func<A, R>>
 ) {
   if (!key && !descriptor) {
     /*
