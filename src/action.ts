@@ -2,13 +2,12 @@ import { Action as Act, ActionContext, Module as Mod, Payload } from 'vuex'
 import { getModule, VuexModule } from './vuexmodule'
 import { addPropertiesToObject } from './helpers'
 
-type AllowedArgs = [] | [any]
-type Func<A extends AllowedArgs, R> = (...args: A) => R
+type Func<A, R> = (payload: A) => Promise<R>
 
-type MethodDecorator<T, R, A extends AllowedArgs> = (
-  target: T,
+type MethodDecorator<R, A> = (
+  target: Object,
   propertyKey: string | symbol,
-  descriptor: TypedPropertyDescriptor<Func<A, R>>,
+  descriptor: TypedPropertyDescriptor<Func<A, R>>
 ) => TypedPropertyDescriptor<Func<A, R>> | void
 
 /**
@@ -20,17 +19,21 @@ export interface ActionDecoratorParams {
   root?: boolean
 }
 
-function actionDecoratorFactory<T, R, A extends AllowedArgs>(params?: ActionDecoratorParams): MethodDecorator<T, R, A> {
+function actionDecoratorFactory<T, R, A>(params?: ActionDecoratorParams): MethodDecorator<R, A> {
   const { commit = undefined, rawError = false, root = false } = params || {}
-  return function(target: T, key: string | symbol, descriptor: TypedPropertyDescriptor<Func<A, R>>) {
-    const module = (target as any).constructor as unknown as Mod<T, any>
+  return function(
+    target: Object,
+    key: string | symbol,
+    descriptor: TypedPropertyDescriptor<Func<A, R>>
+  ) {
+    const module = target.constructor as Mod<T, any>
     if (!module.hasOwnProperty('actions')) {
       module.actions = Object.assign({}, module.actions)
     }
-    const actionFunction = descriptor.value as unknown as Func<A, R>
+    const actionFunction = (descriptor.value as unknown) as Func<A, R>
     const action: Act<typeof target, any> = async function(
       context: ActionContext<typeof target, any>,
-      payload: Payload
+      payload: any
     ) {
       try {
         let actionPayload = null
@@ -38,12 +41,12 @@ function actionDecoratorFactory<T, R, A extends AllowedArgs>(params?: ActionDeco
         if ((module as any)._genStatic) {
           const moduleAccessor = getModule(module as typeof VuexModule)
           moduleAccessor.context = context
-          actionPayload = await actionFunction.call(moduleAccessor, payload)
+          actionPayload = await actionFunction.call(moduleAccessor, payload as A)
         } else {
           const thisObj = { context }
           addPropertiesToObject(thisObj, context.state)
           addPropertiesToObject(thisObj, context.getters)
-          actionPayload = await actionFunction.call(thisObj, payload)
+          actionPayload = await actionFunction.call(thisObj, payload as A)
         }
         if (commit) {
           context.commit(commit, actionPayload)
@@ -69,15 +72,12 @@ function actionDecoratorFactory<T, R, A extends AllowedArgs>(params?: ActionDeco
   }
 }
 
-
-export function Action<T, R, A extends AllowedArgs>(
+export function Action<T, R, A>(
   target: T,
   key: string | symbol,
   descriptor: TypedPropertyDescriptor<Func<A, R>>
 ): void
-export function Action<T, R, A extends AllowedArgs>(
-  params: ActionDecoratorParams,
-): MethodDecorator<T, R, A>
+export function Action<T, R, A>(params: ActionDecoratorParams): MethodDecorator<R, A>
 
 /**
  * The @Action decorator turns an async function into an Vuex action
@@ -87,7 +87,7 @@ export function Action<T, R, A extends AllowedArgs>(
  * @param descriptor the action function descriptor
  * @constructor
  */
-export function Action<T, R, A extends AllowedArgs>(
+export function Action<T, R, A>(
   targetOrParams: T | ActionDecoratorParams,
   key?: string | symbol,
   descriptor?: TypedPropertyDescriptor<Func<A, R>>
@@ -103,7 +103,7 @@ export function Action<T, R, A extends AllowedArgs>(
         }
      * </pre>
      */
-    return actionDecoratorFactory(targetOrParams as ActionDecoratorParams)
+    return actionDecoratorFactory<T, R, A>(targetOrParams as ActionDecoratorParams)
   } else {
     /*
      * This is the case when @Action is called on action function
@@ -115,6 +115,6 @@ export function Action<T, R, A extends AllowedArgs>(
      *   }
      * </pre>
      */
-    actionDecoratorFactory()(targetOrParams, key!, descriptor!)
+    actionDecoratorFactory<T, R, A>()(targetOrParams, key!, descriptor!)
   }
 }
