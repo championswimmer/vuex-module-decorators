@@ -9,7 +9,7 @@ export function Mutation<T extends Object, R>(
   if (!module.hasOwnProperty('mutations')) {
     module.mutations = Object.assign({}, module.mutations)
   }
-  const mutationFunction: Function = descriptor.value ? descriptor.value : (...args: any[]) => ({})
+  const mutationFunction: Function = descriptor.value!
   const mutation: Mut<typeof target> = function(state: typeof target, payload: Payload) {
     mutationFunction.call(state, payload)
   }
