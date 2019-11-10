@@ -17,4 +17,5 @@ jobs:
       uses: maxheld83/ghpages@v0.1.2
       env:
         BUILD_DIR: docs/.vuepress/dist
+        GH_PAT: ${{ secrets.GITHUB_TOKEN }}
 
