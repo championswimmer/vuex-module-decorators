@@ -11,7 +11,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build Docs
       run: |
-        npm run install
+        npm install
         npm run docs:build
     - name: GitHub Pages Deploy
       uses: maxheld83/ghpages@v0.1.2
