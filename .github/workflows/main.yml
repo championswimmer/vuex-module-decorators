@@ -1,0 +1,20 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build Docs
+      run: |
+        npm run install
+        npm run docs:build
+    - name: GitHub Pages Deploy
+      uses: maxheld83/ghpages@v0.1.2
+      env:
+        BUILD_DIR: docs/.vuepress/dist
+
