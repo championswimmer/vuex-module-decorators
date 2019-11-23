@@ -1,6 +1,6 @@
 import { Action as Act, ActionContext, Module as Mod, Payload } from 'vuex'
 import { getModule, VuexModule } from './vuexmodule'
-import { addPropertiesToObject } from './helpers'
+import { addPropertiesToObject, getModuleName } from './helpers'
 
 /**
  * Parameters that can be passed to the @Action decorator
@@ -8,13 +8,14 @@ import { addPropertiesToObject } from './helpers'
 export interface ActionDecoratorParams {
   commit?: string
   rawError?: boolean
+  root?: boolean
 }
 function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecorator {
-  const { commit = undefined, rawError = false } = params || {}
+  const { commit = undefined, rawError = false, root = false } = params || {}
   return function(target: Object, key: string | symbol, descriptor: TypedPropertyDescriptor<any>) {
     const module = target.constructor as Mod<T, any>
-    if (!module.actions) {
-      module.actions = {}
+    if (!module.hasOwnProperty('actions')) {
+      module.actions = Object.assign({}, module.actions)
     }
     const actionFunction: Function = descriptor.value
     const action: Act<typeof target, any> = async function(
@@ -25,7 +26,10 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
         let actionPayload = null
 
         if ((module as any)._genStatic) {
-          const moduleAccessor = getModule(module as typeof VuexModule)
+          const moduleName = getModuleName(module)
+          const moduleAccessor = context.rootGetters[moduleName]
+            ? context.rootGetters[moduleName]
+            : getModule(module as typeof VuexModule)
           moduleAccessor.context = context
           actionPayload = await actionFunction.call(moduleAccessor, payload)
         } else {
@@ -54,7 +58,7 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
             )
       }
     }
-    module.actions[key as string] = action
+    module.actions![key as string] = root ? { root, handler: action } : action
   }
 }
 

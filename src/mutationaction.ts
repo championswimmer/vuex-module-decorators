@@ -3,20 +3,21 @@ import { Action as Act, ActionContext, Module as Mod, Mutation as Mut, Payload, 
 export interface MutationActionParams<M> {
   mutate?: (keyof Partial<M>)[]
   rawError?: boolean
+  root?: boolean
 }
 
-function mutationActionDecoratorFactory<T>(params: MutationActionParams<T>) {
+function mutationActionDecoratorFactory<T extends Object>(params: MutationActionParams<T>) {
   return function(
     target: T,
     key: string | symbol,
     descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<T>>>
   ) {
     const module = target.constructor as Mod<T, any>
-    if (!module.mutations) {
-      module.mutations = {}
+    if (!module.hasOwnProperty('mutations')) {
+      module.mutations = Object.assign({}, module.mutations)
     }
-    if (!module.actions) {
-      module.actions = {}
+    if (!module.hasOwnProperty('actions')) {
+      module.actions = Object.assign({}, module.actions)
     }
     const mutactFunction = descriptor.value as ((payload: any) => Promise<any>)
 
@@ -33,6 +34,7 @@ function mutationActionDecoratorFactory<T>(params: MutationActionParams<T>) {
         } else {
           console.error('Could not perform action ' + key.toString())
           console.error(e)
+          return Promise.reject(e)
         }
       }
     }
@@ -55,8 +57,8 @@ function mutationActionDecoratorFactory<T>(params: MutationActionParams<T>) {
         }
       }
     }
-    module.actions[key as string] = action
-    module.mutations[key as string] = mutation
+    module.actions![key as string] = params.root ? { root: true, handler: action } : action
+    module.mutations![key as string] = mutation
   }
 }
 

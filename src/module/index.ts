@@ -9,6 +9,22 @@ import {
   staticStateGenerator
 } from './staticGenerators'
 
+function registerDynamicModule<S>(module: Mod<S, any>, modOpt: DynamicModuleOptions) {
+  if (!modOpt.name) {
+    throw new Error('Name of module not provided in decorator options')
+  }
+
+  if (!modOpt.store) {
+    throw new Error('Store not provided in decorator options when using dynamic option')
+  }
+
+  modOpt.store.registerModule(
+    modOpt.name, // TODO: Handle nested modules too in future
+    module,
+    { preserveState: modOpt.preserveState || false }
+  )
+}
+
 function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
   return function<TFunction extends Function>(constructor: TFunction): TFunction | void {
     const module: Function & Mod<S, any> = constructor
@@ -47,9 +63,8 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
     if (modOpt.name) {
       Object.defineProperty(constructor, '_genStatic', {
         value: (store?: Store<any>) => {
-          let statics = {}
-          modOpt.store = modOpt.store || store
-          if (!modOpt.store) {
+          let statics = { store: store || modOpt.store }
+          if (!statics.store) {
             throw new Error(`ERR_STORE_NOT_PROVIDED: To use getModule(), either the module
             should be decorated with store in decorator, i.e. @Module({store: store}) or
             store should be passed when calling getModule(), i.e. getModule(MyModule, this.$store)`)
@@ -74,18 +89,14 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
           return statics
         }
       })
+
+      Object.defineProperty(constructor, '_vmdModuleName', {
+        value: modOpt.name
+      })
     }
 
     if (modOpt.dynamic) {
-      if (!modOpt.name) {
-        throw new Error('Name of module not provided in decorator options')
-      }
-
-      modOpt.store.registerModule(
-        modOpt.name, // TODO: Handle nested modules too in future
-        module,
-        { preserveState: modOpt.preserveState || false }
-      )
+      registerDynamicModule(module, modOpt)
     }
     return constructor
   }

@@ -35,6 +35,6 @@ const store = new Vuex.Store<StoreType>({
 
 describe('getModule() on unnamed non-dynamic module', () => {
   it('should error without name in decorator', function() {
-    expect(() => getModule(MyModule)).to.throw('ERR_GET_MODULE_NO_STATICS')
+    expect(() => getModule(MyModule)).to.throw('ERR_GET_MODULE_NAME')
   })
 })

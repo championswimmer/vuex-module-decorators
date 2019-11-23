@@ -214,7 +214,7 @@ const store = new Vuex.Store({
 
 If you need to support [module reuse](https://vuex.vuejs.org/guide/modules.html#module-reuse)
 or to use modules with NuxtJS, you can have a state factory function generated instead
-of a staic state object instance by using `stateFactory` option to `@Module`, like so:
+of a static state object instance by using `stateFactory` option to `@Module`, like so:
 
 ```typescript
 @Module({ stateFactory: true })
@@ -307,7 +307,7 @@ class MyModule extends VuexModule {
 There are many possible ways to construct your modules. Here is one way for drop-in use with NuxtJS (you simply need to add your modules to `~/utils/store-accessor.ts` and then just import the modules from `~/store`):
 
 `~/store/index.ts`:
-```
+```typescript
 import { Store } from 'vuex'
 import { initialiseStores } from '~/utils/store-accessor'
 const initializer = (store: Store<any>) => initialiseStores(store)
@@ -316,7 +316,7 @@ export * from '~/utils/store-accessor'
 ```
 
 `~/utils/store-accessor.ts`:
-```
+```typescript
 import { Store } from 'vuex'
 import { getModule } from 'vuex-module-decorators'
 import example from '~/store/example'
@@ -335,10 +335,64 @@ export {
 
 Now you can access stores in a type-safe way by doing the following from a component or page - no extra initialization required.
 
-```
+```typescript
 import { exampleStore } from '~/store'
 ...
 someMethod() {
   return exampleStore.exampleGetter
+}
+```
+
+### Using the decorators with ServerSideRender
+
+When SSR is involved the store is recreated on each request. Every time the module is accessed
+using `getModule` function the current store instance must be provided and the module must
+be manually registered to the root store modules
+
+#### Example
+
+```typescript
+// store/modules/MyStoreModule.ts
+import { Module, VuexModule, Mutation } from 'vuex-module-decorators'
+
+@Module({
+  name: 'MyStoreModule',
+  namespaced: true,
+  stateFactory: true,
+})
+export default class MyStoreModule extends VuexModule {
+  public test: string = 'initial'
+
+  @Mutation
+  public setTest(val: string) {
+    this.test = val
+  }
+}
+
+
+// store/index.ts
+import Vuex from 'vuex'
+import MyStoreModule from '~/store/modules/MyStoreModule'
+
+export function createStore() {
+  return new Vuex.Store({
+    modules: {
+      MyStoreModule,
+    },
+  }
+}
+
+// components/Random.tsx
+import { Component, Vue } from 'vue-property-decorator';
+import { getModule } from 'vuex-module-decorators';
+import MyStoreModule from '~/store/modules/MyStoreModule'
+
+@Component
+export default class extends Vue {
+    public created() {
+        const MyModuleInstance = getModule(MyStoreModule, this.$store);
+        // Do stuff with module
+        MyModuleInstance.setTest('random')
+    }
 }
 ```
