@@ -214,7 +214,7 @@ const store = new Vuex.Store({
 
 If you need to support [module reuse](https://vuex.vuejs.org/guide/modules.html#module-reuse)
 or to use modules with NuxtJS, you can have a state factory function generated instead
-of a staic state object instance by using `stateFactory` option to `@Module`, like so:
+of a static state object instance by using `stateFactory` option to `@Module`, like so:
 
 ```typescript
 @Module({ stateFactory: true })
