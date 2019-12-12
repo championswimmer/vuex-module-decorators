@@ -17,10 +17,10 @@ class MyModule extends VuexModule {
 
 @Module({ name: 'mnm', store, dynamic: true, namespaced: true })
 class MyNamespacedModule extends VuexModule {
-  public value = 10
+  public value = 15
 
   public get twofold(): number {
-    return this.value * 2
+    return this.value * 3
   }
 }
 
@@ -31,7 +31,7 @@ describe('using getters on getModule()', () => {
   })
 
   it('getter should return adjusted value on namespaced module', function() {
-    expect(getModule(MyNamespacedModule).value).to.equal(10)
-    expect(getModule(MyNamespacedModule).twofold).to.equal(20)
+    expect(getModule(MyNamespacedModule).value).to.equal(15)
+    expect(getModule(MyNamespacedModule).twofold).to.equal(45)
   })
 })
