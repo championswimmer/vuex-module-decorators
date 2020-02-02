@@ -34,9 +34,15 @@ export interface DynamicModuleOptions {
   name: string
 
   /**
+   * If this is enabled it will preserve the state when loading the module
+   */
+  preserveState?: boolean
+
+  /**
    * whether or not the module is namespaced
    */
   namespaced?: boolean
+
   /**
    * Whether to generate a plain state object, or a state factory for the module
    */
