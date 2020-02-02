@@ -1,7 +1,7 @@
 # vuex-module-decorators
 
-[![Usage Guide](https://img.shields.io/badge/usage-guide-1e90ff.svg?style=for-the-badge&longCache=true)](https://championswimmer.in/vuex-module-decorators/)    
-Detailed Guide: https://championswimmer.in/vuex-module-decorators/ 
+[![Usage Guide](https://img.shields.io/badge/usage-guide-1e90ff.svg?style=for-the-badge&longCache=true)](https://championswimmer.in/vuex-module-decorators/)
+Detailed Guide: https://championswimmer.in/vuex-module-decorators/
 
 Typescript/ES7 Decorators to make Vuex modules a breeze
 
@@ -19,12 +19,12 @@ Typescript/ES7 Decorators to make Vuex modules a breeze
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/championswimmer/vuex-module-decorators.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/championswimmer/vuex-module-decorators/context:javascript)
 
 ## CHANGELOG
- - There are major type-checking changes (could be breaking) in v0.9.7 
 
- - There are major usage improvements (non backwards compatible) in 0.8.0
+- There are major type-checking changes (could be breaking) in v0.9.7
+
+- There are major usage improvements (non backwards compatible) in 0.8.0
 
 Please check [CHANGELOG](CHANGELOG.md)
-
 
 ## Examples
 
@@ -50,7 +50,7 @@ npm install -D vuex-module-decorators
 
 1. set `experimentalDecorators` to true
 2. For reduced code with decorators, set `importHelpers: true` in `tsconfig.json`
-3. *(only for TypeScript 2)* set `emitHelpers: true` in `tsconfig.json`
+3. _(only for TypeScript 2)_ set `emitHelpers: true` in `tsconfig.json`
 
 ## Configuration
 
@@ -279,7 +279,6 @@ class MyModule extends VuexModule {
 
 If you would like to preserve the state e.g when loading in the state from [vuex-persist](https://www.npmjs.com/package/vuex-persist)
 
-
 ```diff
 ...
 
@@ -292,7 +291,6 @@ class MyModule extends VuexModule {
 
 Or when it doesn't have a initial state and you load the state from the localStorage
 
-
 ```diff
 ...
 
@@ -302,11 +300,13 @@ class MyModule extends VuexModule {
 
 ...
 ```
+
 ### Accessing modules with NuxtJS
 
 There are many possible ways to construct your modules. Here is one way for drop-in use with NuxtJS (you simply need to add your modules to `~/utils/store-accessor.ts` and then just import the modules from `~/store`):
 
 `~/store/index.ts`:
+
 ```typescript
 import { Store } from 'vuex'
 import { initialiseStores } from '~/utils/store-accessor'
@@ -316,6 +316,7 @@ export * from '~/utils/store-accessor'
 ```
 
 `~/utils/store-accessor.ts`:
+
 ```typescript
 import { Store } from 'vuex'
 import { getModule } from 'vuex-module-decorators'
@@ -327,10 +328,7 @@ function initialiseStores(store: Store<any>): void {
   exampleStore = getModule(example, store)
 }
 
-export {
-  initialiseStores,
-  exampleStore,
-}
+export { initialiseStores, exampleStore }
 ```
 
 Now you can access stores in a type-safe way by doing the following from a component or page - no extra initialization required.
