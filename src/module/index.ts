@@ -104,7 +104,7 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
 export function Module<S>(module: Function & Mod<S, any>): void
 export function Module<S>(options: ModuleOptions): ClassDecorator
 
-export function Module<S>(modOrOpt: ModuleOptions | Function & Mod<S, any>) {
+export function Module<S>(modOrOpt: ModuleOptions | (Function & Mod<S, any>)) {
   if (typeof (modOrOpt as any) === 'function') {
     /*
      * @Module decorator called without options (directly on the class definition)
