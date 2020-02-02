@@ -34,6 +34,7 @@ function mutationActionDecoratorFactory<T extends Object>(params: MutationAction
         } else {
           console.error('Could not perform action ' + key.toString())
           console.error(e)
+          return Promise.reject(e)
         }
       }
     }
