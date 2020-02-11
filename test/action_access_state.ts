@@ -75,7 +75,7 @@ describe('@Action with non-dynamic module', () => {
     try {
       await store.dispatch('concatFooOrBarWithThis', 't1')
     } catch (e) {
-      expect(e.message).to.contain('ERR_ACTION_ACCESS_UNDEFINED')
+      expect(e.message).to.contain('this.setBar is not a function')
     }
   })
   it('should save original error', async function() {
