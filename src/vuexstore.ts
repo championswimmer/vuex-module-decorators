@@ -1,8 +1,6 @@
 import { Store } from 'vuex'
 import { VuexModule } from './vuexmodule'
 
-/* eslint "@typescript-eslint/no-explicit-any": 0 */
-
 declare type ConstructorOf<C> = {
   new (...args: any[]): C
 }
@@ -11,7 +9,8 @@ export class VuexStore<M extends VuexModule> {
   constructor(
     moduleClass: ConstructorOf<M>,
     store?: Store<any>,
-    namespace: string[] | string | null = null
+    path: string[] = [],
+    namespace: string = ''
   ) {
     const module = (moduleClass as any) as VuexModule<M>
     if (store === undefined) {
@@ -22,11 +21,8 @@ export class VuexStore<M extends VuexModule> {
     }
     this.$store = store
     this._class = module
-    if (namespace && typeof namespace !== 'string') {
-      namespace = namespace.join('/')
-    }
+    this._path = path
     this._namespace = namespace
-    this._path = namespace ? namespace.split('/') : []
   }
 
   $store: Store<any>
@@ -36,10 +32,12 @@ export class VuexStore<M extends VuexModule> {
   _statics?: M
 
   get state() {
-    return this._path.reduce((state, key) => state[key], this.$store.state)
+    const state = this._path.reduce((state, key) => state[key], this.$store.state)
+    console.log(state)
+    return state
   }
   namespaced(key: string) {
-    return [...this._path, key].join('/')
+    return this._namespace ? `${this._namespace}/${key}` : key
   }
   getter(key: string) {
     return this.$store.getters(this.namespaced(key))
@@ -76,8 +74,9 @@ export class VuexStore<M extends VuexModule> {
     Object.keys(getters)
       .filter(Object.hasOwnProperty.bind(getters))
       .forEach((key) => {
+        const namespacedKey = this.namespaced(key)
         Object.defineProperty(statics, key, {
-          get: () => this.getter(key)
+          get: () => this.$store.getters[namespacedKey]
         })
       })
 

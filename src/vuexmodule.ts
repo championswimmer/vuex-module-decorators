@@ -7,7 +7,7 @@ import {
   Store,
   ActionContext
 } from 'vuex'
-import { getModuleName, getModuleNamespace } from './helpers'
+import { getModuleName, getModuleNamespace, getModulePath } from './helpers'
 import { VuexStore } from './vuexstore'
 
 export class VuexModule<S = ThisType<any>, R = any> implements Mod<S, R> {
@@ -61,7 +61,12 @@ export function getModule<M extends VuexModule>(
     return store.getters[moduleName]
   }
 
-  const storeModule = new VuexStore(moduleClass, store, getModuleNamespace(moduleClass)).statics
+  const storeModule = new VuexStore(
+    moduleClass,
+    store,
+    getModulePath(moduleClass),
+    getModuleNamespace(moduleClass)
+  ).statics
 
   if (store) {
     store.getters[moduleName] = storeModule

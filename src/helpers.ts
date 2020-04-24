@@ -35,5 +35,21 @@ export function getModuleNamespace(module: any): string {
       Make sure your module has name, we can't make accessors for unnamed modules
       i.e. @Module({ name: 'something' })`)
   }
-  return `${module._vmdModuleName}`
+  if (module.namespaced) {
+    return `${module._vmdModuleName}`
+  }
+  return ''
+}
+
+/**
+ * Returns a namespaced path of the module to be used as a store getter
+ * @param module
+ */
+export function getModulePath(module: any): string[] {
+  if (!module._vmdModuleName) {
+    throw new Error(`ERR_GET_MODULE_NAME : Could not get module accessor.
+      Make sure your module has name, we can't make accessors for unnamed modules
+      i.e. @Module({ name: 'something' })`)
+  }
+  return [`${module._vmdModuleName}`]
 }
