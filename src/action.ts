@@ -25,7 +25,7 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
       try {
         let actionPayload = null
 
-        if ((module as any)._genStatic) {
+        if ((module as any)._store) {
           const moduleName = getModuleName(module)
           const moduleAccessor = context.rootGetters[moduleName]
             ? context.rootGetters[moduleName]

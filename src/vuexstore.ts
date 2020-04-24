@@ -33,7 +33,6 @@ export class VuexStore<M extends VuexModule> {
 
   get state() {
     const state = this._path.reduce((state, key) => state[key], this.$store.state)
-    console.log(state)
     return state
   }
   namespaced(key: string) {
@@ -86,7 +85,6 @@ export class VuexStore<M extends VuexModule> {
       .forEach((key) => {
         const namespacedKey = this.namespaced(key)
         statics[key] = (...args: any[]) => {
-          console.warn('commit', namespacedKey, ...args)
           return this.$store.commit(namespacedKey, ...args)
         }
       })

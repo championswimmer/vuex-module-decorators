@@ -16,7 +16,7 @@ class MyModuleWithoutStore extends VuexModule {}
 describe('getModule() without providing store', () => {
   it('should generate the module on statics property', function() {
     const module = getModule(MyModule)
-    expect(store.getters[getModuleName(module)]).to.equal(module)
+    expect(store.getters[getModuleName(MyModule)]).to.equal(module)
   })
 
   it('should error without defining store on the module', function() {
