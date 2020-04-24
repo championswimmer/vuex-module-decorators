@@ -68,9 +68,7 @@ export function getModule<M extends VuexModule>(
     getModuleNamespace(moduleClass)
   ).statics
 
-  if (store) {
-    store.getters[moduleName] = storeModule
-  } else {
+  if (!store) {
     ;(moduleClass as any)._statics = storeModule
   }
 

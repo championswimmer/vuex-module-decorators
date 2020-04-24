@@ -22,7 +22,10 @@ export function getModuleName(module: any): string {
       Make sure your module has name, we can't make accessors for unnamed modules
       i.e. @Module({ name: 'something' })`)
   }
-  return `vuexModuleDecorators/${module._vmdModuleName}`
+  if (module.namespaced) {
+    return `${module._vmdModuleName}/$context`
+  }
+  return '$context'
 }
 
 /**

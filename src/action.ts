@@ -32,6 +32,10 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
             : getModule(module as typeof VuexModule)
           moduleAccessor.context = context
           actionPayload = await actionFunction.call(moduleAccessor, payload)
+        } else if (context.getters['$context']) {
+          const moduleAccessor = context.getters['$context']
+          moduleAccessor.context = context
+          actionPayload = await actionFunction.call(moduleAccessor, payload)
         } else {
           const thisObj = { context }
           addPropertiesToObject(thisObj, context.state)

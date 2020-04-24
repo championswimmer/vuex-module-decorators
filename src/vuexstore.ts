@@ -14,9 +14,14 @@ export class VuexStore<M extends VuexModule> {
   ) {
     const module = (moduleClass as any) as VuexModule<M>
     if (store === undefined) {
+      if (path.length !== 0) {
+        throw new Error(`ERR_STORE_NOT_PROVIDED: To use VuexStore, either the store should
+          be provided, or the path should be [].`)
+      }
       store = new Store(module)
-      Object.defineProperty(store.getters, '$', {
-        get: () => this
+      Object.defineProperty(store.getters, '$context', {
+        get: () => this.statics,
+        configurable: true
       })
     }
     this.$store = store
@@ -50,13 +55,27 @@ export class VuexStore<M extends VuexModule> {
 
   get statics(): M {
     if (this._statics === undefined) {
-      this._statics = this.genStatic()
+      const configuredPath = this._path.join('.')
+      const configured =
+        this.$store.getters[this.namespaced('$paths')] ||
+        (this.$store.getters[this.namespaced('$paths')] = [])
+      const oldStatics = this.$store.getters[this.namespaced('$context')]
+      if (configured.indexOf(configuredPath) !== -1) {
+        this._statics = oldStatics
+        return this._statics!
+      }
+      const statics = this.genStatic(oldStatics)
+      Object.defineProperty(this.$store.getters, this.namespaced('$context'), {
+        get: () => statics,
+        configurable: true
+      })
+      configured.push(configuredPath)
+      this._statics = statics
     }
     return this._statics
   }
 
-  genStatic() {
-    const statics: any = {}
+  genStatic(statics: any = {}) {
     const state = this.state || {}
     Object.keys(state)
       .filter(Object.hasOwnProperty.bind(state))
