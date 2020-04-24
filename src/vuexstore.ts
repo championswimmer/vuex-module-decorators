@@ -27,7 +27,6 @@ export class VuexStore<M extends VuexModule> {
     }
     this._namespace = namespace
     this._path = namespace ? namespace.split('/') : []
-    console.log(this)
   }
 
   $store: Store<any>
@@ -88,6 +87,7 @@ export class VuexStore<M extends VuexModule> {
       .forEach((key) => {
         const namespacedKey = this.namespaced(key)
         statics[key] = (...args: any[]) => {
+          console.warn('commit', namespacedKey, ...args)
           return this.$store.commit(namespacedKey, ...args)
         }
       })

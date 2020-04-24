@@ -61,37 +61,14 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
     })
     const modOpt = moduleOptions as DynamicModuleOptions
     if (modOpt.name) {
-      Object.defineProperty(constructor, '_genStatic', {
-        value: (store?: Store<any>) => {
-          let statics = { store: store || modOpt.store }
-          if (!statics.store) {
-            throw new Error(`ERR_STORE_NOT_PROVIDED: To use getModule(), either the module
-            should be decorated with store in decorator, i.e. @Module({store: store}) or
-            store should be passed when calling getModule(), i.e. getModule(MyModule, this.$store)`)
-          }
-          // ===========  For statics ==============
-          // ------ state -------
-          staticStateGenerator(module, modOpt, statics)
-
-          // ------- getters -------
-          if (module.getters) {
-            staticGetterGenerator(module, modOpt, statics)
-          }
-
-          // -------- mutations --------
-          if (module.mutations) {
-            staticMutationGenerator(module, modOpt, statics)
-          }
-          // -------- actions ---------
-          if (module.actions) {
-            staticActionGenerators(module, modOpt, statics)
-          }
-          return statics
-        }
-      })
-
       Object.defineProperty(constructor, '_vmdModuleName', {
         value: modOpt.name
+      })
+    }
+
+    if (modOpt.store) {
+      Object.defineProperty(constructor, '_store', {
+        value: modOpt.store
       })
     }
 

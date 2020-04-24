@@ -3,6 +3,7 @@ import Vue from 'vue'
 Vue.use(Vuex)
 import { getModule, Module, VuexModule } from '../..'
 import { expect } from 'chai'
+import { getModuleName } from '../../src/helpers'
 
 const store = new Vuex.Store({})
 
@@ -15,7 +16,7 @@ class MyModuleWithoutStore extends VuexModule {}
 describe('getModule() without providing store', () => {
   it('should generate the module on statics property', function() {
     const module = getModule(MyModule)
-    expect((MyModule as any)._statics).to.equal(module)
+    expect(store.getters[getModuleName(module)]).to.equal(module)
   })
 
   it('should error without defining store on the module', function() {
