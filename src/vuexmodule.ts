@@ -8,6 +8,7 @@ import {
   ActionContext
 } from 'vuex'
 import { getModuleName } from './helpers'
+import { VuexStore } from './vuexstore'
 
 export class VuexModule<S = ThisType<any>, R = any> implements Mod<S, R> {
   /*
@@ -49,25 +50,18 @@ export function getModule<M extends VuexModule>(
 ): M {
   const moduleName = getModuleName(moduleClass)
   if (store && store.getters[moduleName]) {
-    return store.getters[moduleName]
+    return store.getters[moduleName].statics
   } else if ((moduleClass as any)._statics) {
     return (moduleClass as any)._statics
   }
 
-  const genStatic: (providedStore?: Store<any>) => M = (moduleClass as any)._genStatic
-  if (!genStatic) {
-    throw new Error(`ERR_GET_MODULE_NO_STATICS : Could not get module accessor.
-      Make sure your module has name, we can't make accessors for unnamed modules
-      i.e. @Module({ name: 'something' })`)
-  }
-
-  const storeModule = genStatic(store)
+  const storeWrapper = new VuexStore(moduleClass, store, moduleName)
 
   if (store) {
-    store.getters[moduleName] = storeModule
+    store.getters[moduleName] = storeWrapper
   } else {
-    ;(moduleClass as any)._statics = storeModule
+    ;(moduleClass as any)._statics = storeWrapper
   }
 
-  return storeModule
+  return storeWrapper.statics
 }
