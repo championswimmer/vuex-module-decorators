@@ -2,12 +2,6 @@ import { GetterTree, Module as Mod, Store } from 'vuex'
 import { DynamicModuleOptions, ModuleOptions } from '../moduleoptions'
 import { stateFactory as sf } from './stateFactory'
 import { addPropertiesToObject } from '../helpers'
-import {
-  staticActionGenerators,
-  staticGetterGenerator,
-  staticMutationGenerator,
-  staticStateGenerator
-} from './staticGenerators'
 
 function registerDynamicModule<S>(module: Mod<S, any>, modOpt: DynamicModuleOptions) {
   if (!modOpt.name) {
