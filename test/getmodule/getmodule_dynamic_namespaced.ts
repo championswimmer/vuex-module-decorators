@@ -23,6 +23,11 @@ class MyModule extends VuexModule {
     return retVal
   }
 
+  @Action({ commit: 'incrCount', root: true })
+  async getCountDeltaRoot(retVal: number = 7) {
+    return retVal
+  }
+
   get halfCount() {
     return (this.count / 2).toPrecision(1)
   }
@@ -41,5 +46,7 @@ describe('accessing statics works on dynamic (namespaced) module', () => {
     expect(parseInt(mm.halfCount)).to.equal(5)
     await mm.getCountDelta(5)
     expect(parseInt(mm.halfCount)).to.equal(8)
+    await mm.getCountDeltaRoot()
+    expect(parseInt(mm.halfCount)).to.equal(1)
   })
 })

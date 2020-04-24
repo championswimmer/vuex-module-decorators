@@ -73,7 +73,7 @@ export class VuexStore<M extends VuexModule> {
     Object.keys(getters)
       .filter(Object.hasOwnProperty.bind(getters))
       .forEach((key) => {
-        const namespacedKey = this.namespaced(key)
+        const namespacedKey = (getters[key] as any).root ? key : this.namespaced(key)
         Object.defineProperty(statics, key, {
           get: () => this.$store.getters[namespacedKey]
         })
@@ -83,7 +83,7 @@ export class VuexStore<M extends VuexModule> {
     Object.keys(mutations)
       .filter(Object.hasOwnProperty.bind(mutations))
       .forEach((key) => {
-        const namespacedKey = this.namespaced(key)
+        const namespacedKey = (mutations[key] as any).root ? key : this.namespaced(key)
         statics[key] = (...args: any[]) => {
           return this.$store.commit(namespacedKey, ...args)
         }
@@ -93,7 +93,7 @@ export class VuexStore<M extends VuexModule> {
     Object.keys(actions)
       .filter(Object.hasOwnProperty.bind(actions))
       .forEach((key) => {
-        const namespacedKey = this.namespaced(key)
+        const namespacedKey = (actions[key] as any).root ? key : this.namespaced(key)
         statics[key] = (...args: any[]) => {
           return this.$store.dispatch(namespacedKey, ...args)
         }
