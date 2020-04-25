@@ -5,7 +5,7 @@ import { expect } from 'chai'
 
 Vue.use(Vuex)
 
-const vehicle = new VuexModule({
+const vehicle = VuexModule.create({
   state: {
     wheels: 2
   },

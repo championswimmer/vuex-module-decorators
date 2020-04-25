@@ -1,18 +1,19 @@
-import { Store } from 'vuex'
+import { Store, Module } from 'vuex'
 import { VuexModule } from './vuexmodule'
 
-declare type ConstructorOf<C> = {
-  new (...args: any[]): C
+declare type VuexModuleClass<M> = {
+  new (...args: any[]): M
+  create<S>(module: Module<S, any>): typeof VuexModule
 }
 
 export class VuexStore<M extends VuexModule> {
   constructor(
-    moduleClass: ConstructorOf<M>,
+    moduleClass: VuexModuleClass<M>,
     store?: Store<any>,
     path: string[] = [],
     namespace: string = ''
   ) {
-    const module = (moduleClass as any) as VuexModule<M>
+    const module = moduleClass as typeof VuexModule
     if (store === undefined) {
       if (path.length !== 0) {
         throw new Error(`ERR_STORE_NOT_PROVIDED: To use VuexStore, either the store should
@@ -33,7 +34,7 @@ export class VuexStore<M extends VuexModule> {
   $store: Store<any>
   _path: string[]
   _namespace: string | null
-  _class: VuexModule<M>
+  _class: typeof VuexModule
   _statics?: M
 
   get state() {

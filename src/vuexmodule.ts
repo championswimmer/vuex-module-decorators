@@ -10,7 +10,7 @@ import {
 import { getModuleName, getModuleNamespace, getModulePath } from './helpers'
 import { VuexStore } from './vuexstore'
 
-export class VuexModule<S = ThisType<any>, R = any> implements Mod<S, R> {
+export class VuexModule<S = ThisType<any>, R = any> {
   /*
    * To use with `extends Class` syntax along with decorators
    */
@@ -21,28 +21,17 @@ export class VuexModule<S = ThisType<any>, R = any> implements Mod<S, R> {
   static mutations?: MutationTree<any>
   static modules?: ModuleTree<any>
 
-  /*
-   * To use with `new VuexModule(<ModuleOptions>{})` syntax
-   */
-
-  modules?: ModuleTree<any>
-  namespaced?: boolean
-  getters?: GetterTree<S, R>
-  state?: S | (() => S)
-  mutations?: MutationTree<S>
-  actions?: ActionTree<S, R>
   context!: ActionContext<S, R>
 
-  constructor(module: Mod<S, any>) {
-    this.actions = module.actions
-    this.mutations = module.mutations
-    this.state = module.state
-    this.getters = module.getters
-    this.namespaced = module.namespaced
-    this.modules = module.modules
+  static create<S>(module: Mod<S, any>) {
+    return Object.assign({}, module) as typeof VuexModule
   }
 }
-type ConstructorOf<C> = { new (...args: any[]): C }
+
+type ConstructorOf<C> = {
+  new (...args: any[]): C
+  create<S>(module: Mod<S, any>): typeof VuexModule
+}
 
 export function getModule<M extends VuexModule>(
   moduleClass: ConstructorOf<M>,
