@@ -3,7 +3,6 @@ import { VuexModule } from './vuexmodule'
 
 declare type VuexModuleClass<M> = {
   new (...args: any[]): M
-  create<S>(module: Module<S, any>): typeof VuexModule
 }
 
 export class VuexStore<M extends VuexModule> {
@@ -13,7 +12,7 @@ export class VuexStore<M extends VuexModule> {
     path: string[] = [],
     namespace: string = ''
   ) {
-    const module = moduleClass as typeof VuexModule
+    const module = moduleClass as Module<M, any>
     if (store === undefined) {
       if (path.length !== 0) {
         throw new Error(`ERR_STORE_NOT_PROVIDED: To use VuexStore, either the store should
@@ -34,7 +33,7 @@ export class VuexStore<M extends VuexModule> {
   $store: Store<any>
   _path: string[]
   _namespace: string | null
-  _class: typeof VuexModule
+  _class: Module<M, any>
   _statics?: M
 
   get state() {

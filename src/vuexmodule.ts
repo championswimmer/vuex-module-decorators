@@ -5,10 +5,54 @@ import {
   ModuleTree,
   MutationTree,
   Store,
-  ActionContext
+  ActionContext,
+  Payload
 } from 'vuex'
 import { getModuleName, getModuleNamespace, getModulePath } from './helpers'
-import { VuexStore } from './vuexstore'
+import {
+  staticActionGenerators,
+  staticStateGenerator,
+  staticGetterGenerator,
+  staticMutationGenerator
+} from './module/staticGenerators'
+
+export class Context<S, R> implements ActionContext<S, R> {
+  namespace?: string
+  path!: string[]
+  context!: Store<any> | ActionContext<S, R>
+  state!: S
+  rootState!: R
+  getters: any
+  rootGetters: any
+  namespaced(key: string | Payload) {
+    if (!this.namespace) {
+      return key
+    }
+    if (typeof key === 'string') {
+      return `${this.namespace}/${key}`
+    } else {
+      const payload = key
+      payload.type = `${this.namespace}/${payload.type}`
+      return payload
+    }
+  }
+  dispatch(key: string | Payload, ...args: any[]) {
+    return this.context.dispatch(this.namespaced(key) as any, ...args)
+  }
+  commit(key: string | Payload, ...args: any[]) {
+    return this.context.commit(this.namespaced(key) as any, ...args)
+  }
+  constructor(context: Store<any> | ActionContext<S, R>, path: string[] = [], namespace?: string) {
+    this.context = context
+    this.path = path
+    this.namespace = namespace
+    this.state = this.context.state
+    this.getters = this.context.getters
+    context = context as ActionContext<S, R>
+    this.rootGetters = context.getters ?? context.getters
+    this.rootState = context.rootState ?? this.context.state
+  }
+}
 
 export class VuexModule<S = ThisType<any>, R = any> {
   /*
@@ -21,16 +65,34 @@ export class VuexModule<S = ThisType<any>, R = any> {
   static mutations?: MutationTree<any>
   static modules?: ModuleTree<any>
 
-  context!: ActionContext<S, R>
+  $module?: Mod<S, R>
+  context!: Context<S, R>
 
   static create<S>(module: Mod<S, any>) {
     return Object.assign({}, module) as typeof VuexModule
+  }
+
+  constructor(root?: Store<R> | ActionContext<S, R>, path?: string[], namespace?: string) {
+    if (root === undefined) {
+      return
+    }
+    Object.defineProperty(this, '$module', {
+      value: this.constructor,
+      enumerable: false
+    })
+    Object.defineProperty(this, 'context', {
+      value: new Context(root, path, namespace),
+      enumerable: false
+    })
+    staticStateGenerator(this, this)
+    staticGetterGenerator(this, this)
+    staticMutationGenerator(this, this)
+    staticActionGenerators(this, this)
   }
 }
 
 type ConstructorOf<C> = {
   new (...args: any[]): C
-  create<S>(module: Mod<S, any>): typeof VuexModule
 }
 
 export function getModule<M extends VuexModule>(
@@ -50,12 +112,11 @@ export function getModule<M extends VuexModule>(
     return store.getters[moduleName]
   }
 
-  const storeModule = new VuexStore(
-    moduleClass,
+  const storeModule = new moduleClass(
     store,
     getModulePath(moduleClass),
     getModuleNamespace(moduleClass)
-  ).statics
+  )
 
   if (!store) {
     ;(moduleClass as any)._statics = storeModule

@@ -56,3 +56,7 @@ export function getModulePath(module: any): string[] {
   }
   return [`${module._vmdModuleName}`]
 }
+
+export function namespaced(namespace: string | undefined, key: string) {
+  return namespace ? `${namespace}/${key}` : key
+}

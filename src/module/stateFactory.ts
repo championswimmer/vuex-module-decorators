@@ -1,15 +1,16 @@
 import { Module as Mod } from 'vuex'
 
-const reservedKeys = ['actions', 'getters', 'mutations', 'modules', 'state', 'namespaced', 'commit']
+const reservedKeys = ['getters', 'modules', 'state', 'commit', 'dispatch', '$module', 'context']
 export function stateFactory<S>(module: Function & Mod<S, any>) {
-  const state = new module.prototype.constructor({})
+  const state = new module.prototype.constructor()
+  console.log(state)
   const s = {} as S
   Object.keys(state).forEach((key: string) => {
     if (reservedKeys.indexOf(key) !== -1) {
       if (typeof state[key] !== 'undefined') {
         throw new Error(
           `ERR_RESERVED_STATE_KEY_USED: You cannot use the following
-        ['actions', 'getters', 'mutations', 'modules', 'state', 'namespaced', 'commit']
+        ['getters', 'modules', 'state', 'commit', 'dispatch', '$module', 'context']
         as fields in your module. These are reserved as they have special purpose in Vuex`
         )
       }
