@@ -376,8 +376,8 @@ export function createStore() {
   return new Vuex.Store({
     modules: {
       MyStoreModule,
-    },
-  }
+    }
+  })
 }
 
 // components/Random.tsx
