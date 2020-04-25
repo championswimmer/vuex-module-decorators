@@ -394,3 +394,14 @@ export default class extends Vue {
     }
 }
 ```
+
+## Configuration
+
+There is a global configuration object that can be used to set options across the
+whole module:
+
+```typescript
+import { config } from 'vuex-module-decorators'
+// Set rawError to true by default on all @Action decorators
+config.rawError = true
+```
