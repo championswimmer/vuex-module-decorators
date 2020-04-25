@@ -9,7 +9,7 @@ describe('prevent using reserved keys', () => {
     expect(() => {
       @Module
       class MyModule extends VuexModule {
-        actions: any = null
+        context: any = null
       }
     }).to.throw(/ERR_RESERVED_STATE_KEY_USED: .*/)
   })

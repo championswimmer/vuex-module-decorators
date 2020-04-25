@@ -22,7 +22,7 @@ export class Context<S, R> implements ActionContext<S, R> {
   context!: Store<any> | ActionContext<S, R>
   state!: S
   rootState!: R
-  getters: any
+  getters: any // not implemented
   rootGetters: any
   namespaced(key: string | Payload) {
     if (!this.namespace) {
@@ -36,6 +36,9 @@ export class Context<S, R> implements ActionContext<S, R> {
       return payload
     }
   }
+  getter(key: string) {
+    return this.rootGetters[this.namespaced(key) as string]
+  }
   dispatch(key: string | Payload, ...args: any[]) {
     return this.context.dispatch(this.namespaced(key) as any, ...args)
   }
@@ -46,7 +49,7 @@ export class Context<S, R> implements ActionContext<S, R> {
     this.context = context
     this.path = path
     this.namespace = namespace
-    this.state = this.context.state
+    this.state = path.reduce((state, key) => state[key], this.context.state)
     this.getters = this.context.getters
     context = context as ActionContext<S, R>
     this.rootGetters = context.getters ?? context.getters
@@ -67,6 +70,7 @@ export class VuexModule<S = ThisType<any>, R = any> {
 
   $module?: Mod<S, R>
   context!: Context<S, R>
+  _statics: any
 
   static create<S>(module: Mod<S, any>) {
     return Object.assign({}, module) as typeof VuexModule
@@ -84,10 +88,15 @@ export class VuexModule<S = ThisType<any>, R = any> {
       value: new Context(root, path, namespace),
       enumerable: false
     })
-    staticStateGenerator(this, this)
-    staticGetterGenerator(this, this)
-    staticMutationGenerator(this, this)
-    staticActionGenerators(this, this)
+    const statics = {}
+    staticStateGenerator(this, statics)
+    staticGetterGenerator(this, statics)
+    staticMutationGenerator(this, statics)
+    staticActionGenerators(this, statics)
+    Object.defineProperty(this, '_statics', {
+      value: statics,
+      enumerable: false
+    })
   }
 }
 
@@ -116,9 +125,11 @@ export function getModule<M extends VuexModule>(
     store,
     getModulePath(moduleClass),
     getModuleNamespace(moduleClass)
-  )
+  )._statics
 
-  if (!store) {
+  if (store) {
+    store.getters[moduleName] = storeModule
+  } else {
     ;(moduleClass as any)._statics = storeModule
   }
 

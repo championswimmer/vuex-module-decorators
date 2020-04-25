@@ -3,7 +3,6 @@ import { Module as Mod } from 'vuex'
 const reservedKeys = ['getters', 'modules', 'state', 'commit', 'dispatch', '$module', 'context']
 export function stateFactory<S>(module: Function & Mod<S, any>) {
   const state = new module.prototype.constructor()
-  console.log(state)
   const s = {} as S
   Object.keys(state).forEach((key: string) => {
     if (reservedKeys.indexOf(key) !== -1) {
