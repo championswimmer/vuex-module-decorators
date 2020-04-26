@@ -28,7 +28,6 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
 
         if (context.getters[staticKey]) {
           const moduleAccessor = context.getters[staticKey]
-          console.log(moduleAccessor)
           moduleAccessor.context = context
           actionPayload = await actionFunction.call(moduleAccessor, payload)
         } else if ((module as any)._store) {

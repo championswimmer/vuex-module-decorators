@@ -1,5 +1,6 @@
 export { VuexModule, getModule, newStore } from './vuexmodule'
 export { Module } from './module'
+export { Submodule } from './submodule'
 export { Action } from './action'
 export { Mutation } from './mutation'
 export { MutationAction } from './mutationaction'

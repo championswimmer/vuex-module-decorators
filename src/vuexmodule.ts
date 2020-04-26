@@ -72,7 +72,8 @@ export class VuexModule<S = ThisType<any>, R = any> {
   context!: ActionContext<S, R>
 
   static create<S>(module: Mod<S, any>) {
-    return Object.assign({}, module) as typeof VuexModule
+    const result = Object.assign({}, module)
+    return result as typeof VuexModule
   }
 }
 

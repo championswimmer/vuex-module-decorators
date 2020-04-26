@@ -13,9 +13,10 @@ export function staticStateGenerator<S extends Object, R>(
     return
   }
   const state = typeof stateFactory === 'function' ? (stateFactory as () => S)() : stateFactory
+  const modules = module.modules || {}
   let contextedState: S
   Object.keys(state).forEach((key) => {
-    if (state.hasOwnProperty(key)) {
+    if (state.hasOwnProperty(key) && !modules.hasOwnProperty(key)) {
       // If not undefined or function means it is a state value
       if (['undefined', 'function'].indexOf(typeof (state as any)[key]) === -1) {
         Object.defineProperty(statics, key, {
