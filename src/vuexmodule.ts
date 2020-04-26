@@ -125,7 +125,7 @@ export function installStatics(
   return moduleMap
 }
 
-interface VuexStore<S> extends Store<S> {
+export interface VuexStore<S> extends Store<S> {
   getters: { $statics: S }
 }
 
