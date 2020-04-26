@@ -57,11 +57,15 @@ describe('@Action with dynamic module (Context)', () => {
   })
 
   it('should concat foo & bar (ActionContext)', async function() {
-    await store.dispatch('concatFooOrBar', '') /// important init ActionContext here
-    const _module = (store as any)._modules.root._children.mm
-    console.log(_module)
-    const context = new Context<MyModule>(_module.context)
-
+    const local = (store as any)._modules.root._children.mm.context
+    const context = new Context<MyModule>({
+      dispatch: local.dispatch,
+      commit: local.commit,
+      getters: local.getters,
+      state: local.state,
+      rootGetters: store.getters,
+      rootState: store.state
+    })
     await context.dispatch('concatFooOrBar', { newstr: 't5' })
     context.commit('setFoo', 'bar')
     await context.dispatch({ type: 'concatFooOrBar', newstr: 't6' })
