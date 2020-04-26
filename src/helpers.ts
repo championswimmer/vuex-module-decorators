@@ -17,15 +17,14 @@ export function addPropertiesToObject(target: any, source: any) {
  * @param module
  */
 export function getModuleName(module: any): string {
-  if (!module._vmdModuleName) {
-    throw new Error(`ERR_GET_MODULE_NAME : Could not get module accessor.
-      Make sure your module has name, we can't make accessors for unnamed modules
-      i.e. @Module({ name: 'something' })`)
+  return getStaticName(getModulePath(module))
+}
+
+export function getStaticName(path: string[]): string {
+  if (path.length === 0) {
+    return '$statics'
   }
-  if (module.namespaced) {
-    return `${module._vmdModuleName}/$context`
-  }
-  return '$context'
+  return '$statics.' + path.join('.')
 }
 
 /**
@@ -54,9 +53,9 @@ export function getModulePath(module: any): string[] {
       Make sure your module has name, we can't make accessors for unnamed modules
       i.e. @Module({ name: 'something' })`)
   }
-  return [`${module._vmdModuleName}`]
+  return module._vmdModuleName.split('/')
 }
 
-export function namespaced(namespace: string | undefined, key: string) {
+export function getNamespacedKey(namespace: string | null | undefined, key: string) {
   return namespace ? `${namespace}/${key}` : key
 }

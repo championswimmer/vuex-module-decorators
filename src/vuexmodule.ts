@@ -8,8 +8,8 @@ import {
   ActionContext,
   Payload
 } from 'vuex'
-import { getModuleName, getModuleNamespace, getModulePath } from './helpers'
-import { staticModuleGenerators } from './module/staticGenerators'
+import { getModuleName, getModuleNamespace, getModulePath, getStaticName } from './helpers'
+import { staticModuleGenerator } from './module/staticGenerators'
 
 export class Context<S, R> implements ActionContext<S, R> {
   namespace?: string
@@ -74,6 +74,24 @@ type ConstructorOf<C> = {
   new (...args: any[]): C
 }
 
+function installStatics<S, R>(root: any, module: Mod<S, R>, statics: any, path: string[] = []) {
+  root[getStaticName(path)] = statics
+  const modules = module.modules || {}
+  Object.keys(modules).forEach((key) => {
+    installStatics(root, modules[key], statics[key], path.concat(key))
+  })
+}
+
+export function newStore<M, S = M extends unknown ? any : M>(module: Mod<S, S>): Store<S> {
+  const store = new Store(module)
+  const statics = staticModuleGenerator(module, store)
+  /// store.getters.$static.path.to.module
+  /// store.getters.['$static.path.to.module']
+  installStatics(store.getters, module, statics)
+
+  return store
+}
+
 export function getModule<M extends VuexModule, R>(
   moduleClass: ConstructorOf<M>,
   store?: Store<R>
@@ -87,22 +105,16 @@ export function getModule<M extends VuexModule, R>(
       should be decorated with store in decorator, i.e. @Module({store: store}) or
       store should be passed when calling getModule(), i.e. getModule(MyModule, this.$store)`)
   }
-  if (store && store.getters[moduleName]) {
-    return store.getters[moduleName]
-  }
 
-  const storeModule = staticModuleGenerators(
+  const storeModule = staticModuleGenerator(
     moduleClass as Mod<M, R>,
     store,
     getModulePath(moduleClass),
-    getModuleNamespace(moduleClass)
+    getModuleNamespace(moduleClass),
+    false
   )
 
-  if (store) {
-    store.getters[moduleName] = storeModule
-  } else {
-    ;(moduleClass as any)._statics = storeModule
-  }
+  store.getters[moduleName] = storeModule
 
   return storeModule
 }

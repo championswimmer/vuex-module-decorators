@@ -1,7 +1,7 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
-import { Action, Module, Mutation, MutationAction, VuexModule } from '..'
+import { Action, Module, Mutation, MutationAction, VuexModule, newStore } from '..'
 import { expect } from 'chai'
 
 interface MyModule {
@@ -21,6 +21,26 @@ class MyModule extends VuexModule {
     this.count += delta
   }
 }
+
+describe('static module statics work', () => {
+  it('should update count', function() {
+    const store = newStore({
+      modules: {
+        mm: MyModule
+      }
+    })
+    store.getters.$statics.mm.incrCount(5)
+    expect(parseInt(store.state.mm.count)).to.equal(5)
+  })
+})
+
+describe('static root module statics work', () => {
+  it('should update count', function() {
+    const store = newStore(MyModule)
+    store.getters.$statics.incrCount(5)
+    expect(parseInt(store.state.count)).to.equal(5)
+  })
+})
 
 const store = new Vuex.Store({
   modules: {

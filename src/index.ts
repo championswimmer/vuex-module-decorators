@@ -1,4 +1,4 @@
-export { VuexModule, getModule } from './vuexmodule'
+export { VuexModule, getModule, newStore } from './vuexmodule'
 export { Module } from './module'
 export { Action } from './action'
 export { Mutation } from './mutation'
