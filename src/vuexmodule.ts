@@ -20,7 +20,7 @@ import { staticModuleGenerator } from './module/staticGenerators'
 export class Context<S, R> implements ActionContext<S, R> {
   namespace?: string
   path!: string[]
-  context!: Store<any> | ActionContext<S, R>
+  context!: Store<S> | ActionContext<S, R>
   state!: S
   rootState!: R
   getters: any // not implemented
@@ -46,15 +46,15 @@ export class Context<S, R> implements ActionContext<S, R> {
   commit(key: string | Payload, ...args: any[]) {
     return this.context.commit(this.namespaced(key) as any, ...args)
   }
-  constructor(context: Store<any> | ActionContext<S, R>, path: string[] = [], namespace?: string) {
+  constructor(context: Store<S> | ActionContext<S, R>, path: string[] = [], namespace?: string) {
     this.context = context
     this.path = path
     this.namespace = namespace
-    this.state = path.reduce((state, key) => state[key], this.context.state)
+    this.state = path.reduce((state, key) => state[key], context.state as any)
     this.getters = this.context.getters
     context = context as ActionContext<S, R>
-    this.rootGetters = context.getters ?? context.getters
-    this.rootState = context.rootState ?? this.context.state
+    this.rootGetters = context.rootGetters ?? context.getters
+    this.rootState = context.rootState ?? (context.state as any)
   }
 }
 
