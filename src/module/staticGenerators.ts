@@ -6,7 +6,7 @@ export function staticStateGenerator<S extends Object, R>(
   statics: any,
   module: Module<S, R>,
   store: Store<any>,
-  path: string[] = []
+  path: string[]
 ) {
   const stateFactory = module.state
   if (stateFactory === undefined) {
@@ -41,7 +41,7 @@ export function staticGetterGenerator<S, R>(
 ) {
   const getters = module.getters || {}
   Object.keys(getters).forEach((key) => {
-    const namespacedKey = (getters[key] as any).root ? key : getNamespacedKey(namespace, key)
+    const namespacedKey = getNamespacedKey(namespace, key)
     Object.defineProperty(statics, key, {
       get() {
         return store.getters[namespacedKey]
@@ -59,7 +59,7 @@ export function staticMutationGenerator<S, R>(
 ) {
   const mutations = module.mutations || {}
   Object.keys(mutations).forEach((key) => {
-    const namespacedKey = (mutations[key] as any).root ? key : getNamespacedKey(namespace, key)
+    const namespacedKey = getNamespacedKey(namespace, key)
     statics[key] = function(...args: any[]) {
       return store.commit(namespacedKey, ...args)
     }

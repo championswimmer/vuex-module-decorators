@@ -17,7 +17,7 @@ import {
 } from './helpers'
 import { staticModuleGenerator } from './module/staticGenerators'
 
-export class Context<S, R> implements ActionContext<S, R> {
+export class Context<S, R = any> implements ActionContext<S, R> {
   namespace?: string
   path!: string[]
   context!: Store<S> | ActionContext<S, R>
@@ -70,7 +70,6 @@ export class VuexModule<S = ThisType<any>, R = any> {
   static factory?: () => any
 
   context!: ActionContext<S, R>
-  new!: () => S
 
   static create<S>(module: Mod<S, any>) {
     const result = Object.assign({}, module)
@@ -157,6 +156,10 @@ export function getModule<M extends VuexModule, R>(
     throw new Error(`ERR_STORE_NOT_PROVIDED: To use getModule(), either the module
       should be decorated with store in decorator, i.e. @Module({store: store}) or
       store should be passed when calling getModule(), i.e. getModule(MyModule, this.$store)`)
+  }
+
+  if (store.getters[moduleName]) {
+    return store.getters[moduleName]
   }
 
   const storeModule = staticModuleGenerator(

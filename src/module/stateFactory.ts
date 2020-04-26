@@ -1,6 +1,19 @@
 import { Module as Mod } from 'vuex'
 
-const reservedKeys = ['getters', 'modules', 'state', 'commit', 'dispatch', 'context', 'new']
+const reservedKeys = [
+  'namespaced',
+  'state',
+  'getters',
+  'mutations',
+  'actions',
+  'modules',
+  'commit',
+  'dispatch',
+  'factory',
+  'context',
+  'namespace',
+  'path'
+]
 export function stateFactory<S>(module: Function & Mod<S, any>) {
   const state = new module.prototype.constructor()
   const modules = module.modules || {}
