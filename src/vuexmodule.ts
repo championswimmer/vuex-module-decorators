@@ -8,7 +8,13 @@ import {
   ActionContext,
   Payload
 } from 'vuex'
-import { getModuleName, getModuleNamespace, getModulePath, getStaticName } from './helpers'
+import {
+  getModuleName,
+  getModuleNamespace,
+  getModulePath,
+  getStaticName,
+  getNamespacedKey
+} from './helpers'
 import { staticModuleGenerator } from './module/staticGenerators'
 
 export class Context<S, R> implements ActionContext<S, R> {
@@ -74,11 +80,26 @@ type ConstructorOf<C> = {
   new (...args: any[]): C
 }
 
-function installStatics<S, R>(root: any, module: Mod<S, R>, statics: any, path: string[] = []) {
+function installStatics<S, R>(
+  root: any,
+  module: Mod<S, R>,
+  statics: any,
+  path: string[] = [],
+  namespace?: string
+) {
   root[getStaticName(path)] = statics
+  if (module.namespaced && namespace) {
+    Object.keys(module.mutations || {}).forEach(
+      (key) => (root[`${namespace}/$statics/${key}`] = statics)
+    )
+    Object.keys(module.actions || {}).forEach(
+      (key) => (root[`${namespace}/$statics/${key}`] = statics)
+    )
+  }
   const modules = module.modules || {}
   Object.keys(modules).forEach((key) => {
-    installStatics(root, modules[key], statics[key], path.concat(key))
+    const subNamespace = modules.namespaced ? getNamespacedKey(namespace, key) : namespace
+    installStatics(root, modules[key], statics[key], path.concat(key), subNamespace)
   })
 }
 
@@ -86,7 +107,8 @@ export function newStore<M, S = M extends unknown ? any : M>(module: Mod<S, S>):
   const store = new Store(module)
   const statics = staticModuleGenerator(module, store)
   /// store.getters.$static.path.to.module
-  /// store.getters.['$static.path.to.module']
+  /// store.getters['$static.path.to.module']
+  /// store.getters['path/to/namepace/$static']
   installStatics(store.getters, module, statics)
 
   return store

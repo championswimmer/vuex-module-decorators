@@ -18,22 +18,24 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
       module.actions = Object.assign({}, module.actions)
     }
     const actionFunction: Function = descriptor.value
+    const staticKey = '$statics/' + String(key)
     const action: Act<typeof target, any> = async function(
       context: ActionContext<typeof target, any>,
       payload: Payload
     ) {
       try {
-        let actionPayload = null
+        let actionPayload
 
-        if ((module as any)._store) {
+        if (context.getters[staticKey]) {
+          const moduleAccessor = context.getters[staticKey]
+          console.log(moduleAccessor)
+          moduleAccessor.context = context
+          actionPayload = await actionFunction.call(moduleAccessor, payload)
+        } else if ((module as any)._store) {
           const moduleName = getModuleName(module)
           const moduleAccessor = context.rootGetters[moduleName]
             ? context.rootGetters[moduleName]
             : getModule(module as typeof VuexModule)
-          moduleAccessor.context = context
-          actionPayload = await actionFunction.call(moduleAccessor, payload)
-        } else if (context.getters['$context']) {
-          const moduleAccessor = context.getters['$context']
           moduleAccessor.context = context
           actionPayload = await actionFunction.call(moduleAccessor, payload)
         } else {
