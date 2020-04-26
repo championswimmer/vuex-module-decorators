@@ -9,12 +9,7 @@ import {
   Payload
 } from 'vuex'
 import { getModuleName, getModuleNamespace, getModulePath } from './helpers'
-import {
-  staticActionGenerators,
-  staticStateGenerator,
-  staticGetterGenerator,
-  staticMutationGenerator
-} from './module/staticGenerators'
+import { staticModuleGenerators } from './module/staticGenerators'
 
 export class Context<S, R> implements ActionContext<S, R> {
   namespace?: string
@@ -68,35 +63,10 @@ export class VuexModule<S = ThisType<any>, R = any> {
   static mutations?: MutationTree<any>
   static modules?: ModuleTree<any>
 
-  $module?: Mod<S, R>
-  context!: Context<S, R>
-  _statics: any
+  context!: ActionContext<S, R>
 
   static create<S>(module: Mod<S, any>) {
     return Object.assign({}, module) as typeof VuexModule
-  }
-
-  constructor(root?: Store<R> | ActionContext<S, R>, path?: string[], namespace?: string) {
-    if (root === undefined) {
-      return
-    }
-    Object.defineProperty(this, '$module', {
-      value: this.constructor,
-      enumerable: false
-    })
-    Object.defineProperty(this, 'context', {
-      value: new Context(root, path, namespace),
-      enumerable: false
-    })
-    const statics = {}
-    staticStateGenerator(this, statics)
-    staticGetterGenerator(this, statics)
-    staticMutationGenerator(this, statics)
-    staticActionGenerators(this, statics)
-    Object.defineProperty(this, '_statics', {
-      value: statics,
-      enumerable: false
-    })
   }
 }
 
@@ -104,9 +74,9 @@ type ConstructorOf<C> = {
   new (...args: any[]): C
 }
 
-export function getModule<M extends VuexModule>(
+export function getModule<M extends VuexModule, R>(
   moduleClass: ConstructorOf<M>,
-  store?: Store<any>
+  store?: Store<R>
 ): M {
   const moduleName = getModuleName(moduleClass)
   if (!store) {
@@ -121,11 +91,12 @@ export function getModule<M extends VuexModule>(
     return store.getters[moduleName]
   }
 
-  const storeModule = new moduleClass(
+  const storeModule = staticModuleGenerators(
+    moduleClass as Mod<M, R>,
     store,
     getModulePath(moduleClass),
     getModuleNamespace(moduleClass)
-  )._statics
+  )
 
   if (store) {
     store.getters[moduleName] = storeModule
