@@ -67,6 +67,7 @@ export class VuexModule<S = ThisType<any>, R = any> {
   static actions?: ActionTree<any, any>
   static mutations?: MutationTree<any>
   static modules?: ModuleTree<any>
+  static factory?: () => any
 
   context!: ActionContext<S, R>
   new!: () => S

@@ -46,7 +46,11 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
   return function<TFunction extends Function>(constructor: TFunction): TFunction | void {
     const module: Function & Mod<S, any> = constructor
     const stateFactory = () => sf(module)
-    constructor.prototype.new = stateFactory
+    Object.defineProperty(constructor, 'factory', {
+      get() {
+        return stateFactory
+      }
+    })
 
     if (!module.state) {
       module.state = moduleOptions && moduleOptions.stateFactory ? stateFactory : stateFactory()

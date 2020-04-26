@@ -18,7 +18,7 @@ class Count extends VuexModule {
   }
 }
 
-@Module({ namespaced: true, stateFactory: true })
+@Module({ namespaced: true })
 class MySubmodule extends VuexModule {
   @Submodule({ module: Count })
   wheels!: Count
@@ -43,7 +43,7 @@ class MyModule extends VuexModule {
   @Submodule({ module: MySubmodule, namespaced: false })
   sub2!: MySubmodule
 
-  @Submodule({ module: MySubmodule })
+  @Submodule({ module: MySubmodule, init: MySubmodule.factory })
   sub1!: MySubmodule
 }
 const store = newStore(MyModule)
