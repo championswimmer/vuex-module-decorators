@@ -25,25 +25,24 @@ export class Context<S, R> implements ActionContext<S, R> {
   rootState!: R
   getters: any // not implemented
   rootGetters: any
-  namespaced(key: string | Payload) {
+  namespaced<P extends Payload>(key: string | P) {
     if (!this.namespace) {
       return key
     }
     if (typeof key === 'string') {
       return `${this.namespace}/${key}`
     } else {
-      const payload = key
-      payload.type = `${this.namespace}/${payload.type}`
-      return payload
+      key.type = `${this.namespace}/${key.type}`
+      return key
     }
   }
   getter(key: string) {
     return this.rootGetters[this.namespaced(key) as string]
   }
-  dispatch(key: string | Payload, ...args: any[]) {
+  dispatch<P extends Payload>(key: string | P, ...args: any[]) {
     return this.context.dispatch(this.namespaced(key) as any, ...args)
   }
-  commit(key: string | Payload, ...args: any[]) {
+  commit<P extends Payload>(key: string | P, ...args: any[]) {
     return this.context.commit(this.namespaced(key) as any, ...args)
   }
   constructor(context: Store<S> | ActionContext<S, R>, path: string[] = [], namespace?: string) {
@@ -70,6 +69,7 @@ export class VuexModule<S = ThisType<any>, R = any> {
   static modules?: ModuleTree<any>
 
   context!: ActionContext<S, R>
+  new!: () => S
 
   static create<S>(module: Mod<S, any>) {
     const result = Object.assign({}, module)
@@ -81,31 +81,40 @@ type ConstructorOf<C> = {
   new (...args: any[]): C
 }
 
-export function installStatics<S, R>(
+interface ModuleMap extends Mod<any, any> {
+  modules?: { [key: string]: ModuleMap }
+  keys?: string[]
+}
+
+export function installStatics(
   root: any,
-  module: Mod<S, R>,
+  module: ModuleMap,
   statics: any,
   path: string[] = [],
   namespace?: string,
-  recursive?: boolean
+  recursive: boolean = true
 ) {
   root[getStaticName(path)] = statics
-  if (module.namespaced && namespace) {
-    Object.keys(module.mutations || {}).forEach(
-      (key) => (root[`${namespace}/$statics/${key}`] = statics)
-    )
-    Object.keys(module.actions || {}).forEach(
-      (key) => (root[`${namespace}/$statics/${key}`] = statics)
-    )
+  const moduleMap: ModuleMap = {
+    namespaced: module.namespaced,
+    modules: {}
   }
+
+  const prefix = namespace ? `${namespace}/$statics/` : '$statics/'
+  const keys = moduleMap.keys || []
+  const actionKeys = Object.keys(module.actions || {})
+  const gettersKey = Object.keys(module.getters || {})
+  moduleMap.keys = keys.concat(actionKeys, gettersKey)
+  moduleMap.keys.forEach((key) => (root[prefix + key] = statics))
+
   const modules = module.modules || {}
-  const moduleMap = { modules: {} as ModuleTree<R> }
   if (recursive) {
     Object.keys(modules).forEach((key) => {
-      const subNamespace = modules.namespaced ? getNamespacedKey(namespace, key) : namespace
-      moduleMap.modules[key] = installStatics(
+      const subModule = modules[key]
+      const subNamespace = subModule.namespaced ? getNamespacedKey(namespace, key) : namespace
+      moduleMap.modules![key] = installStatics(
         root,
-        modules[key],
+        subModule,
         statics[key],
         path.concat(key),
         subNamespace,

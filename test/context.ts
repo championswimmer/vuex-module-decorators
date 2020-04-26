@@ -21,11 +21,11 @@ class MyModule extends VuexModule {
   }
 
   @Action
-  async concatFooOrBar(newstr: string) {
+  async concatFooOrBar(payload: { newstr: string }) {
     if (this.fieldFoo.length < this.fieldBar.length) {
-      this.setFoo(newstr)
+      this.setFoo(payload.newstr)
     } else {
-      this.setBar(newstr)
+      this.setBar(payload.newstr)
     }
   }
 
@@ -37,10 +37,10 @@ class MyModule extends VuexModule {
 describe('@Action with dynamic module (Context)', () => {
   it('should concat foo & bar', async function() {
     const context = new Context(store, ['mm'], 'mm')
-    await context.dispatch('concatFooOrBar', 't1')
+    await context.dispatch('concatFooOrBar', { newstr: 't1' })
     expect(context.state.fieldBar).to.equal('bart1')
     context.commit('setFoo', 'bar')
-    await context.dispatch('concatFooOrBar', 't1')
+    await context.dispatch({ type: 'concatFooOrBar', newstr: 't1' })
     expect(context.getter('fooEqBar')).to.equal(false)
     expect(context.state.fieldFoo).to.equal('foobar')
   })

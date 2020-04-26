@@ -57,15 +57,16 @@ export function Submodule<T, S, R, K, M extends K>(
     return submoduleDecoratorFactory(paramsOrTarget as SubmoduleDecoratorParams<S, R>)
   } else {
     /*
-     * This is the case when `paramsOrTarget` is target.
+     * This is the case when `paramsOrTarget` is target. not support by now
      * i.e. when used as -
      * <pre>
         @Submodule
-        async getCountDelta() {
-          return {incrCount: 5}
-        }
+        subName!: MySubModule
      * </pre>
      */
-    submoduleDecoratorFactory({} as SubmoduleDecoratorParams<S, R>)(paramsOrTarget as K, key)
+    // submoduleDecoratorFactory({} as SubmoduleDecoratorParams<S, R>)(paramsOrTarget as K, key)
+    throw new Error(`ERR_SUBMODULE_NO_MODULE : Could not create module.
+      Make sure your submodule has type, we generate StoreOption for untyped submodules
+      i.e. @Submodule({ module: MyModule })`)
   }
 }

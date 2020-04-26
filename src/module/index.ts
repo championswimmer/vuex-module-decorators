@@ -1,4 +1,4 @@
-import { GetterTree, Module as Mod, Store } from 'vuex'
+import { GetterTree, Module as Mod } from 'vuex'
 import { DynamicModuleOptions, ModuleOptions } from '../moduleoptions'
 import { stateFactory as sf } from './stateFactory'
 import { addPropertiesToObject, getModuleName, getModuleNamespace, getModulePath } from '../helpers'
@@ -46,6 +46,7 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
   return function<TFunction extends Function>(constructor: TFunction): TFunction | void {
     const module: Function & Mod<S, any> = constructor
     const stateFactory = () => sf(module)
+    constructor.prototype.new = stateFactory
 
     if (!module.state) {
       module.state = moduleOptions && moduleOptions.stateFactory ? stateFactory : stateFactory()
@@ -62,16 +63,24 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
         funcName
       ) as PropertyDescriptor
       if (descriptor.get && module.getters) {
+        const staticKey = '$statics/' + funcName
         module.getters[funcName] = function(
           state: S,
-          getters: GetterTree<S, any>,
+          getters: any,
           rootState: any,
-          rootGetters: GetterTree<any, any>
+          rootGetters: any
         ) {
-          const thisObj = { context: { state, getters, rootState, rootGetters } }
-          addPropertiesToObject(thisObj, state)
-          addPropertiesToObject(thisObj, getters)
-          const got = (descriptor.get as Function).call(thisObj)
+          const context = { state, getters, rootState, rootGetters }
+          let moduleAccessor
+          if (getters[staticKey]) {
+            moduleAccessor = getters[staticKey]
+            moduleAccessor.context = context
+          } else {
+            moduleAccessor = { context }
+            addPropertiesToObject(moduleAccessor, state)
+            addPropertiesToObject(moduleAccessor, getters)
+          }
+          const got = (descriptor.get as Function).call(moduleAccessor)
           return got
         }
       }
