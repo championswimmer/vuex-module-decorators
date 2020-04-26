@@ -55,7 +55,7 @@ class MyModule extends VuexModule {
   }
 }
 
-const store = newStore({
+const store = newStore<any>({
   modules: {
     mm: MyModule
   }

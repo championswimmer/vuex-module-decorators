@@ -81,12 +81,13 @@ type ConstructorOf<C> = {
   new (...args: any[]): C
 }
 
-function installStatics<S, R>(
+export function installStatics<S, R>(
   root: any,
   module: Mod<S, R>,
   statics: any,
   path: string[] = [],
-  namespace?: string
+  namespace?: string,
+  recursive?: boolean
 ) {
   root[getStaticName(path)] = statics
   if (module.namespaced && namespace) {
@@ -98,19 +99,38 @@ function installStatics<S, R>(
     )
   }
   const modules = module.modules || {}
-  Object.keys(modules).forEach((key) => {
-    const subNamespace = modules.namespaced ? getNamespacedKey(namespace, key) : namespace
-    installStatics(root, modules[key], statics[key], path.concat(key), subNamespace)
-  })
+  const moduleMap = { modules: {} as ModuleTree<R> }
+  if (recursive) {
+    Object.keys(modules).forEach((key) => {
+      const subNamespace = modules.namespaced ? getNamespacedKey(namespace, key) : namespace
+      moduleMap.modules[key] = installStatics(
+        root,
+        modules[key],
+        statics[key],
+        path.concat(key),
+        subNamespace,
+        recursive
+      )
+    })
+  }
+  return moduleMap
 }
 
-export function newStore<M, S = M extends unknown ? any : M>(module: Mod<S, S>): Store<S> {
+interface VuexStore<S> extends Store<S> {
+  getters: { $statics: S }
+}
+
+export function newStore<M extends VuexModule>(module: ConstructorOf<M>): VuexStore<M>
+export function newStore<S>(module: Mod<S, S>): VuexStore<S>
+export function newStore<S, M extends VuexModule>(
+  module: Mod<S, S> | (Mod<S, S> & ConstructorOf<M>)
+) {
   const store = new Store(module)
   const statics = staticModuleGenerator(module, store)
-  /// store.getters.$static.path.to.module
-  /// store.getters['$static.path.to.module']
-  /// store.getters['path/to/namepace/$static']
-  installStatics(store.getters, module, statics)
+    /// store.getters.$static.path.to.module
+    /// store.getters['$static.path.to.module']
+    /// store.getters['path/to/namepace/$static']
+  ;(store as any)._vmdModuleMap = installStatics(store.getters, module, statics)
 
   return store
 }

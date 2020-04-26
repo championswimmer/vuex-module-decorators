@@ -1,7 +1,9 @@
 import { GetterTree, Module as Mod, Store } from 'vuex'
 import { DynamicModuleOptions, ModuleOptions } from '../moduleoptions'
 import { stateFactory as sf } from './stateFactory'
-import { addPropertiesToObject } from '../helpers'
+import { addPropertiesToObject, getModuleName, getModuleNamespace, getModulePath } from '../helpers'
+import { staticModuleGenerator } from './staticGenerators'
+import { installStatics } from '../vuexmodule'
 
 function registerDynamicModule<S>(module: Mod<S, any>, modOpt: DynamicModuleOptions) {
   if (!modOpt.name) {
@@ -12,11 +14,33 @@ function registerDynamicModule<S>(module: Mod<S, any>, modOpt: DynamicModuleOpti
     throw new Error('Store not provided in decorator options when using dynamic option')
   }
 
+  const oldStatics = modOpt.store.getters.$statics
+  const moduleMap = (modOpt.store as any)._vmdModuleMap
   modOpt.store.registerModule(
     modOpt.name, // TODO: Handle nested modules too in future
     module,
     { preserveState: modOpt.preserveState || false }
   )
+  if (moduleMap && oldStatics) {
+    installStatics(modOpt.store.getters, moduleMap, oldStatics)
+    const path = getModulePath(module)
+    const name = path[path.length - 1]
+    const namespace = getModuleNamespace(module)
+    const recursive = true
+    const statics = staticModuleGenerator(module, modOpt.store, path, namespace, recursive)
+    const parentStatics = path.slice(0, -1).reduce((s, key) => s[key], oldStatics)
+    console.log(parentStatics)
+    parentStatics[name] = statics
+    const parentModuleMap = path.slice(0, -1).reduce((s, key) => s[key], moduleMap)
+    parentModuleMap[name] = installStatics(
+      modOpt.store.getters,
+      module,
+      statics,
+      path,
+      namespace,
+      recursive
+    )
+  }
 }
 
 function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {

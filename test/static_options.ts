@@ -24,7 +24,7 @@ class MyModule extends VuexModule {
 
 describe('static module statics work', () => {
   it('should update count', function() {
-    const store = newStore({
+    const store = newStore<any>({
       modules: {
         mm: MyModule
       }
@@ -38,7 +38,7 @@ describe('static root module statics work', () => {
   it('should update count', function() {
     const store = newStore(MyModule)
     store.getters.$statics.incrCount(5)
-    expect(parseInt(store.state.count)).to.equal(5)
+    expect(store.state.count).to.equal(5)
   })
 })
 
