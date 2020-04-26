@@ -29,7 +29,6 @@ function registerDynamicModule<S>(module: Mod<S, any>, modOpt: DynamicModuleOpti
     const recursive = true
     const statics = staticModuleGenerator(module, modOpt.store, path, namespace, recursive)
     const parentStatics = path.slice(0, -1).reduce((s, key) => s[key], oldStatics)
-    console.log(parentStatics)
     parentStatics[name] = statics
     const parentModuleMap = path.slice(0, -1).reduce((s, key) => s[key], moduleMap)
     parentModuleMap[name] = installStatics(

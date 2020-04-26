@@ -8,7 +8,6 @@ interface StoreType {
   mm: MyModule
 }
 const store = newStore<StoreType>({})
-console.log('storetype:', store.getters)
 
 @Module({ dynamic: true, store, name: 'mm', namespaced: true })
 class MyModule extends VuexModule {
@@ -34,7 +33,7 @@ class MyModule extends VuexModule {
   }
 }
 
-describe('accessing statics works on dynamic (namespaced) module', () => {
+describe('accessing statics works on dynamic namespaced module (newStore)', () => {
   it('should update count', async function() {
     const mm = store.getters.$statics.mm
     expect(mm.count).to.equal(0)

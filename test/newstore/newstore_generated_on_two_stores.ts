@@ -30,7 +30,7 @@ const secondStore = newStore<StoreType>({
   }
 })
 
-describe('modules generated on two different stores', () => {
+describe('modules generated on two different stores (newStore)', () => {
   it('should each have their own state', function() {
     const module = firstStore.getters.$statics.mm
     const secondModule = secondStore.getters.$statics.mm

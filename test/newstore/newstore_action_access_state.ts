@@ -1,7 +1,7 @@
 import Vuex, { Module as Mod, Store } from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
-import { Action, Module, Mutation, MutationAction, VuexModule, newStore } from '..'
+import { Action, Module, Mutation, MutationAction, VuexModule, newStore } from '../..'
 import { expect } from 'chai'
 
 @Module
@@ -61,7 +61,7 @@ const store = newStore<any>({
   }
 })
 
-describe('@Action with non-dynamic module', () => {
+describe('@Action with non-dynamic module (newStore)', () => {
   const mm = store.getters.$statics.mm as MyModule
   it('should concat foo & bar', async function() {
     await store.dispatch('concatFooOrBar', 't1')

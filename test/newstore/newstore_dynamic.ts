@@ -28,7 +28,7 @@ class MyModule extends VuexModule {
   }
 }
 
-describe('accessing statics works on dynamic module', () => {
+describe('accessing statics works on dynamic module (newStore)', () => {
   it('should update count', async function() {
     const mm = (store.getters.$statics as StoreType).mm
     expect(mm.count).to.equal(0)

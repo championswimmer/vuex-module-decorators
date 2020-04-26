@@ -46,7 +46,7 @@ class MyModule extends VuexModule{
 
 const store = newStore(MyModule).getters.$statics as MyModule
 
-describe('actions and mutations on getModule()', () => {
+describe('actions and mutations on newStore()', () => {
   it('mutation should set provided value', function() {
     const module = store.mm
     expect(module.value).to.equal(defaultValue)
