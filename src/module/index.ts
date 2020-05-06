@@ -20,7 +20,8 @@ function registerDynamicModule<S>(module: Mod<S, any>, modOpt: DynamicModuleOpti
 
   modOpt.store.registerModule(
     modOpt.name, // TODO: Handle nested modules too in future
-    module
+    module,
+    { preserveState: modOpt.preserveState || false }
   )
 }
 
@@ -104,7 +105,7 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
 export function Module<S>(module: Function & Mod<S, any>): void
 export function Module<S>(options: ModuleOptions): ClassDecorator
 
-export function Module<S>(modOrOpt: ModuleOptions | Function & Mod<S, any>) {
+export function Module<S>(modOrOpt: ModuleOptions | (Function & Mod<S, any>)) {
   if (typeof (modOrOpt as any) === 'function') {
     /*
      * @Module decorator called without options (directly on the class definition)

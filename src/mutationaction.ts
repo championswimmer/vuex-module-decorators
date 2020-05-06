@@ -19,7 +19,7 @@ function mutationActionDecoratorFactory<T extends Object>(params: MutationAction
     if (!module.hasOwnProperty('actions')) {
       module.actions = Object.assign({}, module.actions)
     }
-    const mutactFunction = descriptor.value as ((payload: any) => Promise<any>)
+    const mutactFunction = descriptor.value as (payload: any) => Promise<any>
 
     const action: Act<typeof target, any> = async function(
       context: ActionContext<typeof target, any>,

@@ -1,9 +1,9 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
-import { getModule, Module, Mutation, VuexModule } from '..'
+import { getModule, Module, Mutation, VuexModule } from '../..'
 import { expect } from 'chai'
-import { getModuleName } from '../src/helpers';
+import { getModuleName } from '../../src/helpers'
 
 interface StoreType {
   mm: MyModule

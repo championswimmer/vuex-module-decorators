@@ -5,6 +5,18 @@ installed as `npm install vuex-module-decorators@beta` (or alpha similar).
 
 ## 1.0.0
 
+### 0.17.0 
+
+- allow changing rawError default across project via global config
+
+### 0.14.0
+
+- support for `preserveState: true` in module options to use `vuex-persist` (OPTIONAL)
+
+### 0.13.0
+
+- tslib update, latest versions of all typescript compilers and runtimes
+
 ### 0.11.0
 
 - fix support for SSR (with NUXT)

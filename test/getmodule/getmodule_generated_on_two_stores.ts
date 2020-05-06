@@ -1,7 +1,7 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
-import { getModule, Module, Mutation, VuexModule } from '..'
+import { getModule, Module, Mutation, VuexModule } from '../..'
 import { expect } from 'chai'
 
 interface StoreType {
