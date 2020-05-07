@@ -37,7 +37,7 @@ export class Context<S, R = any> implements ActionContext<S, R> {
     }
   }
   getter(key: string) {
-    return this.rootGetters[this.namespaced(key) as string]
+    return this.getters[this.namespaced(key) as string]
   }
   dispatch<P extends Payload>(key: string | P, ...args: any[]) {
     return this.context.dispatch(this.namespaced(key) as any, ...args)

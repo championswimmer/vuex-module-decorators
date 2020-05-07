@@ -69,12 +69,10 @@ describe('@Action with non-dynamic module (newStore)', () => {
     await mm.concatFooOrBar('t1')
     expect(mm.fieldFoo).to.equal('foot1')
   })
-  it('should error if this.mutation() is used in non-dynamic', async function() {
-    try {
-      await mm.concatFooOrBarWithThis('t1')
-    } catch (e) {
-      expect(e.message).to.contain('ERR_ACTION_ACCESS_UNDEFINED')
-    }
+  it('should success if this.mutation() is used in non-dynamic', async function() {
+    mm.resetFoo()
+    await mm.concatFooOrBarWithThis('t2')
+    expect(mm.fieldFoo).to.equal('foot2')
   })
   it('should save original error', async function() {
     try {
