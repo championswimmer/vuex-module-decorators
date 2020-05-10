@@ -6,15 +6,10 @@ import {
   MutationTree,
   Store,
   ActionContext,
-  Payload
+  Payload,
+  StoreOptions
 } from 'vuex'
-import {
-  getModuleName,
-  getModuleNamespace,
-  getModulePath,
-  getStaticName,
-  getNamespacedKey
-} from './helpers'
+import { getStaticName, getNamespacedKey } from './helpers'
 import { staticModuleGenerator } from './module/staticGenerators'
 
 export class Context<S, R = any> implements ActionContext<S, R> {
@@ -130,9 +125,9 @@ export interface VuexStore<S> extends Store<S> {
 }
 
 export function newStore<M extends VuexModule>(module: ConstructorOf<M>): VuexStore<M>
-export function newStore<S>(module: Mod<S, S>): VuexStore<S>
+export function newStore<S>(module: StoreOptions<S>): VuexStore<S>
 export function newStore<S, M extends VuexModule>(
-  module: Mod<S, S> | (Mod<S, S> & ConstructorOf<M>)
+  module: StoreOptions<S> | (StoreOptions<S> & ConstructorOf<M>)
 ) {
   const store = new Store(module)
   const statics = staticModuleGenerator(module, store)
@@ -142,35 +137,4 @@ export function newStore<S, M extends VuexModule>(
   ;(store as any)._vmdModuleMap = installStatics(store.getters, module, statics)
 
   return store
-}
-
-export function getModule<M extends VuexModule, R>(
-  moduleClass: ConstructorOf<M>,
-  store?: Store<R>
-): M {
-  const moduleName = getModuleName(moduleClass)
-  if (!store) {
-    store = (moduleClass as any)._store
-  }
-  if (!store) {
-    throw new Error(`ERR_STORE_NOT_PROVIDED: To use getModule(), either the module
-      should be decorated with store in decorator, i.e. @Module({store: store}) or
-      store should be passed when calling getModule(), i.e. getModule(MyModule, this.$store)`)
-  }
-
-  if (store.getters[moduleName]) {
-    return store.getters[moduleName]
-  }
-
-  const storeModule = staticModuleGenerator(
-    moduleClass as Mod<M, R>,
-    store,
-    getModulePath(moduleClass),
-    getModuleNamespace(moduleClass),
-    false
-  )
-
-  store.getters[moduleName] = storeModule
-
-  return storeModule
 }

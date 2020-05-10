@@ -3,13 +3,13 @@ import 'mock-local-storage'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { VuexPersistence } from 'vuex-persist'
-import { Module, Mutation, VuexModule } from '..'
-import { getModule } from '../src'
+import { Module, Mutation, VuexModule, newStore } from '..'
 
 Vue.use(Vuex)
 
 interface StoreType {
   mm: MyModule
+  msm: MySecondModule
 }
 
 localStorage.setItem(
@@ -25,7 +25,7 @@ let vuexLocal = new VuexPersistence<StoreType>({
   storage: localStorage
 })
 
-let store = new Vuex.Store<StoreType>({
+let store = newStore<StoreType>({
   plugins: [vuexLocal.plugin]
 })
 
@@ -57,13 +57,13 @@ class MySecondModule extends VuexModule {
 
 describe('state restored by vuex-persist', () => {
   it('should restore state', function() {
-    const mm = getModule(MyModule)
+    const mm = store.getters.$statics.mm;
     mm.incrCount(5)
     expect(mm.count).to.equal(25)
     mm.incrCount(10)
     expect(mm.count).to.equal(35)
 
-    const msm = getModule(MySecondModule)
+    const msm = store.getters.$statics.msm;
     msm.incrCount(5)
     expect(msm.count).to.equal(5)
     msm.incrCount(10)

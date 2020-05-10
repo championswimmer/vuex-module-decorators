@@ -23,9 +23,9 @@ function registerDynamicModule<S>(module: Mod<S, any>, modOpt: DynamicModuleOpti
   )
   if (moduleMap && oldStatics) {
     installStatics(modOpt.store.getters, moduleMap, oldStatics)
-    const path = getModulePath(module)
+    const path = getModulePath(modOpt)
     const name = path[path.length - 1]
-    const namespace = getModuleNamespace(module)
+    const namespace = getModuleNamespace(modOpt)
     const recursive = true
     const statics = staticModuleGenerator(module, modOpt.store, path, namespace, recursive)
     const parentStatics = path.slice(0, -1).reduce((s, key) => s[key], oldStatics)
@@ -90,17 +90,6 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
       }
     })
     const modOpt = moduleOptions as DynamicModuleOptions
-    if (modOpt.name) {
-      Object.defineProperty(constructor, '_vmdModuleName', {
-        value: modOpt.name
-      })
-    }
-
-    if (modOpt.store) {
-      Object.defineProperty(constructor, '_store', {
-        value: modOpt.store
-      })
-    }
 
     if (modOpt.dynamic) {
       registerDynamicModule(module, modOpt)
