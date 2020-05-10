@@ -9,7 +9,7 @@ interface StoreType {
 }
 const store = new Vuex.Store<StoreType>({})
 
-@Module({ dynamic: true, store, name: 'mm' })
+@Module({ dynamic: true, store, name: 'mm', namespaced: false })
 class MyModule extends VuexModule {
   count = 0
 

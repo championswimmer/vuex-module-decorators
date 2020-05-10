@@ -4,7 +4,7 @@ Vue.use(Vuex)
 import { Action, Module, Mutation, MutationAction, VuexModule } from '..'
 import { expect } from 'chai'
 
-@Module
+@Module({ namespaced: false })
 class MyModule extends VuexModule {
   fieldFoo = 'foo'
   fieldBar = 'bar'
@@ -71,9 +71,10 @@ describe('@Action with non-dynamic module', () => {
     await store.dispatch('concatFooOrBar', 't1')
     expect(mm.fieldFoo).to.equal('foot1')
   })
-  it('should error if this.mutation() is used in non-dynamic', async function() {
+  it('should error if this.mutation() is used in raw store', async function() {
     try {
       await store.dispatch('concatFooOrBarWithThis', 't1')
+      expect(false).equal(true, "unreachable")
     } catch (e) {
       expect(e.message).to.contain('ERR_ACTION_ACCESS_UNDEFINED')
     }
@@ -81,6 +82,7 @@ describe('@Action with non-dynamic module', () => {
   it('should save original error', async function() {
     try {
       await store.dispatch('alwaysFail')
+      expect(false).equal(true, "unreachable")
     } catch (e) {
       expect(e.message).to.equal('Foo Bar!')
     }

@@ -4,7 +4,7 @@ Vue.use(Vuex)
 import { Module, MutationAction, VuexModule } from '..'
 import { expect } from 'chai'
 
-@Module({ namespaced: true })
+@Module
 class MyModule extends VuexModule {
     count = 100
 

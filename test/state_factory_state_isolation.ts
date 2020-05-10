@@ -4,7 +4,7 @@ Vue.use(Vuex)
 import { Action, Module, Mutation, MutationAction, VuexModule } from '..'
 import { expect } from 'chai'
 
-@Module({ stateFactory: true, namespaced: true })
+@Module({ stateFactory: true })
 class FactoryModule extends VuexModule {
   wheels = 2
 
@@ -18,7 +18,7 @@ class FactoryModule extends VuexModule {
   }
 }
 
-@Module({ namespaced: true })
+@Module
 class StateObjectModule extends VuexModule {
   wheels = 2
 

@@ -3,7 +3,7 @@ import { expect } from 'chai'
 
 const store = new Vuex.Store<any>({})
 
-@Module({ dynamic: true, store, name: 'mm' })
+@Module({ dynamic: true, store, name: 'mm', namespaced: false })
 class MyModule extends Vuex.Module {
   fieldFoo = 'foo'
   fieldBar = 'bar'

@@ -3,7 +3,7 @@ import { expect } from 'chai'
 
 const defaultValue = 10
 
-@Module
+@Module({ namespaced: false })
 class MySubModule extends Vuex.Module {
   public value = defaultValue
 
@@ -18,7 +18,7 @@ class MySubModule extends Vuex.Module {
   }
 }
 
-@Module({ namespaced: true })
+@Module
 class MyNamespacedModule extends Vuex.Module {
   public value = defaultValue
 

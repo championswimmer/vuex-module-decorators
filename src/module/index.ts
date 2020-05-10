@@ -53,14 +53,15 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
     })
 
     if (!module.state) {
-      module.state = moduleOptions && moduleOptions.stateFactory ? stateFactory : stateFactory()
+      module.state = moduleOptions.stateFactory ? stateFactory : stateFactory()
     }
     if (!module.getters) {
       module.getters = {} as GetterTree<S, any>
     }
-    if (!module.namespaced) {
-      module.namespaced = moduleOptions && moduleOptions.namespaced
+    if (module.namespaced === undefined) {
+      module.namespaced = moduleOptions.namespaced !== false
     }
+    moduleOptions.namespaced = module.namespaced
     Object.getOwnPropertyNames(module.prototype).forEach((funcName: string) => {
       const descriptor = Object.getOwnPropertyDescriptor(
         module.prototype,

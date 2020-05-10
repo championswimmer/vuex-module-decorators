@@ -1,9 +1,6 @@
 import Vuex from 'vuex'
-import Vue from 'vue'
 import { Module, MutationAction, VuexModule } from '..'
 import { expect } from 'chai'
-
-Vue.use(Vuex)
 
 @Module
 class MyModule extends VuexModule {
@@ -44,19 +41,15 @@ class MyModule extends VuexModule {
   }
 }
 
-const store = new Vuex.Store({
-  modules: {
-    mm: MyModule
-  }
-})
+const store = new Vuex.Store(MyModule)
 
 describe('dispatching moduleaction works', () => {
   it('should update count', async function() {
     await store.dispatch('updateCount', 2)
-    expect(parseInt(store.state.mm.count, 10)).to.equal(2)
+    expect(parseInt(store.state.count, 10)).to.equal(2)
 
     await store.dispatch('updateCountOnlyOnEven', 8)
-    expect(parseInt(store.state.mm.count, 10)).to.equal(8)
+    expect(parseInt(store.state.count, 10)).to.equal(8)
 
     // try {
     //   await store.dispatch('updateCountButNoSuchPayload', '1337')
@@ -73,6 +66,6 @@ describe('dispatching moduleaction works', () => {
 
   it('should update fruitname', async function() {
     await store.dispatch('changeFruit', 'Guava')
-    expect(store.state.mm.fruit).to.equal('Guava')
+    expect(store.state.fruit).to.equal('Guava')
   })
 })

@@ -4,7 +4,7 @@ Vue.use(Vuex)
 import { Action, Module, Mutation, VuexModule } from '..'
 import { expect } from 'chai'
 
-@Module
+@Module({ namespaced: false })
 class MyModule extends VuexModule {
   wheels = 2
 

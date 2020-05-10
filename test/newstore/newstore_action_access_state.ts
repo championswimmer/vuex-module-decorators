@@ -61,7 +61,7 @@ const store = new Vuex.Store<any>({
 describe('@Action with non-dynamic module (new Vuex.Store)', () => {
   const mm = store.getters.$statics.mm as MyModule
   it('should concat foo & bar', async function() {
-    await store.dispatch('concatFooOrBar', 't1')
+    await store.dispatch('mm/concatFooOrBar', 't1')
     expect(mm.fieldBar).to.equal('bart1')
     await mm.concatFooOrBar('t1')
     expect(mm.fieldFoo).to.equal('foot1')
