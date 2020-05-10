@@ -1,16 +1,13 @@
-import Vuex, { Module as Mod } from 'vuex'
-import Vue from 'vue'
-Vue.use(Vuex)
-import { Action, Module, Mutation, MutationAction, VuexModule, newStore } from '../..'
+import Vuex, { Action, Module, Mutation } from '../..'
 import { expect } from 'chai'
 
 interface StoreType {
   mm: MyModule
 }
-const store = newStore<StoreType>({})
+const store = new Vuex.Store<StoreType>({})
 
 @Module({ dynamic: true, store, name: 'mm' })
-class MyModule extends VuexModule {
+class MyModule extends Vuex.Module {
   count = 0
 
   @Mutation
@@ -28,7 +25,7 @@ class MyModule extends VuexModule {
   }
 }
 
-describe('accessing statics works on dynamic module (newStore)', () => {
+describe('accessing statics works on dynamic module (new Store)', () => {
   it('should update count', async function() {
     const mm = (store.getters.$statics as StoreType).mm
     expect(mm.count).to.equal(0)

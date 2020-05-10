@@ -1,13 +1,10 @@
-import Vuex from 'vuex'
-import Vue from 'vue'
-Vue.use(Vuex)
-import { Module, Action, Mutation, VuexModule, Submodule, newStore } from '../../'
+import Vuex, { Module, Action, Mutation, Submodule } from '../../'
 import { expect } from 'chai'
 
 const defaultValue = 10
 
 @Module
-class MySubModule extends VuexModule {
+class MySubModule extends Vuex.Module {
   public value = defaultValue
 
   @Mutation
@@ -22,7 +19,7 @@ class MySubModule extends VuexModule {
 }
 
 @Module({ namespaced: true })
-class MyNamespacedModule extends VuexModule {
+class MyNamespacedModule extends Vuex.Module {
   public value = defaultValue
 
   @Mutation
@@ -36,7 +33,7 @@ class MyNamespacedModule extends VuexModule {
   }
 }
 
-class MyModule extends VuexModule{
+class MyModule extends Vuex.Module{
   @Submodule({ module: MySubModule })
   mm!: MySubModule
 
@@ -44,9 +41,9 @@ class MyModule extends VuexModule{
   mnm!: MySubModule
 }
 
-const store = newStore(MyModule).getters.$statics as MyModule
+const store = new Vuex.Store(MyModule).getters.$statics as MyModule
 
-describe('actions and mutations on newStore()', () => {
+describe('actions and mutations on new Vuex.Store()', () => {
   it('mutation should set provided value', function() {
     const module = store.mm
     expect(module.value).to.equal(defaultValue)

@@ -72,6 +72,19 @@ export class VuexModule<S = ThisType<any>, R = any> {
   }
 }
 
+export class VuexStore<S> extends Store<S> implements VuexStoreStatic<S> {
+  _vmdModuleMap: ModuleMap
+
+  constructor(module: StoreOptions<S>) {
+    super(module)
+    const statics = staticModuleGenerator(module, this)
+    /// store.getters.$static.path.to.module
+    /// store.getters['$static.path.to.module']
+    /// store.getters['path/to/namepace/$static']
+    this._vmdModuleMap = installStatics(this.getters, module, statics)
+  }
+}
+
 type ConstructorOf<C> = {
   new (...args: any[]): C
 }
@@ -120,21 +133,6 @@ export function installStatics(
   return moduleMap
 }
 
-export interface VuexStore<S> extends Store<S> {
+export interface VuexStoreStatic<S> extends Store<S> {
   getters: { $statics: S }
-}
-
-export function newStore<M extends VuexModule>(module: ConstructorOf<M>): VuexStore<M>
-export function newStore<S>(module: StoreOptions<S>): VuexStore<S>
-export function newStore<S, M extends VuexModule>(
-  module: StoreOptions<S> | (StoreOptions<S> & ConstructorOf<M>)
-) {
-  const store = new Store(module)
-  const statics = staticModuleGenerator(module, store)
-    /// store.getters.$static.path.to.module
-    /// store.getters['$static.path.to.module']
-    /// store.getters['path/to/namepace/$static']
-  ;(store as any)._vmdModuleMap = installStatics(store.getters, module, statics)
-
-  return store
 }

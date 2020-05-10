@@ -1,11 +1,8 @@
-import Vuex, { Module as Mod } from 'vuex'
-import Vue from 'vue'
-Vue.use(Vuex)
-import { Action, Module, Mutation, MutationAction, VuexModule, Submodule, newStore } from '..'
+import Vuex, { Action, Module, Mutation, Submodule } from '..'
 import { expect } from 'chai'
 
 @Module({ namespaced: true, stateFactory: true })
-class Count extends VuexModule {
+class Count extends Vuex.Module {
   data = 2
 
   @Mutation
@@ -19,7 +16,7 @@ class Count extends VuexModule {
 }
 
 @Module({ namespaced: true })
-class MySubmodule extends VuexModule {
+class MySubmodule extends Vuex.Module {
   @Submodule({ module: Count })
   wheels!: Count
 
@@ -39,14 +36,14 @@ class MySubmodule extends VuexModule {
 }
 
 @Module
-class MyModule extends VuexModule {
+class MyModule extends Vuex.Module {
   @Submodule({ module: MySubmodule, namespaced: false })
   sub2!: MySubmodule
 
   @Submodule({ module: MySubmodule, init: MySubmodule.factory })
   sub1!: MySubmodule
 }
-const store = newStore(MyModule)
+const store = new Vuex.Store(MyModule)
 
 describe('submodule works', () => {
   it('should increase axles', function() {

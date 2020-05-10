@@ -1,13 +1,12 @@
-import Vuex from 'vuex'
 import Vue from 'vue'
+import Vuex, { Action, Module, Mutation } from '..'
 Vue.use(Vuex)
-import { Action, Module, Mutation, VuexModule, newStore } from '..'
 import { expect } from 'chai'
 
-const store = newStore<any>({})
+const store = new Vuex.Store<any>({})
 
 @Module({ dynamic: true, store, name: 'mm' })
-class MyModule extends VuexModule {
+class MyModule extends Vuex.Module {
   fieldFoo = 'foo'
   fieldBar = 'bar'
 

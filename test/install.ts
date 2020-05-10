@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import 'mock-local-storage'
 import Vue from 'vue'
 import { VuexPersistence } from 'vuex-persist'
-import Vuex, { Module, Mutation, VuexModule, newStore } from '..'
+import Vuex, { Module, Mutation } from '..'
 
 declare module "vue/types/vue" {
   interface Vue {
@@ -28,7 +28,7 @@ let vuexLocal = new VuexPersistence<StoreType>({
   storage: localStorage
 })
 
-let store = newStore<StoreType>({
+let store = new Vuex.Store<StoreType>({
   plugins: [vuexLocal.plugin]
 })
 
@@ -39,7 +39,7 @@ let store = newStore<StoreType>({
   name: 'mm',
   preserveState: localStorage.getItem('vuex') !== null
 })
-class MyModule extends VuexModule {
+class MyModule extends Vuex.Module {
   count = 0
 
   @Mutation
@@ -49,7 +49,7 @@ class MyModule extends VuexModule {
 }
 
 @Module({ dynamic: true, namespaced: true, store: store, name: 'msm' })
-class MySecondModule extends VuexModule {
+class MySecondModule extends Vuex.Module {
   count = 0
 
   @Mutation

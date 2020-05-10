@@ -1,7 +1,4 @@
-import Vuex from 'vuex'
-import Vue from 'vue'
-Vue.use(Vuex)
-import { Action, Module, Mutation, MutationAction, VuexModule, newStore } from '..'
+import Vuex, { Action, Module, Mutation } from '..'
 import { expect } from 'chai'
 
 interface MyModule {
@@ -9,7 +6,7 @@ interface MyModule {
 }
 
 @Module
-class MyModule extends VuexModule {
+class MyModule extends Vuex.Module {
   static namespaced = true
 
   static state () {
@@ -24,7 +21,7 @@ class MyModule extends VuexModule {
 
 describe('static module statics work', () => {
   it('should update count', function() {
-    const store = newStore<any>({
+    const store = new Vuex.Store<any>({
       modules: {
         mm: MyModule
       }
@@ -36,7 +33,7 @@ describe('static module statics work', () => {
 
 describe('static root module statics work', () => {
   it('should update count', function() {
-    const store = newStore(MyModule)
+    const store = new Vuex.Store(MyModule)
     store.getters.$statics.incrCount(5)
     expect(store.state.count).to.equal(5)
   })

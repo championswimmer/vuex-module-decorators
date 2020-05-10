@@ -1,7 +1,4 @@
-import Vuex from 'vuex'
-import Vue from 'vue'
-Vue.use(Vuex)
-import { Module, Mutation, VuexModule, newStore } from '../..'
+import Vuex, { Module, Mutation } from '../..'
 import { expect } from 'chai'
 
 interface StoreType {
@@ -9,7 +6,7 @@ interface StoreType {
 }
 
 @Module({ name: 'mm', stateFactory: true })
-class MyModule extends VuexModule {
+class MyModule extends Vuex.Module {
   count = 0
 
   @Mutation
@@ -18,19 +15,19 @@ class MyModule extends VuexModule {
   }
 }
 
-const firstStore = newStore<StoreType>({
+const firstStore = new Vuex.Store<StoreType>({
   modules: {
     mm: MyModule
   }
 })
 
-const secondStore = newStore<StoreType>({
+const secondStore = new Vuex.Store<StoreType>({
   modules: {
     mm: MyModule
   }
 })
 
-describe('modules generated on two different stores (newStore)', () => {
+describe('modules generated on two different stores (new Store)', () => {
   it('should each have their own state', function() {
     const module = firstStore.getters.$statics.mm
     const secondModule = secondStore.getters.$statics.mm
