@@ -52,6 +52,7 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
       }
     })
 
+    moduleOptions.stateFactory = moduleOptions.stateFactory !== false
     if (!module.state) {
       module.state = moduleOptions.stateFactory ? stateFactory : stateFactory()
     }

@@ -4,7 +4,7 @@ import { expect } from 'chai'
 describe('prevent using reserved keys', () => {
   it('as module properties', function() {
     expect(() => {
-      @Module
+      @Module({ stateFactory: false })
       class MyModule extends VuexModule {
         factory = undefined
         context: any = null
