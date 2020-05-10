@@ -1,4 +1,6 @@
 import { DynamicModuleOptions } from './moduleoptions'
+import { VueConstructor } from 'vue'
+import Vuex from 'vuex'
 
 /**
  * Takes the properties on object from parameter source and adds them to the object
@@ -60,4 +62,15 @@ export function getModulePath(modOpt: DynamicModuleOptions): string[] {
 
 export function getNamespacedKey(namespace: string | null | undefined, key: string) {
   return namespace ? `${namespace}/${key}` : key
+}
+
+export function install<R>(Vue: VueConstructor) {
+  Vue.use(Vuex)
+  Vue.mixin({ beforeCreate: storeInit })
+
+  function storeInit(this: Vue) {
+    Object.defineProperty(this, '$stock', {
+      get: (): R => this.$store.getters.$statics
+    })
+  }
 }
