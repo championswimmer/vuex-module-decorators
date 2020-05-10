@@ -1,9 +1,9 @@
 import { GetterTree, Module as Mod } from 'vuex'
 import { DynamicModuleOptions, ModuleOptions } from '../moduleoptions'
 import { stateFactory as sf } from './stateFactory'
-import { addPropertiesToObject, getModuleName, getModuleNamespace, getModulePath } from '../helpers'
+import { addPropertiesToObject, getModuleNamespace, getModulePath } from '../helpers'
 import { staticModuleGenerator } from './staticGenerators'
-import { installStatics } from '../vuexmodule'
+import { installStatics, VuexStore } from '../vuexmodule'
 
 function registerDynamicModule<S>(module: Mod<S, any>, modOpt: DynamicModuleOptions) {
   if (!modOpt.name) {
@@ -15,7 +15,7 @@ function registerDynamicModule<S>(module: Mod<S, any>, modOpt: DynamicModuleOpti
   }
 
   const oldStatics = modOpt.store.getters.$statics
-  const moduleMap = (modOpt.store as any)._vmdModuleMap
+  const moduleMap = (modOpt.store as VuexStore<S>)._vmdModuleMap
   modOpt.store.registerModule(
     modOpt.name, // TODO: Handle nested modules too in future
     module,
@@ -30,8 +30,8 @@ function registerDynamicModule<S>(module: Mod<S, any>, modOpt: DynamicModuleOpti
     const statics = staticModuleGenerator(module, modOpt.store, path, namespace, recursive)
     const parentStatics = path.slice(0, -1).reduce((s, key) => s[key], oldStatics)
     parentStatics[name] = statics
-    const parentModuleMap = path.slice(0, -1).reduce((s, key) => s[key], moduleMap)
-    parentModuleMap[name] = installStatics(
+    const parentModuleMap = path.slice(0, -1).reduce((s, key) => s.modules![key], moduleMap)
+    parentModuleMap.modules![name] = installStatics(
       modOpt.store.getters,
       module,
       statics,

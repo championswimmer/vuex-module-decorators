@@ -88,7 +88,7 @@ export function staticModuleGenerator<S, R>(
   namespace?: string | null,
   recursive: boolean = true
 ) {
-  const statics = Object.create((module as any).prototype || null)
+  const statics = Object.create((module as Function).prototype || null)
   staticStateGenerator(statics, module, store, path)
   staticGetterGenerator(statics, module, store, namespace)
   staticMutationGenerator(statics, module, store, namespace)
