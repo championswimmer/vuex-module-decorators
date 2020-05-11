@@ -64,10 +64,6 @@ describe('Global config', function() {
       }
     }
 
-    return new Store({
-      modules: {
-        mm: MyModule
-      }
-    })
+    return new Store(MyModule)
   }
 })
