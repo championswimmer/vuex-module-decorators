@@ -89,7 +89,7 @@ type ConstructorOf<C> = {
   new (...args: any[]): C
 }
 
-interface ModuleMap extends Mod<any, any> {
+export interface ModuleMap extends Mod<any, any> {
   modules?: { [key: string]: ModuleMap }
   keys?: string[]
 }

@@ -1,6 +1,6 @@
-import { DynamicModuleOptions } from './moduleoptions'
 import { VueConstructor } from 'vue'
 import Vuex from 'vuex'
+import { ModuleMap } from './vuexmodule'
 
 /**
  * Takes the properties on object from parameter source and adds them to the object
@@ -17,13 +17,9 @@ export function addPropertiesToObject(target: any, source: any) {
 }
 
 /**
- * Returns a namespaced name of the module to be used as a store getter
- * @param module
+ * Returns a path based name of the module to be used for store access
+ * @param path
  */
-export function getModuleName(modOpt: DynamicModuleOptions): string {
-  return getStaticName(getModulePath(modOpt))
-}
-
 export function getStaticName(path: string[]): string {
   if (path.length === 0) {
     return '$statics'
@@ -34,30 +30,29 @@ export function getStaticName(path: string[]): string {
 /**
  * Returns a namespaced name of the module to be used as a store getter
  * @param module
+ * @param path
+ * @param namespaced
  */
-export function getModuleNamespace(modOpt: DynamicModuleOptions): string {
-  if (!modOpt.name) {
-    throw new Error(`ERR_GET_MODULE_NAME : Could not get module accessor.
-      Make sure your module has name, we can't make accessors for unnamed modules
-      i.e. @Module({ name: 'something' })`)
+export function getModuleNamespace(module: ModuleMap, path: string[], namespaced: boolean): string {
+  let namespace = ''
+  if (path.length === 0) {
+    return namespace
   }
-  if (modOpt.namespaced) {
-    return `${modOpt.name}`
+  for (const key of path.slice(0, -1)) {
+    if (!module.modules || !module.modules[key]) {
+      throw new Error(`ERR_DYNAMIC_MODULE_NOT_EXISTS : Could not create module.
+        Make sure your path to your dynamic submodule exists
+        i.e. @Module({ name: "path.to.exits.name", store, dynamic: true })`)
+    }
+    module = module.modules[key]
+    if (module.namespaced) {
+      namespace = namespace + key + '/'
+    }
   }
-  return ''
-}
-
-/**
- * Returns a namespaced path of the module to be used as a store getter
- * @param module
- */
-export function getModulePath(modOpt: DynamicModuleOptions): string[] {
-  if (!modOpt.name) {
-    throw new Error(`ERR_GET_MODULE_NAME : Could not get module accessor.
-      Make sure your module has name, we can't make accessors for unnamed modules
-      i.e. @Module({ name: 'something' })`)
+  if (namespaced) {
+    return namespace + path[path.length - 1]
   }
-  return modOpt.name.split('/')
+  return namespace.slice(0, -1)
 }
 
 export function getNamespacedKey(namespace: string | null | undefined, key: string) {
