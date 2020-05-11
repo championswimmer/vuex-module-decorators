@@ -1,7 +1,6 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { Action, Module, Mutation } from '..'
 Vue.use(Vuex)
-import { Action, Module, Mutation, VuexModule } from '..'
 import { expect } from 'chai'
 
 interface MyModule {
@@ -9,7 +8,7 @@ interface MyModule {
 }
 
 @Module
-class MyModule extends VuexModule {
+class MyModule extends Vuex.Module {
   static namespaced = true
 
   static state () {
