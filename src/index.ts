@@ -4,6 +4,7 @@ export { Submodule } from './submodule'
 export { Action } from './action'
 export { Mutation } from './mutation'
 export { MutationAction } from './mutationaction'
+export { config } from './config'
 import { VuexModule, VuexStore } from './vuexmodule'
 import { install } from './helpers'
 export default {

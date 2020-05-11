@@ -13,9 +13,8 @@ jobs:
       run: |
         npm install
         npm run docs:build
-    - name: GitHub Pages Deploy
-      uses: maxheld83/ghpages@v0.1.2
-      env:
-        BUILD_DIR: docs/.vuepress/dist
-        GH_PAT: ${{ secrets.GITHUB_TOKEN }}
-
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs/.vuepress/dist

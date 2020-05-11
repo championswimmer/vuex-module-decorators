@@ -1,5 +1,7 @@
 import { Action as Act, ActionContext, Module as Mod, Payload } from 'vuex'
 import { addPropertiesToObject } from './helpers'
+import { 
+} from './config'
 
 /**
  * Parameters that can be passed to the @Action decorator
@@ -10,7 +12,7 @@ export interface ActionDecoratorParams {
   root?: boolean
 }
 function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecorator {
-  const { commit = undefined, rawError = false, root = false } = params || {}
+  const { commit = undefined, rawError = !!config.rawError, root = false } = params || {}
   return function(target: Object, key: string | symbol, descriptor: TypedPropertyDescriptor<any>) {
     const module = target.constructor as Mod<T, any>
     if (!module.hasOwnProperty('actions')) {

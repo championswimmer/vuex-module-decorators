@@ -376,8 +376,8 @@ export function createStore() {
   return new Vuex.Store({
     modules: {
       MyStoreModule,
-    },
-  }
+    }
+  })
 }
 
 // components/Random.tsx
@@ -393,4 +393,15 @@ export default class extends Vue {
         MyModuleInstance.setTest('random')
     }
 }
+```
+
+## Configuration
+
+There is a global configuration object that can be used to set options across the
+whole module:
+
+```typescript
+import { config } from 'vuex-module-decorators'
+// Set rawError to true by default on all @Action decorators
+config.rawError = true
 ```

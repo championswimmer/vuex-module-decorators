@@ -23,3 +23,7 @@ export default {
   }
 }
 ```
+
+:::danger 🚨 WARNING
+If state value cannot be determined, it **MUST** be initialized with `null`. Just like `wheels: number | null = null`.
+:::

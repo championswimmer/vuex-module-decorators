@@ -5,6 +5,10 @@ installed as `npm install vuex-module-decorators@beta` (or alpha similar).
 
 ## 1.0.0
 
+### 0.17.0 
+
+- allow changing rawError default across project via global config
+
 ### 0.14.0
 
 - support for `preserveState: true` in module options to use `vuex-persist` (OPTIONAL)
