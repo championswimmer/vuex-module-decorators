@@ -1,7 +1,6 @@
 import { Action as Act, ActionContext, Module as Mod, Payload } from 'vuex'
 import { addPropertiesToObject } from './helpers'
-import { 
-} from './config'
+import { config } from './config'
 
 /**
  * Parameters that can be passed to the @Action decorator
