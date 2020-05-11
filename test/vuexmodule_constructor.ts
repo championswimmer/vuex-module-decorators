@@ -1,9 +1,6 @@
 import Vuex from 'vuex'
-import Vue from 'vue'
 import { VuexModule } from '..'
 import { expect } from 'chai'
-
-Vue.use(Vuex)
 
 const vehicle = VuexModule.create({
   state: {

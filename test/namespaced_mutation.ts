@@ -1,7 +1,5 @@
 import Vuex from 'vuex'
-import Vue from 'vue'
-Vue.use(Vuex)
-import { Action, Module, Mutation, MutationAction, VuexModule } from '..'
+import { Action, Module, Mutation, VuexModule } from '..'
 import { expect } from 'chai'
 
 @Module
