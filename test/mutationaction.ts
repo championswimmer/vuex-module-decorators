@@ -1,4 +1,6 @@
+import Vue from 'vue'
 import Vuex from 'vuex'
+Vue.use(Vuex)
 import { Module, MutationAction, VuexModule } from '..'
 import { expect } from 'chai'
 

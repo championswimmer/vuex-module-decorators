@@ -3,6 +3,7 @@ import 'mock-local-storage'
 import Vue from 'vue'
 import { VuexPersistence } from 'vuex-persist'
 import Vuex, { Module, Mutation } from '..'
+Vue.use(Vuex)
 
 declare module "vue/types/vue" {
   interface Vue {

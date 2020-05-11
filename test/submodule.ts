@@ -1,4 +1,6 @@
+import Vue from 'vue'
 import Vuex, { Action, Module, Mutation, Submodule } from '..'
+Vue.use(Vuex)
 import { expect } from 'chai'
 
 @Module({ namespaced: true, stateFactory: true })

@@ -1,4 +1,6 @@
+import Vue from 'vue'
 import Vuex, { Action, Module, Mutation } from '../..'
+Vue.use(Vuex)
 import { expect } from 'chai'
 
 const store = new Vuex.Store<any>({})

@@ -1,4 +1,6 @@
+import Vue from 'vue'
 import Vuex, { Module, Action, Mutation, Submodule } from '../../'
+Vue.use(Vuex)
 import { expect } from 'chai'
 
 const defaultValue = 10

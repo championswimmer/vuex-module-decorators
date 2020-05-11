@@ -1,4 +1,6 @@
+import Vue from 'vue'
 import Vuex, { Module, Mutation } from '../..'
+Vue.use(Vuex)
 import { expect } from 'chai'
 
 interface StoreType {
