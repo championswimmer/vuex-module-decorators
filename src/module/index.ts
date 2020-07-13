@@ -65,6 +65,11 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
     if (!module.namespaced) {
       module.namespaced = moduleOptions && moduleOptions.namespaced
     }
+    let parentModule = Object.getPrototypeOf(module)
+    while (parentModule.name !== 'VuexModule' && parentModule.name !== '') {
+      addGettersToModule(module, parentModule)
+      parentModule = Object.getPrototypeOf(parentModule)
+    }
     addGettersToModule(module, module)
     const modOpt = moduleOptions as DynamicModuleOptions
     if (modOpt.name) {
