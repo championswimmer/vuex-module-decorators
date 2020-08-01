@@ -18,6 +18,11 @@ Typescript/ES7 Decorators to make Vuex modules a breeze
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/championswimmer/vuex-module-decorators.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/championswimmer/vuex-module-decorators/alerts/)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/championswimmer/vuex-module-decorators.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/championswimmer/vuex-module-decorators/context:javascript)
 
+## Patrons
+While I have a day job and I really maintain open source libraries for fun, any sponsors are extremely graciously thanked for their contributions, and goes a long way 😇 ❤️
+
+- [Thomas Woo](https://www.patreon.com/user/creators?u=37365136)
+
 ## CHANGELOG
 
 - There are major type-checking changes (could be breaking) in v0.9.7
