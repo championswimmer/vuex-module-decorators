@@ -25,6 +25,32 @@ function registerDynamicModule<S>(module: Mod<S, any>, modOpt: DynamicModuleOpti
   )
 }
 
+function addGettersToModule<S>(
+  targetModule: Function & Mod<S, any>,
+  srcModule: Function & Mod<S, any>
+) {
+  Object.getOwnPropertyNames(srcModule.prototype).forEach((funcName: string) => {
+    const descriptor = Object.getOwnPropertyDescriptor(
+      srcModule.prototype,
+      funcName
+    ) as PropertyDescriptor
+    if (descriptor.get && targetModule.getters) {
+      targetModule.getters[funcName] = function(
+        state: S,
+        getters: GetterTree<S, any>,
+        rootState: any,
+        rootGetters: GetterTree<any, any>
+      ) {
+        const thisObj = { context: { state, getters, rootState, rootGetters } }
+        addPropertiesToObject(thisObj, state)
+        addPropertiesToObject(thisObj, getters)
+        const got = (descriptor.get as Function).call(thisObj)
+        return got
+      }
+    }
+  })
+}
+
 function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
   return function<TFunction extends Function>(constructor: TFunction): TFunction | void {
     const module: Function & Mod<S, any> = constructor
@@ -39,26 +65,12 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
     if (!module.namespaced) {
       module.namespaced = moduleOptions && moduleOptions.namespaced
     }
-    Object.getOwnPropertyNames(module.prototype).forEach((funcName: string) => {
-      const descriptor = Object.getOwnPropertyDescriptor(
-        module.prototype,
-        funcName
-      ) as PropertyDescriptor
-      if (descriptor.get && module.getters) {
-        module.getters[funcName] = function(
-          state: S,
-          getters: GetterTree<S, any>,
-          rootState: any,
-          rootGetters: GetterTree<any, any>
-        ) {
-          const thisObj = { context: { state, getters, rootState, rootGetters } }
-          addPropertiesToObject(thisObj, state)
-          addPropertiesToObject(thisObj, getters)
-          const got = (descriptor.get as Function).call(thisObj)
-          return got
-        }
-      }
-    })
+    let parentModule = Object.getPrototypeOf(module)
+    while (parentModule.name !== 'VuexModule' && parentModule.name !== '') {
+      addGettersToModule(module, parentModule)
+      parentModule = Object.getPrototypeOf(parentModule)
+    }
+    addGettersToModule(module, module)
     const modOpt = moduleOptions as DynamicModuleOptions
     if (modOpt.name) {
       Object.defineProperty(constructor, '_genStatic', {
