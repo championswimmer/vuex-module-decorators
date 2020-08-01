@@ -1,10 +1,10 @@
-import Vuex, { Module as Mod } from 'vuex'
 import Vue from 'vue'
+import Vuex from 'vuex'
 Vue.use(Vuex)
 import { Action, Module, Mutation, VuexModule } from '..'
 import { expect } from 'chai'
 
-@Module
+@Module({ namespaced: false })
 class MyModule extends VuexModule {
   wheels = 2
 

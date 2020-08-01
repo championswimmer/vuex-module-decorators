@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex, { Action, Module, Mutation } from '..'
+import Vuex, { Action, Module, Mutation } from '../..'
 Vue.use(Vuex)
 import { expect } from 'chai'
 
@@ -29,10 +29,10 @@ class MyModule extends Vuex.Module {
   }
 }
 
-describe('@Action with dynamic module', () => {
+describe('@Action with dynamic module (new Store)', () => {
   it('should concat foo & bar', async function() {
-    await store.dispatch('concatFooOrBar', 't1')
     const mm = store.getters.$statics.mm as MyModule
+    await mm.concatFooOrBar('t1')
     expect(mm.fieldBar).to.equal('bart1')
     await store.dispatch('concatFooOrBar', 't1')
     expect(mm.fieldFoo).to.equal('foot1')

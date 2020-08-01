@@ -1,15 +1,12 @@
-import Vuex from 'vuex'
 import Vue from 'vue'
+import Vuex, { Module, Action, Mutation, Submodule } from '../../'
 Vue.use(Vuex)
-import { getModule, Module, Action, Mutation, VuexModule } from '../../'
 import { expect } from 'chai'
-
-const store = new Vuex.Store({})
 
 const defaultValue = 10
 
-@Module({ name: 'mm', store, dynamic: true })
-class MyModule extends VuexModule {
+@Module({ namespaced: false })
+class MySubModule extends Vuex.Module {
   public value = defaultValue
 
   @Mutation
@@ -23,8 +20,8 @@ class MyModule extends VuexModule {
   }
 }
 
-@Module({ name: 'mnm', store, dynamic: true, namespaced: true })
-class MyNamespacedModule extends VuexModule {
+@Module
+class MyNamespacedModule extends Vuex.Module {
   public value = defaultValue
 
   @Mutation
@@ -38,9 +35,19 @@ class MyNamespacedModule extends VuexModule {
   }
 }
 
-describe('actions and mutations on getModule()', () => {
+class MyModule extends Vuex.Module{
+  @Submodule({ module: MySubModule })
+  mm!: MySubModule
+
+  @Submodule({ module: MyNamespacedModule })
+  mnm!: MySubModule
+}
+
+const store = new Vuex.Store(MyModule).getters.$statics as MyModule
+
+describe('actions and mutations on new Vuex.Store()', () => {
   it('mutation should set provided value', function() {
-    const module = getModule(MyModule)
+    const module = store.mm
     expect(module.value).to.equal(defaultValue)
 
     const newValue = defaultValue + 2
@@ -49,14 +56,14 @@ describe('actions and mutations on getModule()', () => {
   })
 
   it('action should reset value to default', function() {
-    const module = getModule(MyModule)
+    const module = store.mm
     return module.resetValue().then(() => {
       expect(module.value).to.equal(defaultValue)
     })
   })
 
   it('mutation should set provided value on namespaced module', function() {
-    const module = getModule(MyNamespacedModule)
+    const module = store.mnm
     expect(module.value).to.equal(defaultValue)
 
     const newValue = defaultValue + 2
@@ -65,7 +72,7 @@ describe('actions and mutations on getModule()', () => {
   })
 
   it('action should reset value to default on namespaced module', function() {
-    const module = getModule(MyNamespacedModule)
+    const module = store.mnm
     return module.resetValue().then(() => {
       expect(module.value).to.equal(defaultValue)
     })

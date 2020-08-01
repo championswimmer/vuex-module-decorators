@@ -1,10 +1,10 @@
-import Vuex from 'vuex'
 import Vue from 'vue'
+import Vuex from 'vuex'
 Vue.use(Vuex)
-import { Action, Module, Mutation, MutationAction, VuexModule } from '..'
+import { Action, Module, Mutation, VuexModule } from '..'
 import { expect } from 'chai'
 
-@Module({ namespaced: true })
+@Module
 class MyModule extends VuexModule {
   count = 0
 

@@ -1,6 +1,5 @@
 import { Action as Act, ActionContext, Module as Mod, Payload } from 'vuex'
-import { getModule, VuexModule } from './vuexmodule'
-import { addPropertiesToObject, getModuleName } from './helpers'
+import { addPropertiesToObject } from './helpers'
 import { config } from './config'
 
 /**
@@ -19,45 +18,43 @@ function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecora
       module.actions = Object.assign({}, module.actions)
     }
     const actionFunction: Function = descriptor.value
+    const staticKey = '$statics/' + String(key)
     const action: Act<typeof target, any> = async function(
       context: ActionContext<typeof target, any>,
       payload: Payload
     ) {
-      try {
-        let actionPayload = null
+      let actionPayload
 
-        if ((module as any)._genStatic) {
-          const moduleName = getModuleName(module)
-          const moduleAccessor = context.rootGetters[moduleName]
-            ? context.rootGetters[moduleName]
-            : getModule(module as typeof VuexModule)
-          moduleAccessor.context = context
-          actionPayload = await actionFunction.call(moduleAccessor, payload)
-        } else {
-          const thisObj = { context }
-          addPropertiesToObject(thisObj, context.state)
-          addPropertiesToObject(thisObj, context.getters)
+      if (context.getters[staticKey]) {
+        const moduleAccessor = context.getters[staticKey]
+        moduleAccessor.context = context
+        actionPayload = await actionFunction.call(moduleAccessor, payload)
+      } else {
+        const thisObj = { context }
+        addPropertiesToObject(thisObj, context.state)
+        addPropertiesToObject(thisObj, context.getters)
+        try {
           actionPayload = await actionFunction.call(thisObj, payload)
+        } catch (e) {
+          throw rawError
+            ? e
+            : new Error(
+                'ERR_ACTION_ACCESS_UNDEFINED: Are you trying to access ' +
+                  'this.someMutation() or this.someGetter inside an @Action? \n' +
+                  'That works only in dynamic modules. \n' +
+                  'If not dynamic use this.context.commit("mutationName", payload) ' +
+                  'and this.context.getters["getterName"]' +
+                  '\n' +
+                  new Error(`Could not perform action ${key.toString()}`).stack +
+                  '\n' +
+                  e.stack
+              )
         }
-        if (commit) {
-          context.commit(commit, actionPayload)
-        }
-        return actionPayload
-      } catch (e) {
-        throw rawError
-          ? e
-          : new Error(
-              'ERR_ACTION_ACCESS_UNDEFINED: Are you trying to access ' +
-                'this.someMutation() or this.someGetter inside an @Action? \n' +
-                'That works only in dynamic modules. \n' +
-                'If not dynamic use this.context.commit("mutationName", payload) ' +
-                'and this.context.getters["getterName"]' +
-                '\n' +
-                new Error(`Could not perform action ${key.toString()}`).stack +
-                '\n' +
-                e.stack
-            )
       }
+      if (commit) {
+        context.commit(commit, actionPayload)
+      }
+      return actionPayload
     }
     module.actions![key as string] = root ? { root, handler: action } : action
   }

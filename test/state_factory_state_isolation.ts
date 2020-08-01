@@ -1,10 +1,10 @@
-import Vuex, { Module as Mod } from 'vuex'
 import Vue from 'vue'
+import Vuex from 'vuex'
 Vue.use(Vuex)
-import { Action, Module, Mutation, MutationAction, VuexModule } from '..'
+import { Action, Module, Mutation, VuexModule } from '..'
 import { expect } from 'chai'
 
-@Module({ stateFactory: true, namespaced: true })
+@Module
 class FactoryModule extends VuexModule {
   wheels = 2
 
@@ -18,7 +18,7 @@ class FactoryModule extends VuexModule {
   }
 }
 
-@Module({ namespaced: true })
+@Module({ stateFactory: false })
 class StateObjectModule extends VuexModule {
   wheels = 2
 

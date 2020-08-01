@@ -1,20 +1,19 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { Action, Module, Mutation } from '../..'
 Vue.use(Vuex)
-import { Action, Module, Mutation, VuexModule } from '..'
 import { expect } from 'chai'
 
-@Module({ namespaced: false })
-class MyModule extends VuexModule {
+@Module
+class MyModule extends Vuex.Module {
   fieldFoo = 'foo'
   fieldBar = 'bar'
 
   @Mutation
-  resetFoo(data: string) {
+  resetFoo() {
     this.fieldFoo = 'foo'
   }
   @Mutation
-  resetBar(data: string) {
+  resetBar() {
     this.fieldBar = 'bar'
   }
   @Mutation
@@ -55,45 +54,36 @@ class MyModule extends VuexModule {
   }
 }
 
-const store = new Vuex.Store({
+const store = new Vuex.Store<any>({
   modules: {
     mm: MyModule
   }
 })
 
-describe('@Action with non-dynamic module', () => {
+describe('@Action with non-dynamic module (new Vuex.Store)', () => {
+  const mm = store.getters.$statics.mm as MyModule
   it('should concat foo & bar', async function() {
-    const {
-      state: { mm }
-    } = store
-    await store.dispatch('concatFooOrBar', 't1')
+    await store.dispatch('mm/concatFooOrBar', 't1')
     expect(mm.fieldBar).to.equal('bart1')
-    await store.dispatch('concatFooOrBar', 't1')
+    await mm.concatFooOrBar('t1')
     expect(mm.fieldFoo).to.equal('foot1')
   })
-  it('should error if this.mutation() is used in raw store', async function() {
-    try {
-      await store.dispatch('concatFooOrBarWithThis', 't1')
-      expect(false).equal(true, "unreachable")
-    } catch (e) {
-      expect(e.message).to.contain('ERR_ACTION_ACCESS_UNDEFINED')
-    }
+  it('should success if this.mutation() is used in non-dynamic', async function() {
+    mm.resetFoo()
+    await mm.concatFooOrBarWithThis('t2')
+    expect(mm.fieldFoo).to.equal('foot2')
   })
   it('should save original error', async function() {
     try {
-      await store.dispatch('alwaysFail')
-      expect(false).equal(true, "unreachable")
+      await mm.alwaysFail()
     } catch (e) {
       expect(e.message).to.equal('Foo Bar!')
     }
   })
   it('should have access to the state even if the state changes', async function() {
-    const {
-      state: { mm }
-    } = store
-    store.commit('resetFoo')
+    mm.resetFoo()
     expect(mm.fieldFoo).to.equal('foo')
-    await store.dispatch('testStateInAction', 'bar')
+    await mm.testStateInAction('bar')
     expect(mm.fieldFoo).to.equal('foobar')
   })
 })

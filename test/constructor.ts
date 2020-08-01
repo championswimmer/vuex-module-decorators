@@ -1,5 +1,5 @@
-import Vuex from 'vuex'
 import Vue from 'vue'
+import Vuex from 'vuex'
 Vue.use(Vuex)
 import { VuexModule } from '..'
 import { expect } from 'chai'
@@ -7,7 +7,7 @@ import { promisify } from 'util'
 
 const setTimeoutPromise = promisify(setTimeout)
 
-const mm = new VuexModule({
+const mm = VuexModule.create({
   state: { wheels: 2 },
   mutations: {
     incrWheels(state, extra: number) {

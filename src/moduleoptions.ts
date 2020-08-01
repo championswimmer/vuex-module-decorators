@@ -30,6 +30,7 @@ export interface DynamicModuleOptions {
 
   /**
    * name of module, compulsory for dynamic modules
+   * TODO: rename to path
    */
   name: string
 

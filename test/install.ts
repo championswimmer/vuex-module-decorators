@@ -3,12 +3,17 @@ import 'mock-local-storage'
 import Vue from 'vue'
 import { VuexPersistence } from 'vuex-persist'
 import Vuex, { Module, Mutation } from '..'
-
 Vue.use(Vuex)
+
+declare module "vue/types/vue" {
+  interface Vue {
+    $stock: StoreType
+  }
+}
 
 interface StoreType {
   mm: MyModule
-  msm: MySecondModule
+  msm?: MySecondModule
 }
 
 localStorage.setItem(
@@ -54,15 +59,18 @@ class MySecondModule extends Vuex.Module {
   }
 }
 
-describe('state restored by vuex-persist', () => {
+
+describe('state access by $stock', () => {
   it('should restore state', function() {
-    const mm = store.getters.$statics.mm;
+    Vue.use(Vuex)
+    const vue = new Vue({ store })
+    const mm = vue.$stock.mm
     mm.incrCount(5)
     expect(mm.count).to.equal(25)
     mm.incrCount(10)
     expect(mm.count).to.equal(35)
 
-    const msm = store.getters.$statics.msm;
+    const msm = vue.$stock.msm!
     msm.incrCount(5)
     expect(msm.count).to.equal(5)
     msm.incrCount(10)

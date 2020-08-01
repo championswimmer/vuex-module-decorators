@@ -1,7 +1,6 @@
-import Vuex, { Module as Mod } from 'vuex'
 import Vue from 'vue'
+import Vuex, { Action, Module, Mutation } from '../..'
 Vue.use(Vuex)
-import { Action, Module, Mutation, MutationAction, VuexModule, getModule } from '../..'
 import { expect } from 'chai'
 
 interface StoreType {
@@ -9,8 +8,8 @@ interface StoreType {
 }
 const store = new Vuex.Store<StoreType>({})
 
-@Module({ dynamic: true, store, name: 'mm', namespaced: true })
-class MyModule extends VuexModule {
+@Module({ dynamic: true, store, name: 'mm', namespaced: false })
+class MyModule extends Vuex.Module {
   count = 0
 
   @Mutation
@@ -28,15 +27,14 @@ class MyModule extends VuexModule {
   }
 }
 
-describe('accessing statics works on dynamic (namespaced) module', () => {
+describe('accessing statics works on dynamic module (new Store)', () => {
   it('should update count', async function() {
-    const mm = getModule(MyModule)
+    const mm = (store.getters.$statics as StoreType).mm
     expect(mm.count).to.equal(0)
 
     mm.incrCount(5)
     expect(mm.count).to.equal(5)
     expect(parseInt(mm.halfCount)).to.equal(3)
-
     await mm.getCountDelta()
     expect(parseInt(mm.halfCount)).to.equal(5)
     await mm.getCountDelta(5)
