@@ -359,7 +359,7 @@ be manually registered to the root store modules
 import { Module, VuexModule, Mutation } from 'vuex-module-decorators'
 
 @Module({
-  name: 'MyStoreModule',
+  name: 'modules/MyStoreModule',
   namespaced: true,
   stateFactory: true,
 })
