@@ -51,7 +51,7 @@
     "mock-local-storage": "^1.1.8",
     "nyc": "^13.2.0",
     "prettier": "^1.16.4",
-    "rimraf": "^2.6.3",
+    "rimraf": "^3.0.2",
     "rollup": "^1.19.4",
     "rollup-plugin-typescript2": "^0.25.3",
     "rollup-plugin-uglify": "^6.0.2",
