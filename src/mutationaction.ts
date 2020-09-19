@@ -7,7 +7,7 @@ export interface MutationActionParams<M> {
 }
 
 function mutationActionDecoratorFactory<T extends Object>(params: MutationActionParams<T>) {
-  return function(
+  return function (
     target: T,
     key: string | symbol,
     descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<T>>>
@@ -21,7 +21,7 @@ function mutationActionDecoratorFactory<T extends Object>(params: MutationAction
     }
     const mutactFunction = descriptor.value as (payload: any) => Promise<any>
 
-    const action: Act<typeof target, any> = async function(
+    const action: Act<typeof target, any> = async function (
       context: ActionContext<typeof target, any>,
       payload: Payload
     ) {
@@ -39,7 +39,7 @@ function mutationActionDecoratorFactory<T extends Object>(params: MutationAction
       }
     }
 
-    const mutation: Mut<typeof target> = function(
+    const mutation: Mut<typeof target> = function (
       state: typeof target | Store<T>,
       payload: Payload & { [k in keyof T]: any }
     ) {

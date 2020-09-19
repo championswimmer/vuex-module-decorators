@@ -35,7 +35,7 @@ function addGettersToModule<S>(
       funcName
     ) as PropertyDescriptor
     if (descriptor.get && targetModule.getters) {
-      targetModule.getters[funcName] = function(
+      targetModule.getters[funcName] = function (
         state: S,
         getters: GetterTree<S, any>,
         rootState: any,
@@ -52,7 +52,7 @@ function addGettersToModule<S>(
 }
 
 function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
-  return function<TFunction extends Function>(constructor: TFunction): TFunction | void {
+  return function <TFunction extends Function>(constructor: TFunction): TFunction | void {
     const module: Function & Mod<S, any> = constructor
     const stateFactory = () => sf(module)
 

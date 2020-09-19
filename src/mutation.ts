@@ -10,7 +10,7 @@ export function Mutation<T extends Object, R>(
     module.mutations = Object.assign({}, module.mutations)
   }
   const mutationFunction: Function = descriptor.value!
-  const mutation: Mut<typeof target> = function(state: typeof target, payload: Payload) {
+  const mutation: Mut<typeof target> = function (state: typeof target, payload: Payload) {
     mutationFunction.call(state, payload)
   }
   module.mutations![key as string] = mutation

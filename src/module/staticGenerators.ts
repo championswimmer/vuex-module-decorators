@@ -55,11 +55,11 @@ export function staticMutationGenerator<S>(
 ) {
   Object.keys(module.mutations as MutationTree<S>).forEach((key) => {
     if (module.namespaced) {
-      statics[key] = function(...args: any[]) {
+      statics[key] = function (...args: any[]) {
         statics.store.commit(`${modOpt.name}/${key}`, ...args)
       }
     } else {
-      statics[key] = function(...args: any[]) {
+      statics[key] = function (...args: any[]) {
         statics.store.commit(key, ...args)
       }
     }
@@ -73,11 +73,11 @@ export function staticActionGenerators<S>(
 ) {
   Object.keys(module.actions as ActionTree<S, any>).forEach((key) => {
     if (module.namespaced) {
-      statics[key] = async function(...args: any[]) {
+      statics[key] = async function (...args: any[]) {
         return statics.store.dispatch(`${modOpt.name}/${key}`, ...args)
       }
     } else {
-      statics[key] = async function(...args: any[]) {
+      statics[key] = async function (...args: any[]) {
         return statics.store.dispatch(key, ...args)
       }
     }

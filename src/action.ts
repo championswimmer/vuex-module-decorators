@@ -13,13 +13,13 @@ export interface ActionDecoratorParams {
 }
 function actionDecoratorFactory<T>(params?: ActionDecoratorParams): MethodDecorator {
   const { commit = undefined, rawError = !!config.rawError, root = false } = params || {}
-  return function(target: Object, key: string | symbol, descriptor: TypedPropertyDescriptor<any>) {
+  return function (target: Object, key: string | symbol, descriptor: TypedPropertyDescriptor<any>) {
     const module = target.constructor as Mod<T, any>
     if (!module.hasOwnProperty('actions')) {
       module.actions = Object.assign({}, module.actions)
     }
     const actionFunction: Function = descriptor.value
-    const action: Act<typeof target, any> = async function(
+    const action: Act<typeof target, any> = async function (
       context: ActionContext<typeof target, any>,
       payload: Payload
     ) {
