@@ -13,7 +13,12 @@ export function staticStateGenerator<S extends Object>(
       if (['undefined', 'function'].indexOf(typeof (state as any)[key]) === -1) {
         Object.defineProperty(statics, key, {
           get() {
-            return statics.store.state[modOpt.name][key]
+            const path = modOpt.name.split('/')
+            let data = statics.store.state
+            for (let segment of path) {
+              data = data[segment]
+            }
+            return data[key]
           }
         })
       }
