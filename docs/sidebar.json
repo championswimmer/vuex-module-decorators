@@ -9,7 +9,8 @@
             "/pages/core/state",
             "/pages/core/getters",
             "/pages/core/mutations",
-            "/pages/core/actions"
+            "/pages/core/actions",
+            "/pages/core/mutationactions"
         ]
     },
     {

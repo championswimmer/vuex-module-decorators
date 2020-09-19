@@ -30,7 +30,7 @@ export default class Vehicle extends VuexModule {
 
 is equivalent of this -
 
-```js {9-14}
+```js {11-15}
 const request = require('request')
 export default {
   state: {

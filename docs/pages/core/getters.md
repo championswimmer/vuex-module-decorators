@@ -32,7 +32,7 @@ export default {
 ```
 For Method-Style Access use vanilla vuex and return a function: 
 
-```
+```typescript
 @Module
 export default class Vehicle extends VuexModule {
   companies = []

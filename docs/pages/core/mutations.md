@@ -21,7 +21,7 @@ export default class Vehicle extends VuexModule {
 
 is equivalent of this -
 
-```js {6}
+```js {6-8}
 export default {
   state: {
     wheels: 2
