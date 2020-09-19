@@ -6,6 +6,7 @@
   "types": "dist/types/index.d.ts",
   "typings": "dist/types/index.d.ts",
   "module": "dist/esm/index.js",
+  "sideEffects": false,
   "scripts": {
     "clean": "rimraf dist .rpt2_cache",
     "distclean": "rimraf .nyc_output coverage dist .rpt2_cache",
