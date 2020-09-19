@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Overview | vuex-module-decorators</title>
+    <meta name="description" content="Typescript/ES7 Decorators to make Vuex modules a breeze">
+    <meta name="generator" content="VuePress 1.3.0">
+    
+    
+    <link rel="preload" href="/vuex-module-decorators/assets/css/0.styles.dc84affd.css" as="style"><link rel="preload" href="/vuex-module-decorators/assets/js/app.963acdd2.js" as="script"><link rel="preload" href="/vuex-module-decorators/assets/js/2.c6c482ba.js" as="script"><link rel="preload" href="/vuex-module-decorators/assets/js/18.df427489.js" as="script"><link rel="preload" href="/vuex-module-decorators/assets/js/4.14b713fc.js" as="script"><link rel="prefetch" href="/vuex-module-decorators/assets/js/10.347c4c65.js"><link rel="prefetch" href="/vuex-module-decorators/assets/js/11.108ba76e.js"><link rel="prefetch" href="/vuex-module-decorators/assets/js/12.869ac3cc.js"><link rel="prefetch" href="/vuex-module-decorators/assets/js/13.6ae7708a.js"><link rel="prefetch" href="/vuex-module-decorators/assets/js/14.734e5a28.js"><link rel="prefetch" href="/vuex-module-decorators/assets/js/15.4b6e1917.js"><link rel="prefetch" href="/vuex-module-decorators/assets/js/16.ec3244de.js"><link rel="prefetch" href="/vuex-module-decorators/assets/js/17.9590db1e.js"><link rel="prefetch" href="/vuex-module-decorators/assets/js/19.1ae67b9a.js"><link rel="prefetch" href="/vuex-module-decorators/assets/js/3.4b8eb031.js"><link rel="prefetch" href="/vuex-module-decorators/assets/js/5.2a84e94a.js"><link rel="prefetch" href="/vuex-module-decorators/assets/js/6.273487c1.js"><link rel="prefetch" href="/vuex-module-decorators/assets/js/7.7a1b4254.js"><link rel="prefetch" href="/vuex-module-decorators/assets/js/8.3d31cfc9.js"><link rel="prefetch" href="/vuex-module-decorators/assets/js/9.4f43e75f.js">
+    <link rel="stylesheet" href="/vuex-module-decorators/assets/css/0.styles.dc84affd.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/vuex-module-decorators/" class="home-link router-link-active"><!----> <span class="site-name">vuex-module-decorators</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"> <a href="https://github.com/championswimmer/vuex-module-decorators" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"> <a href="https://github.com/championswimmer/vuex-module-decorators" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><a href="/vuex-module-decorators/pages/installation.html" class="sidebar-link">Installation</a></li><li><a href="/vuex-module-decorators/pages/overview.html" class="active sidebar-link">Overview</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/vuex-module-decorators/pages/overview.html#what-it-does" class="sidebar-link">What it does ?</a></li><li class="sidebar-sub-header"><a href="/vuex-module-decorators/pages/overview.html#benefits-of-type-safety" class="sidebar-link">Benefits of type-safety</a></li></ul></li><li><a href="/vuex-module-decorators/pages/getting-started.html" class="sidebar-link">Getting Started</a></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Core Concepts</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/vuex-module-decorators/pages/core/state.html" class="sidebar-link">State</a></li><li><a href="/vuex-module-decorators/pages/core/getters.html" class="sidebar-link">Getters</a></li><li><a href="/vuex-module-decorators/pages/core/mutations.html" class="sidebar-link">Mutations</a></li><li><a href="/vuex-module-decorators/pages/core/actions.html" class="sidebar-link">Actions</a></li><li><a href="/vuex-module-decorators/pages/core/mutationactions.html" class="sidebar-link">MutationActions</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Advanced Usage</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/vuex-module-decorators/pages/advanced/namespaced.html" class="sidebar-link">Namespaced Modules</a></li><li><a href="/vuex-module-decorators/pages/advanced/dynamic.html" class="sidebar-link">Dynamic Modules</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="overview"><a href="#overview" class="header-anchor">#</a> Overview</h1> <div class="sponsor" data-v-5a05bfae><h5 align="center" data-v-5a05bfae>Sponsors</h5> <a href="https://codingblocks.com?utm_source=VuexModuleDecorators&utm_medium=vmd&utm_campaign=vmd&utm_term=vmd&utm_content=championswimmer" data-v-5a05bfae><img src="/vuex-module-decorators/cblogo_big.png" alt="Coding Blocks" data-v-5a05bfae></a></div> <h2 id="what-it-does"><a href="#what-it-does" class="header-anchor">#</a> What it does ?</h2> <p>With this library, you can write <code>vuex</code> modules in this format -</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token comment">// eg. /app/store/posts.ts</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> VuexModule<span class="token punctuation">,</span> Module<span class="token punctuation">,</span> Mutation<span class="token punctuation">,</span> Action <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vuex-module-decorators'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token keyword">get</span> <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'axios'</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">PostEntity</span> <span class="token punctuation">{</span>
+  comments<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+
+@Module
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">Posts</span> <span class="token keyword">extends</span> <span class="token class-name">VuexModule</span> <span class="token punctuation">{</span>
+  posts<span class="token operator">:</span> PostEntity<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token comment">// initialize empty for now</span>
+
+  <span class="token keyword">get</span> <span class="token function">totalComments</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">number</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>posts
+      <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>post <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Take those posts that have comments</span>
+        <span class="token keyword">return</span> post<span class="token punctuation">.</span>comments <span class="token operator">&amp;&amp;</span> post<span class="token punctuation">.</span>comments<span class="token punctuation">.</span>length
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span>sum<span class="token punctuation">,</span> post<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Sum all the lengths of comments arrays</span>
+        <span class="token keyword">return</span> sum <span class="token operator">+</span> post<span class="token punctuation">.</span>comments<span class="token punctuation">.</span>length
+      <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  @Mutation
+  <span class="token function">updatePosts</span><span class="token punctuation">(</span>posts<span class="token operator">:</span> PostEntity<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>posts <span class="token operator">=</span> posts
+  <span class="token punctuation">}</span>
+
+  @<span class="token function">Action</span><span class="token punctuation">(</span><span class="token punctuation">{</span> commit<span class="token operator">:</span> <span class="token string">'updatePosts'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token keyword">async</span> <span class="token function">fetchPosts</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'https://jsonplaceholder.typicode.com/posts'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p>The resultant <code>/app/store/posts</code> file output would be</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// equivalent eg. /app/store/posts.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  state<span class="token operator">:</span> <span class="token punctuation">{</span>
+    posts<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  getters<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token function-variable function">totalComments</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">state</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> state<span class="token punctuation">.</span>posts
+        <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">post</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+          <span class="token keyword">return</span> post<span class="token punctuation">.</span>comments <span class="token operator">&amp;&amp;</span> post<span class="token punctuation">.</span>comments<span class="token punctuation">.</span>length
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">sum<span class="token punctuation">,</span> post</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+          <span class="token keyword">return</span> sum <span class="token operator">+</span> post<span class="token punctuation">.</span>comments<span class="token punctuation">.</span>length
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  mutations<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token function-variable function">updatePosts</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">state<span class="token punctuation">,</span> posts</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token comment">// 'posts' is payload</span>
+      state<span class="token punctuation">.</span>posts <span class="token operator">=</span> posts
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  actions<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token function-variable function">fetchPosts</span><span class="token operator">:</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">context</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token comment">// the return of the function is passed as payload</span>
+      <span class="token keyword">const</span> payload <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'https://jsonplaceholder.typicode.com/posts'</span><span class="token punctuation">)</span>
+      <span class="token comment">// the value of 'commit' in decorator is the mutation used</span>
+      context<span class="token punctuation">.</span><span class="token function">commit</span><span class="token punctuation">(</span><span class="token string">'updatePosts'</span><span class="token punctuation">,</span> payload<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="benefits-of-type-safety"><a href="#benefits-of-type-safety" class="header-anchor">#</a> Benefits of type-safety</h2> <p>Instead of using the usual way to dispatch and commit ...</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code>store<span class="token punctuation">.</span><span class="token function">commit</span><span class="token punctuation">(</span><span class="token string">'updatePosts'</span><span class="token punctuation">,</span> posts<span class="token punctuation">)</span>
+<span class="token keyword">await</span> store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token string">'fetchPosts'</span><span class="token punctuation">)</span>
+</code></pre></div><p>... which provide no typesafety for the payload and no autocomplete help in IDEs,
+you can now use more type safe mechanism using the <code>getModule</code> accessor</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> getModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vuex-module-decorators'</span>
+<span class="token keyword">import</span> Posts <span class="token keyword">from</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">~/store/posts.js</span><span class="token template-punctuation string">`</span></span>
+
+<span class="token keyword">const</span> postsModule <span class="token operator">=</span> <span class="token function">getModule</span><span class="token punctuation">(</span>Posts<span class="token punctuation">)</span>
+
+<span class="token comment">// access posts</span>
+<span class="token keyword">const</span> posts <span class="token operator">=</span> postsModule<span class="token punctuation">.</span>posts
+
+<span class="token comment">// use getters</span>
+<span class="token keyword">const</span> commentCount <span class="token operator">=</span> postsModule<span class="token punctuation">.</span>totalComments
+
+<span class="token comment">// commit mutation</span>
+postsModule<span class="token punctuation">.</span><span class="token function">updatePosts</span><span class="token punctuation">(</span>newPostsArray<span class="token punctuation">)</span>
+
+<span class="token comment">// dispatch action</span>
+<span class="token keyword">await</span> postsModule<span class="token punctuation">.</span><span class="token function">fetchPosts</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre></div></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/championswimmer/vuex-module-decorators/edit/master/docs/pages/overview.md" target="_blank" rel="noopener noreferrer">Edit this page</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/vuex-module-decorators/pages/installation.html" class="prev">
+        Installation
+      </a></span> <span class="next"><a href="/vuex-module-decorators/pages/getting-started.html">
+        Getting Started
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/vuex-module-decorators/assets/js/app.963acdd2.js" defer></script><script src="/vuex-module-decorators/assets/js/2.c6c482ba.js" defer></script><script src="/vuex-module-decorators/assets/js/18.df427489.js" defer></script><script src="/vuex-module-decorators/assets/js/4.14b713fc.js" defer></script>
+  </body>
+</html>
