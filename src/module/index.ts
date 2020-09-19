@@ -52,6 +52,9 @@ function addGettersToModule<S>(
 }
 
 function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
+
+  moduleOptions.name = moduleOptions.name && moduleOptions.name instanceof Array ? moduleOptions.name.join('/') : moduleOptions.name;
+
   return function<TFunction extends Function>(constructor: TFunction): TFunction | void {
     const module: Function & Mod<S, any> = constructor
     const stateFactory = () => sf(module)
