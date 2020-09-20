@@ -56,9 +56,12 @@ function moduleDecoratorFactory<S>(moduleOptions: ModuleOptions) {
     const module: Function & Mod<S, any> = constructor
     const stateFactory = () => sf(module)
 
-    if (!module.state) {
-      module.state = moduleOptions && moduleOptions.stateFactory ? stateFactory : stateFactory()
-    }
+    module.state =
+      moduleOptions && moduleOptions.stateFactory
+        ? stateFactory
+        : module.state instanceof Function
+        ? module.state // static state function
+        : stateFactory()
     if (!module.getters) {
       module.getters = {} as GetterTree<S, any>
     }

@@ -16,7 +16,7 @@ export function stateFactory<S>(module: Function & Mod<S, any>) {
       return
     }
     if (state.hasOwnProperty(key)) {
-      if (typeof state[key] !== 'function') {
+      if (!(state[key] instanceof Function)) {
         ;(s as any)[key] = state[key]
       }
     }
