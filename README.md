@@ -193,6 +193,18 @@ const module = {
 }
 ```
 
+## Parameters inside a getter
+
+In order to handle parameters, simply return a function like so:
+
+```
+get getUser() { 
+  return function (id: number) { 
+    return this.users.filter(user => user.id === id)[0];
+  }
+}
+``` 
+
 ### Putting into the store
 
 Use the modules just like you would earlier
