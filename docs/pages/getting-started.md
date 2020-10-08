@@ -77,7 +77,7 @@ In addition to that, for a much more typesafe access, we can use `getModule()`
    import { Module, VuexModule, getModule } from 'vuex-module-decorators'
    import store from '@/store'
 
-   @Module({ dynamic: true, store, name: 'mymod' })
+   @Module({ dynamic: true, store, name: 'myMod' })
    class MyModule extends VuexModule {
      someField: number = 10
    }
