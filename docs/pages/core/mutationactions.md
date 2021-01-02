@@ -59,3 +59,8 @@ Note that if **S** denotes the type of _state_, then the object returned from a
 The keys present inside the return value (for eg, here `posts`) are replaced into
 the store. 
 :::
+
+:::tip NOTE
+When a `MutationAction` function returns `undefined`, the mutation part of the
+`MutationAction` will not be called, and the state will remain the same.
+:::

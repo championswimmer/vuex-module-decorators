@@ -8,6 +8,7 @@ Vue.use(Vuex)
 @Module
 class MyModule extends VuexModule {
   count: number = 0
+  anotherCount: number = 0
   fruit: string = 'Apple'
   vegetable: string | null = null
 
@@ -15,6 +16,12 @@ class MyModule extends VuexModule {
   @MutationAction({ mutate: ['count'] })
   async updateCount(newcount: number) {
     return { count: newcount }
+  }
+
+  @MutationAction
+  async updateAnotherCountConditionally({ newCount, shouldUpdate }: { newCount: number, shouldUpdate: boolean }) {
+    if (!shouldUpdate) return
+    return { anotherCount: newCount }
   }
 
   @MutationAction
@@ -74,5 +81,15 @@ describe('dispatching moduleaction works', () => {
   it('should update fruitname', async function() {
     await store.dispatch('changeFruit', 'Guava')
     expect(store.state.mm.fruit).to.equal('Guava')
+  })
+
+  it('should be able to skip update', async function () {
+    expect(store.state.mm.anotherCount).to.equal(0)
+
+    await store.dispatch('updateAnotherCountConditionally', { newCount: 5, shouldUpdate: true })
+    expect(store.state.mm.anotherCount).to.equal(5)
+
+    await store.dispatch('updateAnotherCountConditionally', { newCount: 10, shouldUpdate: false })
+    expect(store.state.mm.anotherCount).to.equal(5)
   })
 })
