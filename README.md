@@ -282,7 +282,16 @@ class MyModule extends VuexModule {
 }
 ```
 
-If you would like to preserve the state e.g when loading in the state from [vuex-persist](https://www.npmjs.com/package/vuex-persist)
+### Persisting dynamic modules state
+
+Note: In case you use vuex-persist, you will still have to register its plugin
+to the main Vuex Store as specified in its documentation.
+
+If you would like to preserve the state e.g when loading in the state from
+[vuex-persist](https://www.npmjs.com/package/vuex-persist) or a Server Side
+Rendered app, set `preserveState` to `true`. This will skip loading any default
+module state, so it is very likely to fail if the vuex-persist or SSR state does
+not exist.
 
 ```diff
 ...
@@ -294,13 +303,33 @@ class MyModule extends VuexModule {
 ...
 ```
 
-Or when it doesn't have a initial state and you load the state from the localStorage
+<!-- TODO: Update when the main PR is merged and released -->
+Note: The following options will only work with vuex >= 3.x.y.
+
+You can also additionally set `preserveStateType` to `existing`, which will only
+use the vuex-persist or SSR state if it exists, and otherwise use the default
+module state.
 
 ```diff
 ...
 
 -- @Module({ dynamic: true, store: store, name: 'mm' })
-++ @Module({ dynamic: true, store: store, name: 'mm', preserveState: localStorage.getItem('vuex') !== null })
+++ @Module({ dynamic: true, store: store, name: 'mm', preserveState: true, preserveStateType: 'existing' })
+class MyModule extends VuexModule {
+
+...
+```
+
+If you want to to merge the existing state with the module state using
+`deepmerge`, either by replacing arrays or combining them, set `preserveStateType`
+to `mergeReplaceArrays` or `mergeConcatArrays`. Individual keys from the existing
+state will overwrite the default ones from the module.
+
+```diff
+...
+
+-- @Module({ dynamic: true, store: store, name: 'mm' })
+++ @Module({ dynamic: true, store: store, name: 'mm', preserveState: true, preserveStateType: 'mergeReplaceArrays' })
 class MyModule extends VuexModule {
 
 ...

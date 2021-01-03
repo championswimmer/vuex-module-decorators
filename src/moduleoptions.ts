@@ -34,12 +34,17 @@ export interface DynamicModuleOptions {
   name: string
 
   /**
-   * If this is enabled it will preserve the state when loading the module
+   * If this is enabled it will preserve the existing state when loading the module
    */
   preserveState?: boolean
 
   /**
-   * whether or not the module is namespaced
+   * If preserveState, specify how to deal with the default module state
+   */
+  preserveStateType?: 'always' | 'existing' | 'mergeReplaceArrays' | 'mergeConcatArrays'
+
+  /**
+   * Whether or not the module is namespaced
    */
   namespaced?: boolean
 
