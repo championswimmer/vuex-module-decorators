@@ -143,6 +143,7 @@ Want to see something even better ?
 ```typescript
 import { Module, VuexModule, MutationAction } from 'vuex-module-decorators'
 import { ConferencesEntity, EventsEntity } from '@/models/definitions'
+import { Store } from 'vuex'
 
 @Module
 export default class HGAPIModule extends VuexModule {
@@ -152,12 +153,14 @@ export default class HGAPIModule extends VuexModule {
   // 'events' and 'conferences' are replaced by returned object
   // whose shape must be `{events: [...], conferences: [...] }`
   @MutationAction({ mutate: ['events', 'conferences'] })
-  async fetchAll() {
+  async fetchAll(this: Store<HGAPIModule>) {
     const response: Response = await getJSON('https://hasgeek.github.io/events/api/events.json')
     return response
   }
 }
 ```
+
+Note: The value of `this` inside a `MutationAction` is the store itself and not the state like in the other decorators. This is why it's easier to indicate that to Typescript by passing the `this` as a function argument which Typescript uses to infer the `this` type.
 
 #### Automatic getter detection
 
