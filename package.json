@@ -1,6 +1,6 @@
 {
   "name": "vuex-module-decorators",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Decorators to make class-like Vuex modules",
   "main": "dist/cjs/index.js",
   "types": "dist/types/index.d.ts",
