@@ -41,7 +41,7 @@
   },
   "peerDependencies": {
     "vue": ">=2",
-    "vuex": "3"
+    "vuex": ">=3"
   },
   "homepage": "https://github.com/championswimmer/vuex-module-decorators#readme",
   "devDependencies": {
