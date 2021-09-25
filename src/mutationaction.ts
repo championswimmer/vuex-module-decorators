@@ -1,4 +1,5 @@
 import { Action as Act, ActionContext, Module as Mod, Mutation as Mut, Payload, Store } from 'vuex'
+import { addPropertiesToObject } from './helpers'
 
 export interface MutationActionParams<M> {
   mutate?: (keyof Partial<M>)[]
@@ -26,7 +27,10 @@ function mutationActionDecoratorFactory<T extends Object>(params: MutationAction
       payload: Payload
     ) {
       try {
-        const actionPayload = await mutactFunction.call(context, payload)
+        const thisObj = { context }
+        addPropertiesToObject(thisObj, context.state)
+        addPropertiesToObject(thisObj, context.getters)
+        const actionPayload = await mutactFunction.call(thisObj, payload)
         context.commit(key as string, actionPayload)
       } catch (e) {
         if (params.rawError) {

@@ -42,6 +42,11 @@ class MyModule extends VuexModule {
 
     return {count: newcount}
   }
+
+  @MutationAction({ mutate: ['count'] })
+  async incrementCount() {
+    return { count: this.count + 1 }
+  }
 }
 
 const store = new Vuex.Store({
@@ -74,5 +79,12 @@ describe('dispatching moduleaction works', () => {
   it('should update fruitname', async function() {
     await store.dispatch('changeFruit', 'Guava')
     expect(store.state.mm.fruit).to.equal('Guava')
+  })
+
+  it('can access state', async function() {
+    await store.dispatch('updateCount', 0)
+    expect(store.state.mm.count).to.equal(0)
+    await store.dispatch('incrementCount')
+    expect(store.state.mm.count).to.equal(1)
   })
 })
