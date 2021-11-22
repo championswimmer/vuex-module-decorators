@@ -19,7 +19,7 @@ describe('Global config', function() {
       let error
       try {
         await store.dispatch('alwaysFail')
-      } catch (e) {
+      } catch (e: any) {
         error = e
       }
 
@@ -33,7 +33,7 @@ describe('Global config', function() {
       let error
       try {
         await store.dispatch('alwaysFail')
-      } catch (e) {
+      } catch (e: any) {
         error = e
       }
 
@@ -47,7 +47,7 @@ describe('Global config', function() {
       let error
       try {
         await store.dispatch('alwaysFail')
-      } catch (e) {
+      } catch (e: any) {
         error = e
       }
 

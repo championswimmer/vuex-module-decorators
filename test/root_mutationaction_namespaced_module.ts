@@ -29,7 +29,7 @@ describe('root mutationaction works', () => {
     it('should not modify count', async function() {
         try {
             await store.dispatch('mm/setCount', 200)
-        } catch (e) {
+        } catch (e: any) {
             expect(e).to.exist
         }
         expect(parseInt(store.state.mm.count)).to.equal(0)

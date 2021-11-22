@@ -74,14 +74,14 @@ describe('@Action with non-dynamic module', () => {
   it('should error if this.mutation() is used in non-dynamic', async function() {
     try {
       await store.dispatch('concatFooOrBarWithThis', 't1')
-    } catch (e) {
+    } catch (e: any) {
       expect(e.message).to.contain('ERR_ACTION_ACCESS_UNDEFINED')
     }
   })
   it('should save original error', async function() {
     try {
       await store.dispatch('alwaysFail')
-    } catch (e) {
+    } catch (e: any) {
       expect(e.message).to.equal('Foo Bar!')
     }
   })

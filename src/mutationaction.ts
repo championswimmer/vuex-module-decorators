@@ -33,7 +33,7 @@ function mutationActionDecoratorFactory<T extends Object>(params: MutationAction
         const actionPayload = await mutactFunction.call(thisObj, payload)
         if (actionPayload === undefined) return
         context.commit(key as string, actionPayload)
-      } catch (e) {
+      } catch (e: any) {
         if (params.rawError) {
           throw e
         } else {

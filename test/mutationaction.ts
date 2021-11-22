@@ -77,7 +77,7 @@ describe('dispatching moduleaction works', () => {
 
     // try {
     //   await store.dispatch('updateCountButNoSuchPayload', '1337')
-    // } catch (e) {
+    // } catch (e: any) {
     //   expect(e.message).to.contain('ERR_MUTATE_PARAMS_NOT_IN_PAYLOAD')
     // }
 

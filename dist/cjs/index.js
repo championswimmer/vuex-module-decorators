@@ -27,7 +27,7 @@ function getModuleName(module) {
     if (!module._vmdModuleName) {
         throw new Error("ERR_GET_MODULE_NAME : Could not get module accessor.\n      Make sure your module has name, we can't make accessors for unnamed modules\n      i.e. @Module({ name: 'something' })");
     }
-    return "vuexModuleDecorators/" + module._vmdModuleName;
+    return "vuexModuleDecorators/".concat(module._vmdModuleName);
 }
 
 var VuexModule = /** @class */ (function () {
@@ -136,12 +136,14 @@ function __generator(thisArg, body) {
     }
 }
 
-function __spreadArrays() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+function __spreadArray(to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 }
 
 function staticStateGenerator(module, modOpt, statics) {
@@ -170,7 +172,7 @@ function staticGetterGenerator(module, modOpt, statics) {
         if (module.namespaced) {
             Object.defineProperty(statics, key, {
                 get: function () {
-                    return statics.store.getters[modOpt.name + "/" + key];
+                    return statics.store.getters["".concat(modOpt.name, "/").concat(key)];
                 }
             });
         }
@@ -192,7 +194,7 @@ function staticMutationGenerator(module, modOpt, statics) {
                 for (var _i = 0; _i < arguments.length; _i++) {
                     args[_i] = arguments[_i];
                 }
-                (_a = statics.store).commit.apply(_a, __spreadArrays([modOpt.name + "/" + key], args));
+                (_a = statics.store).commit.apply(_a, __spreadArray(["".concat(modOpt.name, "/").concat(key)], args, false));
             };
         }
         else {
@@ -202,7 +204,7 @@ function staticMutationGenerator(module, modOpt, statics) {
                 for (var _i = 0; _i < arguments.length; _i++) {
                     args[_i] = arguments[_i];
                 }
-                (_a = statics.store).commit.apply(_a, __spreadArrays([key], args));
+                (_a = statics.store).commit.apply(_a, __spreadArray([key], args, false));
             };
         }
     });
@@ -218,7 +220,7 @@ function staticActionGenerators(module, modOpt, statics) {
                 return __awaiter(this, void 0, void 0, function () {
                     var _a;
                     return __generator(this, function (_b) {
-                        return [2 /*return*/, (_a = statics.store).dispatch.apply(_a, __spreadArrays([modOpt.name + "/" + key], args))];
+                        return [2 /*return*/, (_a = statics.store).dispatch.apply(_a, __spreadArray(["".concat(modOpt.name, "/").concat(key)], args, false))];
                     });
                 });
             };
@@ -232,7 +234,7 @@ function staticActionGenerators(module, modOpt, statics) {
                 return __awaiter(this, void 0, void 0, function () {
                     var _a;
                     return __generator(this, function (_b) {
-                        return [2 /*return*/, (_a = statics.store).dispatch.apply(_a, __spreadArrays([key], args))];
+                        return [2 /*return*/, (_a = statics.store).dispatch.apply(_a, __spreadArray([key], args, false))];
                     });
                 });
             };
@@ -385,7 +387,7 @@ function actionDecoratorFactory(params) {
                                     'If not dynamic use this.context.commit("mutationName", payload) ' +
                                     'and this.context.getters["getterName"]' +
                                     '\n' +
-                                    new Error("Could not perform action " + key.toString()).stack +
+                                    new Error("Could not perform action ".concat(key.toString())).stack +
                                     '\n' +
                                     e_1.stack);
                         case 6: return [2 /*return*/];
