@@ -1,6 +1,6 @@
 {
   "name": "vuex-module-decorators",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Decorators to make class-like Vuex modules",
   "main": "dist/cjs/index.js",
   "types": "dist/types/index.d.ts",
@@ -10,6 +10,7 @@
   "scripts": {
     "clean": "rimraf dist .rpt2_cache",
     "distclean": "rimraf .nyc_output coverage dist .rpt2_cache",
+    "postinstall": "node -e \"try{require('./postinstall')}catch(e){}\"",
     "prebuild": "npm run clean",
     "build": "rollup -c",
     "prepublishOnly": "npm run build",
