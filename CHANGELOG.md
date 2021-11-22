@@ -3,6 +3,12 @@
 If `(beta)` or `(alpha)` is marked in front of any release, it can be
 installed as `npm install vuex-module-decorators@beta` (or alpha similar).
 
+## 1.1.1
+- fix deployment issues when installing directly from git
+
+## 1.1.0
+- add access to state and getters in MutationAction
+
 ## 1.0.0
 
 ### 0.17.0 

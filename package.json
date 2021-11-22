@@ -1,6 +1,6 @@
 {
   "name": "vuex-module-decorators",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "description": "Decorators to make class-like Vuex modules",
   "main": "dist/cjs/index.js",
   "types": "dist/types/index.d.ts",
@@ -41,7 +41,7 @@
   },
   "peerDependencies": {
     "vue": ">=2",
-    "vuex": "3"
+    "vuex": ">=3"
   },
   "homepage": "https://github.com/championswimmer/vuex-module-decorators#readme",
   "devDependencies": {
