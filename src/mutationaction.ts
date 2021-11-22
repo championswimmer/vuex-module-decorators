@@ -11,7 +11,7 @@ function mutationActionDecoratorFactory<T extends Object>(params: MutationAction
   return function (
     target: T,
     key: string | symbol,
-    descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<T>>>
+    descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<T> | undefined>>
   ) {
     const module = target.constructor as Mod<T, any>
     if (!module.hasOwnProperty('mutations')) {
@@ -30,7 +30,8 @@ function mutationActionDecoratorFactory<T extends Object>(params: MutationAction
         const thisObj = { context }
         addPropertiesToObject(thisObj, context.state)
         addPropertiesToObject(thisObj, context.getters)
-        const actionPayload = await mutactFunction.call(thisObj, payload)
+        const actionPayload = await mutactFunction.call(context, payload)
+        if (actionPayload === undefined) return
         context.commit(key as string, actionPayload)
       } catch (e) {
         if (params.rawError) {
@@ -92,12 +93,12 @@ export function MutationAction<T>(
 export function MutationAction<T, K, M extends K>(
   paramsOrTarget: MutationActionParams<T> | M,
   key?: string | symbol,
-  descriptor?: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<K>>>
+  descriptor?: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<K> | undefined>>
 ):
   | ((
       target: T,
       key: string | symbol,
-      descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<T>>>
+      descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<Partial<T> | undefined>>
     ) => void)
   | void {
   if (!key && !descriptor) {
