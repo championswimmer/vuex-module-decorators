@@ -52,7 +52,12 @@ class MyModule extends VuexModule {
 
   @MutationAction({ mutate: ['count'] })
   async incrementCount() {
-    return { count: this.count + 1 }
+    const newCount = this.count + 1
+    console.log("==================")
+    console.log("==================")
+    console.log("==================")
+    console.log(this)
+    return { count: newCount }
   }
 }
 
@@ -78,7 +83,7 @@ describe('dispatching moduleaction works', () => {
 
     try {
       await store.dispatch('updateCountOnlyOnEven', 7)
-    } catch (e) {
+    } catch (e: any) {
       expect(e.message).to.contain('not an even number')
     }
   })

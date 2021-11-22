@@ -468,6 +468,8 @@ function mutationActionDecoratorFactory(params) {
                             return [4 /*yield*/, mutactFunction.call(thisObj, payload)];
                         case 1:
                             actionPayload = _a.sent();
+                            if (actionPayload === undefined)
+                                return [2 /*return*/];
                             context.commit(key, actionPayload);
                             return [3 /*break*/, 3];
                         case 2:

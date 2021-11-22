@@ -30,7 +30,7 @@ function mutationActionDecoratorFactory<T extends Object>(params: MutationAction
         const thisObj = { context }
         addPropertiesToObject(thisObj, context.state)
         addPropertiesToObject(thisObj, context.getters)
-        const actionPayload = await mutactFunction.call(context, payload)
+        const actionPayload = await mutactFunction.call(thisObj, payload)
         if (actionPayload === undefined) return
         context.commit(key as string, actionPayload)
       } catch (e) {
