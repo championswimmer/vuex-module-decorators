@@ -10,6 +10,7 @@
   "scripts": {
     "clean": "rimraf dist .rpt2_cache",
     "distclean": "rimraf .nyc_output coverage dist .rpt2_cache",
+    "postinstall": "node -e \"try{require('./postinstall')}catch(e){}\"",
     "prebuild": "npm run clean",
     "build": "rollup -c",
     "prepublishOnly": "npm run build",
