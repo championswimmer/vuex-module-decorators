@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
-import Vue from 'vue'
-Vue.use(Vuex)
+import { createApp } from 'vue'
+
 import { Module, MutationAction, VuexModule } from '..'
 import { expect } from 'chai'
 
@@ -19,6 +19,8 @@ const store = new Vuex.Store({
         mm: MyModule
     }
 })
+const app = createApp({})
+app.use(store)
 
 describe('root mutationaction works', () => {
     it('should set count to 0', async function() {

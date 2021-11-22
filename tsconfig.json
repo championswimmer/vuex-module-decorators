@@ -1,11 +1,8 @@
 {
   "compilerOptions": {
-    "module": "es2015",
-    "target": "es5",
+    "module": "es2020",
+    "target": "es2020",
     "moduleResolution": "node",
-    "lib": [
-      "dom", "es2015"
-    ],
     "importHelpers": true,
     "sourceMap": true,
     "declaration": true,

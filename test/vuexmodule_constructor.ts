@@ -1,9 +1,9 @@
 import Vuex from 'vuex'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import { VuexModule } from '..'
 import { expect } from 'chai'
 
-Vue.use(Vuex)
+
 
 const vehicle = new VuexModule({
   state: {
@@ -26,6 +26,8 @@ const store = new Vuex.Store({
     vehicle
   }
 })
+const app = createApp({})
+app.use(store)
 
 describe('new VuexModule() constuctor works', () => {
   it('should increase axles', function() {

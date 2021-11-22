@@ -1,12 +1,12 @@
 import { expect } from 'chai'
 import 'mock-local-storage'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import Vuex from 'vuex'
 import { VuexPersistence } from 'vuex-persist'
 import { Module, Mutation, VuexModule } from '..'
 import { getModule } from '../src'
 
-Vue.use(Vuex)
+
 
 interface StoreType {
   mm: MyModule
@@ -54,6 +54,8 @@ class MySecondModule extends VuexModule {
     this.count += delta
   }
 }
+const app = createApp({})
+app.use(store)
 
 describe('state restored by vuex-persist', () => {
   it('should restore state', function() {

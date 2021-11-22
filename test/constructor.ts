@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
-import Vue from 'vue'
-Vue.use(Vuex)
+import { createApp } from 'vue'
+
 import { VuexModule } from '..'
 import { expect } from 'chai'
 import { promisify } from 'util'
@@ -30,6 +30,8 @@ const mm = new VuexModule({
 const store = new Vuex.Store({
   modules: { mm }
 })
+const app = createApp({})
+app.use(store)
 
 describe('creating with new VuexModule() works', () => {
   it('should increase axles', async function() {

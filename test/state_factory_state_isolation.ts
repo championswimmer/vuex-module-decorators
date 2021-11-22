@@ -1,6 +1,6 @@
 import Vuex, { Module as Mod } from 'vuex'
-import Vue from 'vue'
-Vue.use(Vuex)
+import { createApp } from 'vue'
+
 import { Action, Module, Mutation, MutationAction, VuexModule } from '..'
 import { expect } from 'chai'
 
@@ -40,6 +40,8 @@ const store = new Vuex.Store({
     objectModB: StateObjectModule
   }
 })
+const app = createApp({})
+app.use(store)
 
 describe('state isolation', () => {
   it('should share state by default when reused', function() {

@@ -1,9 +1,9 @@
 import Vuex from 'vuex'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import { Module, MutationAction, VuexModule } from '..'
 import { expect } from 'chai'
 
-Vue.use(Vuex)
+
 
 @Module
 class MyModule extends VuexModule {
@@ -52,12 +52,7 @@ class MyModule extends VuexModule {
 
   @MutationAction({ mutate: ['count'] })
   async incrementCount() {
-    const newCount = this.count + 1
-    console.log("==================")
-    console.log("==================")
-    console.log("==================")
-    console.log(this)
-    return { count: newCount }
+    return { count: this.count + 1 }
   }
 }
 
@@ -66,6 +61,8 @@ const store = new Vuex.Store({
     mm: MyModule
   }
 })
+const app = createApp({})
+app.use(store)
 
 describe('dispatching moduleaction works', () => {
   it('should update count', async function() {

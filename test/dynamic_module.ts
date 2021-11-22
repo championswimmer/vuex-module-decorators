@@ -1,6 +1,6 @@
 import Vuex, { Module as Mod } from 'vuex'
-import Vue from 'vue'
-Vue.use(Vuex)
+import { createApp } from 'vue'
+
 import { Action, Module, Mutation, MutationAction, VuexModule } from '..'
 import { expect } from 'chai'
 
@@ -18,6 +18,8 @@ class MyModule extends VuexModule {
     this.count += delta
   }
 }
+const app = createApp({})
+app.use(store)
 
 describe('mutation works on dynamic module', () => {
   it('should update count', function() {

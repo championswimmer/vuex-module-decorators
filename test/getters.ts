@@ -1,6 +1,6 @@
 import Vuex, { Module as Mod } from 'vuex'
-import Vue from 'vue'
-Vue.use(Vuex)
+import { createApp } from 'vue'
+
 import { Action, Module, Mutation, VuexModule } from '..'
 import { expect } from 'chai'
 
@@ -36,6 +36,8 @@ const store = new Vuex.Store({
     mm: MyModule
   }
 })
+const app = createApp({})
+app.use(store)
 
 describe('fetching via getters works', () => {
   it('should not override the context in the action', async () => {

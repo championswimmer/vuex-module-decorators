@@ -1,6 +1,5 @@
 import Vuex, { Module as Mod, Store } from 'vuex'
-import Vue from 'vue'
-Vue.use(Vuex)
+import { createApp } from 'vue'
 import { Action, Module, Mutation, MutationAction, VuexModule } from '..'
 import { expect } from 'chai'
 
@@ -60,6 +59,9 @@ const store = new Vuex.Store({
     mm: MyModule
   }
 })
+const app = createApp({})
+app.use(store)
+
 
 describe('@Action with non-dynamic module', () => {
   it('should concat foo & bar', async function() {
