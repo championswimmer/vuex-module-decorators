@@ -32,19 +32,13 @@ export function staticGetterGenerator<S>(
   statics: any
 ) {
   Object.keys(module.getters as GetterTree<S, any>).forEach((key) => {
-    if (module.namespaced) {
-      Object.defineProperty(statics, key, {
-        get() {
-          return statics.store.getters[`${modOpt.name}/${key}`]
-        }
-      })
-    } else {
-      Object.defineProperty(statics, key, {
-        get() {
-          return statics.store.getters[key]
-        }
-      })
-    }
+    const moduleKey = module.namespaced ? `${modOpt.name}/${key}` : key
+    Object.defineProperty(statics, key, {
+      configurable: !!modOpt.configurableGetters,
+      get() {
+        return statics.store.getters[moduleKey]
+      }
+    })
   })
 }
 

@@ -15,6 +15,10 @@ export interface StaticModuleOptions {
    * Whether to generate a plain state object, or a state factory for the module
    */
   stateFactory?: boolean
+  /**
+   * Allow getters to have their property definitions redefined. Useful for stubbing in tests.
+   */
+  configurableGetters?: boolean
 }
 
 export interface DynamicModuleOptions {
@@ -47,6 +51,11 @@ export interface DynamicModuleOptions {
    * Whether to generate a plain state object, or a state factory for the module
    */
   stateFactory?: boolean
+
+  /**
+   * Allow getters to have their property definitions redefined. Useful for stubbing in tests.
+   */
+  configurableGetters?: boolean
 }
 
 export type ModuleOptions = StaticModuleOptions | DynamicModuleOptions

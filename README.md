@@ -410,3 +410,28 @@ import { config } from 'vuex-module-decorators'
 // Set rawError to true by default on all @Action decorators
 config.rawError = true
 ```
+
+## Stubbing for tests
+
+Actions and mutations can be stubbed like any other function using - for example - [`sinon`](https://sinonjs.org/).
+
+By default, getters are readonly, and cannot be reconfigured, which prevents stubbing.
+
+To override this behaviour in a test environment, set the `configurableGetters` flag:
+
+```typescript
+import { Module, VuexModule, Mutation } from 'vuex-module-decorators'
+
+@Module({
+  name: 'MyModule',
+  configurableGetters: true,
+})
+export default class MyStoreModule extends VuexModule {
+  public test: string = 'initial'
+
+  @Mutation
+  public setTest(val: string) {
+    this.test = val
+  }
+}
+```
