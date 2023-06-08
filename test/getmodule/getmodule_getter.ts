@@ -34,4 +34,10 @@ describe('using getters on getModule()', () => {
     expect(getModule(MyNamespacedModule).value).to.equal(10)
     expect(getModule(MyNamespacedModule).twofold).to.equal(20)
   })
+
+  it('cannot reconfigure the getters', function () {
+    expect(() => {
+      Object.defineProperty(getModule(MyModule), 'twofold', {value: 'foo'})
+    }).to.throw(TypeError, 'Cannot redefine property')
+  })
 })

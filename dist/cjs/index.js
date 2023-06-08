@@ -169,20 +169,13 @@ function staticStateGenerator(module, modOpt, statics) {
 }
 function staticGetterGenerator(module, modOpt, statics) {
     Object.keys(module.getters).forEach(function (key) {
-        if (module.namespaced) {
-            Object.defineProperty(statics, key, {
-                get: function () {
-                    return statics.store.getters["".concat(modOpt.name, "/").concat(key)];
-                }
-            });
-        }
-        else {
-            Object.defineProperty(statics, key, {
-                get: function () {
-                    return statics.store.getters[key];
-                }
-            });
-        }
+        var moduleKey = module.namespaced ? "".concat(modOpt.name, "/").concat(key) : key;
+        Object.defineProperty(statics, key, {
+            configurable: !!modOpt.configurableGetters,
+            get: function () {
+                return statics.store.getters[moduleKey];
+            }
+        });
     });
 }
 function staticMutationGenerator(module, modOpt, statics) {
