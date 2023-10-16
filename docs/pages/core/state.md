@@ -27,3 +27,7 @@ export default {
 :::danger 🚨 WARNING
 If state value cannot be determined, it **MUST** be initialized with `null`. Just like `wheels: number | null = null`.
 :::
+
+:::danger 🚨 WARNING
+Ensure that you do not have a getter or property in your module with the name `store`. This conflicts with `vuex-property-decorator` causing Vue "Too much recursion" errors.
+:::
