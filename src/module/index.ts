@@ -21,7 +21,10 @@ function registerDynamicModule<S>(module: Mod<S, any>, modOpt: DynamicModuleOpti
   modOpt.store.registerModule(
     modOpt.name, // TODO: Handle nested modules too in future
     module,
-    { preserveState: modOpt.preserveState || false }
+    {
+      preserveState: modOpt.preserveState || false,
+      preserveStateType: modOpt.preserveStateType || 'always'
+    }
   )
 }
 
